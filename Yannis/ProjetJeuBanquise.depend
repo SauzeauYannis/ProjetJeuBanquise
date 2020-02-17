@@ -1,0 +1,25 @@
+# depslib dependency file v1.0
+1581959778 source:e:\2019-2020_l2_im_s4\programmation en c\projetjeubanquise\banquise.c
+	<stdio.h>
+	<stdlib.h>
+	"tout.h"
+
+1581959502 e:\2019-2020_l2_im_s4\programmation en c\projetjeubanquise\banquise.h
+
+1581961040 source:e:\2019-2020_l2_im_s4\programmation en c\projetjeubanquise\main.c
+	<stdio.h>
+	<stdlib.h>
+	"banquise.h"
+	"joueur.h"
+
+1581961262 source:e:\2019-2020_l2_im_s4\programmation en c\projetjeubanquise\joueur.c
+	<stdio.h>
+	<stdlib.h>
+	"banquise.h"
+	"joueur.h"
+
+1581959754 e:\2019-2020_l2_im_s4\programmation en c\projetjeubanquise\joueur.h
+	"jeux.h"
+
+1581959742 e:\2019-2020_l2_im_s4\programmation en c\projetjeubanquise\jeux.h
+
