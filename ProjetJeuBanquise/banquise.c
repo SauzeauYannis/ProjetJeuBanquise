@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "banquise.h"
 
-//Retourne un pointeur de type banquise initialise avec une taille en parametre
+//Retourne un pointeur de type banquise initialisé avec une taille en parametre
 T_banquise *initBanquise(int taille)
 {
     T_banquise *banquise = (T_banquise *)malloc(sizeof(T_banquise)); //Alloue de la memoire pour retourner un pointeur de type banquise

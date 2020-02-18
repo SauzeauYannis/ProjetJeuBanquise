@@ -23,3 +23,22 @@
 
 1581959742 e:\2019-2020_l2_im_s4\programmation en c\projetjeubanquise\jeux.h
 
+1581969104 source:c:\users\sams8\desktop\projet_banquise\samuel\joueur.c
+	<stdio.h>
+	<stdlib.h>
+	"banquise.h"
+	"joueur.h"
+
+1581969186 c:\users\sams8\desktop\projet_banquise\samuel\banquise.h
+
+1581969104 c:\users\sams8\desktop\projet_banquise\samuel\joueur.h
+	"jeux.h"
+
+1581969104 c:\users\sams8\desktop\projet_banquise\samuel\jeux.h
+
+1581969104 source:c:\users\sams8\desktop\projet_banquise\samuel\main.c
+	<stdio.h>
+	<stdlib.h>
+	"banquise.h"
+	"joueur.h"
+
