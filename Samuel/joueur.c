@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "banquise.h"
 #include "joueur.h"
 
 //Ajout d'un joueur sur un pointeur de type banquise

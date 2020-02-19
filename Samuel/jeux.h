@@ -1,3 +1,5 @@
+#include "banquise.h"
+
 /***** Structures *****/
 
 //Enumeration de differentes couleur
@@ -31,3 +33,8 @@ typedef struct
     int nombreTour;       //Nombre de tour actuel du jeu
     int IdJeu;            //Identifiant de la partie en cours
 } T_jeu;
+
+
+/***** Fonctions *****/
+
+T_jeu initJeux(int nbj, int taille);
