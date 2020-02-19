@@ -1,6 +1,28 @@
-#include "jeux.h"
-
 /***** Structures *****/
+
+//Enumeration de differentes couleur
+typedef enum
+{
+    ROUGE,
+    VERT,
+    BLEU,
+    JAUNE,
+    ERREUR
+} T_couleur;
+
+//Definition du type point qui represente la case d'une banquise
+typedef struct
+{
+    int x; //Point x = horizontal
+    int y; //Point y = vertical
+} T_point;
+
+//Definition du type vecteur
+typedef struct
+{
+    int dx; //Vecteur x = deplacement horizontal
+    int dy; //Vecteur y = deplacement vertical
+} T_vecteur;
 
 //Definition du type joueur
 typedef struct
@@ -16,8 +38,7 @@ typedef struct
 
 /***** Fonctions *****/
 
-//Ajoute un joueur sur la banquise
-void ajouteJoueur(T_jeu *jeu);
+//Fait choisir une couleur a l'utilisateur
+T_couleur choixCouleur();
 
-//Ajoute des joueurs sur la banquise
-void ajouteJoueurs(T_jeu *jeu);
+T_joueur *initJoueur();

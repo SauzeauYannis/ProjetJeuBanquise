@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "general.h"
+#include "jeux.h"
 
 //Retourne un pointeur de type banquise initialisé avec une taille en parametre
 T_banquise *initBanquise(int taille)
@@ -37,9 +37,9 @@ void remplitBanquise(T_banquise *banquise, int valeur)
 }
 
 //Change une case de la banquise selon la valeur indiquee a l'emplacement donne
-void modifieCaseBanquise(T_banquise *banquise, T_point point, int valeur)
+void modifieCaseBanquise(T_banquise *banquise, int caseX, int caseY, int valeur)
 {
-    banquise->tab[point.x][point.y] = valeur; //Met la valeur a l'emplcamenent donne en parametre
+    banquise->tab[caseX][caseY] = valeur; //Met la valeur a l'emplcamenent donne en parametre
 }
 
 //Affichage du pointeur du type banquise

@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <windows.h>
-#include "general.h"
+#include "jeux.h"
 
 //Affiche le Menu du jeu
 void afficheMenu()
@@ -24,59 +23,45 @@ void afficheMenu()
     system("cls");                                //Nettoie l'ecran
 }
 
+//Ajoute entre 1 et 4 joueurs au jeu
+void ajouteJoueurs(T_jeu *jeu)
+{
+    int nbJoueurs = 0;                                 //Declare le nombre de joueurs
+
+    while (nbJoueurs < 1 || nbJoueurs > 4)             //Verifie que l'utilisateur rentre un chiffre entre 1 et 4
+    {
+        printf("Nombre de joueurs (entre 1 et 4) : "); //Demande de rentrer un chiffre
+        scanf("%d", &nbJoueurs);                       //Recupere le chiffre rentre
+        system("cls");                                 //Nettoie la console
+    }
+
+    int i;                                             //Declare un entier pour la boucle
+
+    for (i = 0; i < nbJoueurs; i++)                    //Rentre dans la boucle autant de fois qu'il y a de joueurs
+    {
+        jeu->joueurs[i] = (T_joueur *)realloc(jeu->joueurs[i], sizeof(T_joueur));                         //Re-alloue de la memoire pour le joueur
+        jeu->joueurs[i] = initJoueur(i);                                                                  //Ajoute un joueur
+        jeu->nombreJoueur++;                                                                              //Rajoute 1 au nombres de joueurs
+
+        modifieCaseBanquise(jeu->banquise, jeu->joueurs[i]->position.x, jeu->joueurs[i]->position.y, 1);  //Ajoute le joueur sur la banquise
+
+        system("cls");                                 //Nettoie la console
+    }
+}
+
 //Retourne un pointeur de type jeu en fonction du niveau et de la taille de la banquise
 T_jeu *initJeux(int niveau, int taille)
 {
-    T_jeu *jeu = (T_jeu *)malloc(sizeof(T_jeu));  //Aloue de l'espace memoire a un pointeur de type jeu
+    T_jeu *jeu = (T_jeu *)malloc(sizeof(T_jeu));               //Aloue de l'espace memoire a un pointeur de type jeu
 
-    jeu->banquise = initBanquise(taille);         //Initialise la banquise dans le jeu
-    jeu->nombreJoueur = 0;                        //Initialise le nombre de joueur
-    jeu->nombreTour = 0;                          //Initialise le nombre de tour
-    jeu->IdJeu = niveau;                          //Initialise le niveau
+    jeu->banquise = initBanquise(taille);                      //Initialise la banquise dans le jeu
+    jeu->joueurs = (T_joueur **)malloc(sizeof(T_joueur *));    //Aloue de la memoire pour creer un tableau de pointeur de joueur
+    jeu->nombreJoueur = 0;                                     //Initialise le nombre de joueur
+    jeu->nombreTour = 0;                                       //Initialise le nombre de tour
+    jeu->IdJeu = niveau;                                       //Initialise le niveau
 
-    remplitBanquise(jeu->banquise, 0);            //Remplit la banquise de 0
-    ajouteJoueurs(jeu);                           //Ajoute les joueurs
+    remplitBanquise(jeu->banquise, 0);                         //Remplit la banquise de 0
+    ajouteJoueurs(jeu);                                        //Ajoute les joueurs
 
-    return jeu;                                   //Retourne le pointeur de type jeu
-}
-
-//Retourne le type couleur qu'a choisi l'utilisateur
-T_couleur choixCouleur()
-{
-    int couleur = -1;                                     //Declare un entier
-
-    printf("\nChoisisez une couleur parmis : \n"
-           "0 : Rouge\n"
-           "1 : Vert\n"
-           "2 : Bleu\n"
-           "3 : Jaune\n");                                //Affiche le choix de couleur a l'utlisateur
-
-    scanf("%d", &couleur);                                //Prend l'entier saisi par l'utilisateur
-
-    if (couleur < 0 || couleur > 3)                       //Verifie que l'entier est compris entre 0 et 3
-    {
-        while (couleur < 0 || couleur > 3)                //Boucle jusqu'a ce que l'entier soit compris entre 0 et 3
-        {
-            printf("\nValeur incorrect, reessayer : ");   //Redemande a l'utilisateur de saisir une valeur
-            scanf("%d", &couleur);                        //Recupere l'entier saisie
-        }
-    }
-
-    switch (couleur)                                      //Transforme un entier en un type couleur pour le retourner
-    {
-    case 0 :
-        return ROUGE;
-        break;
-    case 1 :
-        return VERT;
-        break;
-    case 2 :
-        return BLEU;
-        break;
-    case 3 :
-        return JAUNE;
-        break;
-    default :
-        return ERROR;
-    }
+    return jeu;                                                //Retourne le pointeur de type jeu
 }

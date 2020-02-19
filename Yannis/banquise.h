@@ -7,13 +7,6 @@ typedef struct
     int tailleN; //Taille de la matrice (carree)
 } T_banquise;
 
-//Definition du type point qui represente la case d'une banquise
-typedef struct
-{
-    int x; //Point x = horizontal
-    int y; //Point y = vertical
-} T_point;
-
 
 /***** Fonctions *****/
 
@@ -24,7 +17,7 @@ T_banquise *initBanquise(int taille);
 void remplitBanquise(T_banquise *banquise, int valeur);
 
 //Modifie une case de la banquise
-void modifieCaseBanquise(T_banquise *banquise, T_point point, int valeur);
+void modifieCaseBanquise(T_banquise *banquise, int caseX, int caseY, int valeur);
 
 //Affiche la banquise
 void afficheBanquise(T_banquise *banquise);

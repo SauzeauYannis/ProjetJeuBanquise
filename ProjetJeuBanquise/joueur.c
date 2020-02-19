@@ -1,46 +1,65 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "general.h"
+#include "jeux.h"
 
-//Ajout d'un joueur sur un pointeur de type banquise
-void ajouteJoueur(T_jeu *jeu)
+//Retourne le type couleur qu'a choisi l'utilisateur
+T_couleur choixCouleur()
 {
-    T_joueur joueur;                                //Declare un type joueur
-    T_point pos;                                    //Declare un type position
-    pos.x = 0;                                      //Met le joueur sur la premiere ligne
-    pos.y = jeu->nombreJoueur;                      //Met le joueur a droite du joueur precedent
+    int couleur = -1;                                     //Declare un entier
 
-    printf("Veuillez choisir un nom "
-           "pour le joueur numero %d : ",
-           jeu->nombreJoueur+1);                    //Demande le nom du joueur
-    scanf("%s", joueur.nom);                        //Initialise le nom du joueur
-    joueur.couleur = choixCouleur();                //Initialise la couleur de joueur
-    joueur.identifiant = jeu->nombreJoueur;         //Initialise l'identifiant du joueur
-    joueur.position = pos;                          //Initialise la position du joueur
-    joueur.vecteur.dx = joueur.vecteur.dy = 0;      //Initialise le veteur deplacement du joueur
-    joueur.score = 0;                               //Initialise le score du joueur
+    printf("\nChoisisez une couleur parmis : \n"
+           "0 : Rouge\n"
+           "1 : Vert\n"
+           "2 : Bleu\n"
+           "3 : Jaune\n");                                //Affiche le choix de couleur a l'utlisateur
 
-    modifieCaseBanquise(jeu->banquise, pos, 1);     //Met le joueur dans la matrice de type banquise
-    jeu->nombreJoueur++;                            //Rajoute un joueur dans le jeu
-}
+    scanf("%d", &couleur);                                //Prend l'entier saisi par l'utilisateur
 
-//Ajoute entre 1 et 4 joueurs au jeu
-void ajouteJoueurs(T_jeu *jeu)
-{
-    int nbJoueurs = 0;                                 //Declare le nombre de joueurs
-
-    while (nbJoueurs < 1 || nbJoueurs > 4)             //Verifie que l'utilisateur rentre un chiffre entre 1 et 4
+    if (couleur < 0 || couleur > 3)                       //Verifie que l'entier est compris entre 0 et 3
     {
-        printf("Nombre de joueurs (entre 1 et 4) : "); //Demande de rentrer un chiffre
-        scanf("%d", &nbJoueurs);                       //Recupere le chiffre rentre
-        system("cls");                                 //Nettoie la console
+        while (couleur < 0 || couleur > 3)                //Boucle jusqu'a ce que l'entier soit compris entre 0 et 3
+        {
+            printf("\nValeur incorrect, reessayer : ");   //Redemande a l'utilisateur de saisir une valeur
+            scanf("%d", &couleur);                        //Recupere l'entier saisie
+        }
     }
 
-    int i;                                             //Declare un entier pour la boucle
-
-    for (i = 0; i < nbJoueurs; i++)                    //Rentre dans la boucle autant de fois qu'il y a de joueurs
+    switch (couleur)                                      //Transforme un entier en un type couleur pour le retourner
     {
-        ajouteJoueur(jeu);                             //Ajoute un joueur
-        system("cls");                                 //Nettoie la console
+    case 0 :
+        return ROUGE;
+        break;
+    case 1 :
+        return VERT;
+        break;
+    case 2 :
+        return BLEU;
+        break;
+    case 3 :
+        return JAUNE;
+        break;
+    default :
+        return ERREUR;
     }
 }
+
+//Fonction qui retourne un type joueur selon un numero qui va l'identifier
+T_joueur *initJoueur(int numeroJoueur)
+{
+    T_joueur *joueur = (T_joueur *)malloc(sizeof(T_joueur));  //Alloue de la memoire au type joueur
+    T_point pos;                                              //Declare un type point
+    pos.x = 0;                                                //Met le joueur sur la premiere ligne
+    pos.y = numeroJoueur;                                     //Met le joueur a droite du precedent (en haut a gauche si premier joueur)
+
+    printf("Veuillez choisir un nom pour le joueur numero %d : ", numeroJoueur+1);
+    scanf("%s", joueur->nom);                     //Initialise le nom du joueur
+    joueur->couleur = choixCouleur();             //Initialise la couleur de joueur
+    joueur->identifiant = numeroJoueur;           //Initialise l'identifiant du joueur
+    joueur->position = pos;                       //Initialise la position du joueur
+    joueur->vecteur.dx = joueur->vecteur.dy = 0;  //Initialise le veteur deplacement du joueur
+    joueur->score = 0;
+
+    return joueur;                                //Retourne un pointeur de type joueur
+}
+
+
