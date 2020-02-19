@@ -17,4 +17,7 @@ typedef struct
 /***** Fonctions *****/
 
 //Ajoute un joueur sur la banquise
-void ajouteJoueur(T_banquise *banquise);
+void ajouteJoueur(T_jeu *jeu);
+
+//Ajoute des joueurs sur la banquise
+void ajouteJoueurs(T_jeu *jeu);
