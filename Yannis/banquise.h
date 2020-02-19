@@ -8,6 +8,7 @@ typedef struct
     int nombreJ; //Nombre de joueurs sur la banquise
 } T_banquise;
 
+
 /***** Fonctions *****/
 
 //Definition de la fonction qui initialise le pointeur de type banquise

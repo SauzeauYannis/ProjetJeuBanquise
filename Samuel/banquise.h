@@ -6,7 +6,7 @@ typedef struct
     int **tab;   //Matrice represantant la banquise
     int tailleN; //Taille de la matrice (carree)
     int nombreJ; //Nombre de joueurs sur la banquise
-}T_banquise;
+} T_banquise;
 
 
 /***** Fonctions *****/

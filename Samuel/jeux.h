@@ -37,4 +37,4 @@ typedef struct
 
 /***** Fonctions *****/
 
-T_jeu initJeux(int nbj, int taille);
+T_jeu *initJeux(int niveau, int taille);

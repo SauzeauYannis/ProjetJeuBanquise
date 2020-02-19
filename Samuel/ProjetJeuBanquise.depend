@@ -53,3 +53,30 @@
 	<time.h>
 	"jeux.h"
 
+1582119389 source:d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\banquise.c
+	<stdio.h>
+	<stdlib.h>
+	"general.h"
+
+1582118200 d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\banquise.h
+
+1582119389 source:d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\joueur.c
+	<stdio.h>
+	<stdlib.h>
+	"general.h"
+
+1582118171 d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\joueur.h
+	"jeux.h"
+
+1582119552 d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\jeux.h
+	"banquise.h"
+
+1582119280 source:d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\jeux.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"joueur.h"
+
+1582119362 d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\general.h
+	"joueur.h"
+

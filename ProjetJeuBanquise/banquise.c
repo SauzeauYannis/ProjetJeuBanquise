@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "banquise.h"
+#include "general.h"
 
 //Retourne un pointeur de type banquise initialisé avec une taille en parametre
 T_banquise *initBanquise(int taille)

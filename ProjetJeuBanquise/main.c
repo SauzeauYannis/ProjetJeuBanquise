@@ -1,20 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "banquise.h"
-#include "joueur.h"
+#include "general.h"
 
 
 int main()
 {
-    T_banquise *banquise = initBanquise(10); //Definit une banquise de taille 50
+    T_jeu *jeuN1 = initJeux(1, 10);                //Creer le niveau 1
 
-    remplitBanquise(banquise, 0);            //Remplit la banquise de 0
+    afficheBanquise(jeuN1->banquise);              //Affiche la banquise
 
-    ajouteJoueur(banquise);                  //Ajoute un joueur
-
-    afficheBanquise(banquise);               //Affiche la banquise
-
-    printf("OK");                            //Pour tester ou debugger
+    printf("OK");                                  //Pour tester ou debugger
 
     return 0;
 }

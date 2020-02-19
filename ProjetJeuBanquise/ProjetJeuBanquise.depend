@@ -23,20 +23,20 @@
 
 1581959742 e:\2019-2020_l2_im_s4\programmation en c\projetjeubanquise\jeux.h
 
-1581969104 source:c:\users\sams8\desktop\projet_banquise\samuel\joueur.c
+1582062595 source:c:\users\sams8\desktop\projet_banquise\samuel\joueur.c
 	<stdio.h>
 	<stdlib.h>
-	"banquise.h"
 	"joueur.h"
 
-1581969186 c:\users\sams8\desktop\projet_banquise\samuel\banquise.h
+1582062764 c:\users\sams8\desktop\projet_banquise\samuel\banquise.h
 
-1581969104 c:\users\sams8\desktop\projet_banquise\samuel\joueur.h
+1582062276 c:\users\sams8\desktop\projet_banquise\samuel\joueur.h
 	"jeux.h"
 
-1582050174 c:\users\sams8\desktop\projet_banquise\samuel\jeux.h
+1582063044 c:\users\sams8\desktop\projet_banquise\samuel\jeux.h
+	"banquise.h"
 
-1581969104 source:c:\users\sams8\desktop\projet_banquise\samuel\main.c
+1582052671 source:c:\users\sams8\desktop\projet_banquise\samuel\main.c
 	<stdio.h>
 	<stdlib.h>
 	"banquise.h"
@@ -46,4 +46,37 @@
 	<stdio.h>
 	<stdlib.h>
 	"banquise.h"
+
+1582062885 source:c:\users\sams8\desktop\projet_banquise\samuel\jeux.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"jeux.h"
+
+1582119389 source:d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\banquise.c
+	<stdio.h>
+	<stdlib.h>
+	"general.h"
+
+1582118200 d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\banquise.h
+
+1582119389 source:d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\joueur.c
+	<stdio.h>
+	<stdlib.h>
+	"general.h"
+
+1582118171 d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\joueur.h
+	"jeux.h"
+
+1582119552 d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\jeux.h
+	"banquise.h"
+
+1582119280 source:d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\jeux.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"joueur.h"
+
+1582119362 d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\general.h
+	"joueur.h"
 

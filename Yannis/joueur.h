@@ -13,6 +13,7 @@ typedef struct
     int score;          //Score du joueur
 } T_joueur;
 
+
 /***** Fonctions *****/
 
 //Ajoute un joueur sur la banquise

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "joueur.h"
+#include "general.h"
 
 //Ajout d'un joueur sur un pointeur de type banquise
 void ajouteJoueur(T_banquise *banquise)

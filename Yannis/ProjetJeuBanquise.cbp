@@ -26,6 +26,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="banquise.h" />
+		<Unit filename="general.h" />
+		<Unit filename="jeux.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="jeux.h" />
 		<Unit filename="joueur.c">
 			<Option compilerVar="CC" />
