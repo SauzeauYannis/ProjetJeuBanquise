@@ -51,29 +51,28 @@
 	<stdlib.h>
 	"jeux.h"
 
-1582119389 source:d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\banquise.c
+1582132523 source:d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\banquise.c
 	<stdio.h>
 	<stdlib.h>
-	"general.h"
-
-1582118200 d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\banquise.h
-
-1582119389 source:d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\joueur.c
-	<stdio.h>
-	<stdlib.h>
-	"general.h"
-
-1582118171 d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\joueur.h
 	"jeux.h"
 
-1582119552 d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\jeux.h
-	"banquise.h"
+1582220121 d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\banquise.h
 
-1582119280 source:d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\jeux.c
+1582220015 source:d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\joueur.c
 	<stdio.h>
 	<stdlib.h>
-	<time.h>
+	"jeux.h"
+
+1582220014 d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\joueur.h
+
+1582220197 d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\jeux.h
+	"banquise.h"
 	"joueur.h"
+
+1582133197 source:d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\jeux.c
+	<stdio.h>
+	<stdlib.h>
+	"jeux.h"
 
 1582119362 d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\general.h
 	"joueur.h"
@@ -105,6 +104,11 @@
 	"general.h"
 
 1582132475 source:d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\yannis\main.c
+	<stdio.h>
+	<stdlib.h>
+	"jeux.h"
+
+1582218762 source:d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\main.c
 	<stdio.h>
 	<stdlib.h>
 	"jeux.h"

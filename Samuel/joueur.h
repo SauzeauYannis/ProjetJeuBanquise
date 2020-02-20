@@ -44,10 +44,14 @@ T_couleur choixCouleur();
 //Initialise un joueur
 T_joueur *initJoueur(int numeroJoueur);
 
-//Fonction qui permet le déplacement du personnage
+//Demande au joueur un deplacement
+char saisieDeplacement();
+
+//Verifie si le joueur est sorti du jeu
+int deplacementJoeur_bis(T_joueur *joueur, int taille, char deplacement);
+
+//Applique le deplacement du joueur
 void deplacementJoeur(T_joueur *joueur, int taille);
 
-//Fonction qui s'occupe du déplacement du personnage en fonction de ses paramettres, et renvoie un entier en fonction du déplacement
-int deplacementJoeur_bis(T_joueur *j, int dx, int dy, int taille);
-
+//Fonction test
 void affichePositionJoueur(T_joueur *joueur);

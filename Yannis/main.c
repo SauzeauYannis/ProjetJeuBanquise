@@ -9,7 +9,12 @@ int main()
 
     T_jeu *jeuN1 = initJeux(1, 10);                //Creer le niveau 1
 
-    afficheBanquise(jeuN1->banquise);              //Affiche la banquise
+    afficheJeu(jeuN1);                             //Affiche le jeu
+
+    affichePositionJoueur(jeuN1->joueurs[0]);
+    deplacementJoeur(jeuN1->joueurs[0], jeuN1->banquise->tailleN);
+    printf("\n");
+    affichePositionJoueur(jeuN1->joueurs[0]);
 
     free(jeuN1);                                   //Libère l'espace prit par le niveau 1
 

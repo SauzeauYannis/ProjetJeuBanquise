@@ -31,7 +31,7 @@ typedef struct
     T_couleur couleur;  //Couleur du joueur
     int identifiant;    //Entier qui identifie le joueur
     T_point position;   //Position du joueur dans la banquise
-    T_vecteur vecteur;  //Deplacement du joueur sur la banquise
+    T_vecteur vecteur;  //Deplacement du joueur sur la banquise (Ne sert à rien à  rien pour le moment)
     int score;          //Score du joueur
 } T_joueur;
 
@@ -41,4 +41,17 @@ typedef struct
 //Fait choisir une couleur a l'utilisateur
 T_couleur choixCouleur();
 
-T_joueur *initJoueur();
+//Initialise un joueur
+T_joueur *initJoueur(int numeroJoueur);
+
+//Demande au joueur un deplacement
+char saisieDeplacement();
+
+//Verifie si le joueur est sorti du jeu
+int deplacementJoeur_bis(T_joueur *joueur, int taille, char deplacement);
+
+//Applique le deplacement du joueur
+void deplacementJoeur(T_joueur *joueur, int taille);
+
+//Fonction test
+void affichePositionJoueur(T_joueur *joueur);

@@ -41,20 +41,3 @@ void modifieCaseBanquise(T_banquise *banquise, int caseX, int caseY, int valeur)
 {
     banquise->tab[caseX][caseY] = valeur; //Met la valeur a l'emplcamenent donne en parametre
 }
-
-//Affichage du pointeur du type banquise
-void afficheBanquise(T_banquise *banquise)
-{
-    int taille = banquise->tailleN;             //Recupere la taille de la banquise
-    int i, j;                                   //Declare deux entier pour les boucles for
-
-    for (i = 0; i < taille; i++)                //Boucle qui parcourt les lignes de la matrice
-    {
-        printf("| ");                           //Esthetique
-        for (j = 0; j < taille; j++)            //Boucle qui parcourt les collones de la matrice
-        {
-            printf("%d ", banquise->tab[i][j]); //Affiche la case de la matrice qui se trouve a la ligne i et la colonne j
-        }
-        printf("|\n");                          //Esthetique
-    }
-}

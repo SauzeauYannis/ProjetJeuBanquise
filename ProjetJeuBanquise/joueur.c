@@ -62,4 +62,84 @@ T_joueur *initJoueur(int numeroJoueur)
     return joueur;                                //Retourne un pointeur de type joueur
 }
 
+//Retourne une lettre du clavier qui correspond a un deplacement
+char saisieDeplacement(T_joueur *joueur)
+{
+    char clavier = getchar();                    //Declare un caractere et l'initialise pour eviter un bug que nous comprenons pas
 
+    printf("%s deplacez vous : ", joueur->nom);  //Demande au joueur ou il veut se deplacer
+    scanf("%c", &clavier);                       //Recupere la touche qui a ete frappe
+
+    while (clavier != 'z' && clavier != 'q' && clavier != 's' && clavier != 'd')           //Boucle qui fini quand l'utilisateur a rentree une bonne touche
+    {
+        printf("\nTouche incorrect, veuillez saisir une touche entre \"z, q, s, d\" : ");  //Re-demande le deplacement en rappellant les bonnes touches
+        clavier = getchar();                                                               //Evite un bug
+        scanf("%c", &clavier);                                                             //Recupere la touche qui a ete frappe
+    }
+
+    return clavier;                              //Retourne la bonne touche
+}
+
+//Fonction qui s'occupe du déplacement du personnage en fonction de ses paramettres, et renvoie un entier en fonction du déplacement
+int deplacementJoeur_bis(T_joueur *joueur, int taille, char deplacement)
+{
+    int jx = joueur->position.x,  //Recupere la position du joueur
+        jy = joueur->position.y,
+        dx, dy,                   //Declare 4 entier pour tester le deplacement
+        x, y;
+
+    switch (deplacement)          //Effectue le decalage selon la touche mis en parametre
+    {
+    case 'z' :
+        dx = -1;
+        dy = 0;
+        break;
+    case 'q' :
+        dx = 0;
+        dy = -1;
+        break;
+    case 's' :
+        dx = 1;
+        dy = 0;
+        break;
+    default :
+        dx = 0;
+        dy = 1;
+    }
+
+    x = jx + dx;                  //Positions apres le decalage
+    y = jy + dy;
+
+    if (x < 0 || x >= taille || y < 0 || y >= taille)    //Verifie que le joueur ne sort pas de la banquise
+    {
+        printf("\nLe joueur est en dehors du jeu !\n");  //Previens le joueur dans ce cas la
+        return -1;                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
+    }
+    else                          //Si le joueur est bien dans le jeu apres le decalage
+    {
+        joueur->position.x = x;   //Affectation de sa nouvelle position
+        joueur->position.y = y;
+        return 0;                 //Retourne une valeur de succes pour la fonction suivante
+    }
+}
+
+//Fonction qui permet le déplacement du personnage
+void deplacementJoeur(T_joueur *joueur, int taille)
+{
+    char clavier = saisieDeplacement(joueur);                     //Recupere la bonne touche saisie par le joueur
+
+    int correct = deplacementJoeur_bis(joueur, taille, clavier);  //Stocke la valeur de la fonction precedente
+
+    while (correct == -1)                                         //Si la valeur est une valeur d'echec
+    {
+        clavier = saisieDeplacement(joueur);                      //On re-recupere la bonne touche saisie par le joueur
+        correct = deplacementJoeur_bis(joueur, taille, clavier);  //On re-stocke la valeur de la fonction precedente
+    }
+}
+
+//Fonction test
+void affichePositionJoueur(T_joueur *joueur)
+{
+    printf("x = %d\n", joueur->position.x);
+    printf("y = %d\n", joueur->position.y);
+}

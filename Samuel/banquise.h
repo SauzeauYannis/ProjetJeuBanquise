@@ -18,6 +18,3 @@ void remplitBanquise(T_banquise *banquise, int valeur);
 
 //Modifie une case de la banquise
 void modifieCaseBanquise(T_banquise *banquise, int caseX, int caseY, int valeur);
-
-//Affiche la banquise
-void afficheBanquise(T_banquise *banquise);
