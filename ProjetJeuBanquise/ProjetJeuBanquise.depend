@@ -111,3 +111,31 @@
 	<stdlib.h>
 	"jeux.h"
 
+1582135336 source:c:\users\sams8\desktop\projet_banquise\projetjeubanquise\banquise.c
+	<stdio.h>
+	<stdlib.h>
+	"jeux.h"
+
+1582135336 c:\users\sams8\desktop\projet_banquise\projetjeubanquise\jeux.h
+	"banquise.h"
+	"joueur.h"
+
+1582135336 c:\users\sams8\desktop\projet_banquise\projetjeubanquise\banquise.h
+
+1582135336 c:\users\sams8\desktop\projet_banquise\projetjeubanquise\joueur.h
+
+1582135336 source:c:\users\sams8\desktop\projet_banquise\projetjeubanquise\jeux.c
+	<stdio.h>
+	<stdlib.h>
+	"jeux.h"
+
+1582135336 source:c:\users\sams8\desktop\projet_banquise\projetjeubanquise\joueur.c
+	<stdio.h>
+	<stdlib.h>
+	"jeux.h"
+
+1582135336 source:c:\users\sams8\desktop\projet_banquise\projetjeubanquise\main.c
+	<stdio.h>
+	<stdlib.h>
+	"jeux.h"
+
