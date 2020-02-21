@@ -32,11 +32,11 @@
 
 1582282273 c:\users\sams8\desktop\projet_banquise\samuel\joueur.h
 
-1582283191 c:\users\sams8\desktop\projet_banquise\samuel\jeux.h
+1582295542 c:\users\sams8\desktop\projet_banquise\samuel\jeux.h
 	"banquise.h"
 	"joueur.h"
 
-1582284199 source:c:\users\sams8\desktop\projet_banquise\samuel\main.c
+1582295542 source:c:\users\sams8\desktop\projet_banquise\samuel\main.c
 	<stdio.h>
 	<stdlib.h>
 	"jeux.h"

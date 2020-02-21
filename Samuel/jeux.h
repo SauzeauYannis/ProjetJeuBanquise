@@ -56,3 +56,7 @@ void afficheScore(T_jeu *jeu);
 
 //Fonction qui joue un niveau sélectionné jusqu'à la victoire d'un joueur
 void joueNiveau(T_jeu *jeu);
+
+
+//Fonction qui renvoie un entier qui permet de rejouer une partie
+int rejouer();

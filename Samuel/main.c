@@ -19,12 +19,8 @@ int main()
 
         free(jeuN1);                                   //Libère l'espace prit par le niveau 1
 
-        printf("\nVoulez vous rejouer ? (Tapez \"y\" pour oui ou \"n\" pour non)\n"); //Permet au joueur de relancer une partie
-        c = getchar();
-        c = getchar();
+        stop = rejouer();
 
-        if (c == 'n')
-            stop = 1;
     }
 
     return 0;

@@ -271,3 +271,36 @@ void joueNiveau(T_jeu *jeu)
     system("cls");
     printf("Merci d'avoir joue !\n");
 }
+
+
+
+//Fonction qui renvoie un entier qui permet de rejouer une partie
+int rejouer()
+{
+    char c;  //Enregistre la valeur saisie par l'utilisateur
+    int stop = 0;
+    printf("\nVoulez vous rejouer ? (Tapez \"y\" pour oui ou \"n\" pour non) : "); //Permet au joueur de relancer une partie
+    c = getchar();
+    c = getchar();
+
+    while(stop == 0)
+    {
+        if (c != 'n' && c != 'y')
+        {
+            printf("\nChoix inconnue ! Veuillez reessayer : ");
+        }
+        else
+        {
+            stop = 1;
+        }
+    }
+
+    if (c == 'y')
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
