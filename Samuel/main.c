@@ -8,7 +8,7 @@ int main()
     int stop = 0;
     char c;
 
-    afficheMenu();                                 //Affiche le menu du jeu
+    afficheMenu();                                     //Affiche le menu du jeu
 
     while(stop == 0)
     {

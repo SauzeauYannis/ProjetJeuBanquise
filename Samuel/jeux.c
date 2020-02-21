@@ -198,7 +198,7 @@ int tourJoueur(T_jeu *jeu, int numJoueur)
     printf("Tour %d\n", jeu->nombreTour);
     afficheJeu(jeu);                                                                         //Affiche la banquise dans le terminal
     rafraicheBanquise(jeu, jeu->joueurs[numJoueur], 0);                                      //Met un zero sur la futur ancienne case du joueur sur la banquise
-    deplacementJoueur(jeu->joueurs[numJoueur], jeu->banquise->tailleN, tab);  //Effectue le déplacement du joueur sur la banquise
+    deplacementJoueur(jeu->joueurs[numJoueur], jeu->banquise->tailleN, tab);                 //Effectue le déplacement du joueur sur la banquise
     caseValeur = tab[jeu->joueurs[numJoueur]->position.x][jeu->joueurs[numJoueur]->position.y];
     printf("\n");
     rafraicheBanquise(jeu, jeu->joueurs[numJoueur], 1);                                      // Met un 1 sur la nouvelle case du joueur sur la banquise
