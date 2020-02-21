@@ -68,6 +68,12 @@ void changeCouleurTexte(T_couleur couleur)
     case 3 :
         SetConsoleTextAttribute(console, 14);
         break;
+    case 4 :
+        SetConsoleTextAttribute(console, 11);
+        break;
+    case 5 :
+        SetConsoleTextAttribute(console, 13);
+        break;
     default :
         SetConsoleTextAttribute(console, 15);
     }
@@ -106,12 +112,12 @@ T_jeu *initJeux(int niveau, int taille)
 
     jeu->banquise = initBanquise(taille);                      //Initialise la banquise dans le jeu
     jeu->joueurs = (T_joueur **)malloc(sizeof(T_joueur *));    //Aloue de la memoire pour creer un tableau de pointeur de joueur
-    jeu->etat = ENCOURS;                                       //Initialise l'etat du jeu
     jeu->nombreJoueur = 0;                                     //Initialise le nombre de joueur
     jeu->nombreTour = 0;                                       //Initialise le nombre de tour
     jeu->IdJeu = niveau;                                       //Initialise le niveau
 
     remplitBanquise(jeu->banquise, 0);                         //Remplit la banquise de 0
+    ajouteDepartArrive(jeu->banquise);                         //Ajoute les cases de depart et d'arrive
     ajouteJoueurs(jeu);                                        //Ajoute les joueurs
 
     return jeu;                                                //Retourne le pointeur de type jeu
@@ -135,28 +141,71 @@ void afficheJeu(T_jeu *jeu)
         for (j = 0; j < taille; j++)            //Boucle qui parcourt les collones de la matrice
         {
             int pos = jeu->banquise->tab[i][j]; //Declare la position parcouru
+            int k;                              //Declare un entier pour une boucle
 
-            if (pos == 1)                       //Verifie si c'est un joueur
+            switch (pos)
             {
-                int k;                          //Declare un entier pour la boucle suivante
-
+            case 1 :
                 for (k = 0; k < jeu->nombreJoueur; k++) //Parcourt les joueurs present
                 {
                     T_joueur *joueur = jeu->joueurs[k]; //Declare le joueur parcouru
 
-                    if (joueur->position.x == i && joueur->position.y == j) //Verifie si la case parcouru est celle du joueur parcouru
+                    if (joueur->position.x == i && joueur->position.y == j)  //Verifie si la case parcouru est celle du joueur parcouru
                     {
                         changeCouleurTexte(joueur->couleur);                 //Change la couleur du texte selon celle du joueur
                         printf("%d ", pos);                                  //Affiche le joueur avec sa couleur
                         changeCouleurTexte(ERREUR);                          //Remet la couleur en blanc
                     }
                 }
-            }
-            else
-            {
+                break;
+            case 2 :
+                changeCouleurTexte(TURQUOISE);  //Change la couleur en turquoise pour le depart
+                printf("%d ", pos);             //Affiche la case de depart
+                changeCouleurTexte(ERREUR);     //Remet la couleur initiale
+                break;
+            case 3 :
+                changeCouleurTexte(ROSE);       //Change la couleur en rose pour l'arrive
+                printf("%d ", pos);             //Affiche la case d'arrive
+                changeCouleurTexte(ERREUR);     //Remet la couleur initiale
+                break;
+            default :
                 printf("%d ", pos);             //Affiche la case de la matrice qui se trouve a la ligne i et la colonne j
             }
         }
         printf("|\n");                          //Esthetique
+    }
+}
+
+//Fonction qui change la valeur de la banquise en fonction de la position du joueur et d'une valeur
+void rafraicheBanquise(T_jeu *jeu, T_joueur *joueur, int val)
+{
+    int posx = joueur->position.x, posy = joueur->position.y;  //Variables contenant la position du joueur
+    modifieCaseBanquise(jeu->banquise, posx, posy, val);       //Changement de la valeur sur la banquise
+}
+
+//Fonction qui s'occupe d'effectuer le tour d'un joueur
+void tourJoueur(T_jeu *jeu, int numJoueur)
+{
+    printf("Tour %d\n", jeu->nombreTour);
+    afficheJeu(jeu);                                                                         //Affiche la banquise dans le terminal
+    rafraicheBanquise(jeu, jeu->joueurs[numJoueur], 0);                                      //Met un zero sur la futur ancienne case du joueur sur la banquise
+    deplacementJoueur(jeu->joueurs[numJoueur], jeu->banquise->tailleN, jeu->banquise->tab);  //Effectue le déplacement du joueur sur la banquise
+    printf("\n");
+    rafraicheBanquise(jeu, jeu->joueurs[numJoueur], 1);                                      // Met un 1 sur la nouvelle case du joueur sur la banquise
+    system("cls");                                                                           //efface le terminal
+}
+
+//Fonction qui joue un niveau sélectionné jusqu'à la victoire d'un joueur
+void joueNiveau(T_jeu *jeu)
+{
+    jeu->nombreTour = 1;
+
+    while(1)
+    {
+        for(int i = 0; i<jeu->nombreJoueur; i++)  //Boucle for qui permet à chaque joueur de jouer pour un tour
+        {
+            tourJoueur(jeu, i);                   //Tour du joueur i
+        }
+        jeu->nombreTour += 1;
     }
 }

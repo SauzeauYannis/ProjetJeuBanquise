@@ -7,6 +7,8 @@ typedef enum
     VERT,
     BLEU,
     JAUNE,
+    TURQUOISE,
+    ROSE,
     ERREUR
 } T_couleur;
 
@@ -47,11 +49,14 @@ T_joueur *initJoueur(int numeroJoueur);
 //Demande au joueur un deplacement
 char saisieDeplacement();
 
-//Verifie si le joueur est sorti du jeu
-int deplacementJoeur_bis(T_joueur *joueur, int taille, char deplacement);
+//Verifie si le deplacement est possible
+int verifieDeplacement(int caseX, int caseY, int caseValeur, int taille);
+
+//Applique le deplacement si possible ou retourne une erreur
+int deplacementJoueur_bis(T_joueur *joueur, int taille, char deplacement, int **tab);
 
 //Applique le deplacement du joueur
-void deplacementJoeur(T_joueur *joueur, int taille);
+void deplacementJoeur(T_joueur *joueur, int taille, int **tab);
 
 //Fonction test
 void affichePositionJoueur(T_joueur *joueur);

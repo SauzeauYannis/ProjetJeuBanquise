@@ -7,18 +7,13 @@ int main()
 {
     afficheMenu();                                 //Affiche le menu du jeu
 
-    T_jeu *jeuN1 = initJeux(1, 10);                //Creer le niveau 1
+    T_jeu *jeuN1 = initJeux(1, 10);                //Creer le niveau
 
-    afficheJeu(jeuN1);                             //Affiche le jeu
-
-    affichePositionJoueur(jeuN1->joueurs[0]);
-    deplacementJoeur(jeuN1->joueurs[0], jeuN1->banquise->tailleN);
-    printf("\n");
-    affichePositionJoueur(jeuN1->joueurs[0]);
+    joueNiveau(jeuN1);                             //Joue le niveau selectionné
 
     free(jeuN1);                                   //Libère l'espace prit par le niveau 1
 
-    printf("OK");                                  //Pour tester ou debugger
+    printf("\nOK");                                //Pour tester ou debugger
 
     return 0;
 }

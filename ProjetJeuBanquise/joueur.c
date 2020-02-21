@@ -49,9 +49,9 @@ T_joueur *initJoueur(int numeroJoueur)
     T_joueur *joueur = (T_joueur *)malloc(sizeof(T_joueur));  //Alloue de la memoire au type joueur
     T_point pos;                                              //Declare un type point
     pos.x = 0;                                                //Met le joueur sur la premiere ligne
-    pos.y = numeroJoueur;                                     //Met le joueur a droite du precedent (en haut a gauche si premier joueur)
+    pos.y = numeroJoueur + 1;                                 //Met le joueur a droite du precedent (en haut a gauche si premier joueur)
 
-    printf("Veuillez choisir un nom pour le joueur numero %d : ", numeroJoueur+1);
+    printf("Veuillez choisir un nom pour le joueur numero %d : ", numeroJoueur + 1); //Demande le nom au joueur
     scanf("%s", joueur->nom);                     //Initialise le nom du joueur
     joueur->couleur = choixCouleur();             //Initialise la couleur de joueur
     joueur->identifiant = numeroJoueur;           //Initialise l'identifiant du joueur
@@ -72,16 +72,22 @@ char saisieDeplacement(T_joueur *joueur)
 
     while (clavier != 'z' && clavier != 'q' && clavier != 's' && clavier != 'd')           //Boucle qui fini quand l'utilisateur a rentree une bonne touche
     {
-        printf("\nTouche incorrect, veuillez saisir une touche entre \"z, q, s, d\" : ");  //Re-demande le deplacement en rappellant les bonnes touches
-        clavier = getchar();                                                               //Evite un bug
+        printf("\r\nTouche incorrect, veuillez saisir une touche entre \"z, q, s, d\" : ");  //Re-demande le deplacement en rappellant les bonnes touches
         scanf("%c", &clavier);                                                             //Recupere la touche qui a ete frappe
     }
 
     return clavier;                              //Retourne la bonne touche
 }
 
+//Retourne un entier en fonction du deplacement du joueur
+int verifieDeplacement(int caseX, int caseY, int caseValeur, int taille)
+{
+    if (caseX < 0 || caseX >= taille || caseY < 0 || caseY >= taille || caseValeur != 0) return -1;  //Entier d'erreur si le joueur sort du jeu ou ne marche pas sur la banquise
+    else return 0;                                                                                   //Entier de validation sinon
+}
+
 //Fonction qui s'occupe du déplacement du personnage en fonction de ses paramettres, et renvoie un entier en fonction du déplacement
-int deplacementJoeur_bis(T_joueur *joueur, int taille, char deplacement)
+int deplacementJoeur_bis(T_joueur *joueur, int taille, char deplacement, int **tab)
 {
     int jx = joueur->position.x,  //Recupere la position du joueur
         jy = joueur->position.y,
@@ -110,9 +116,11 @@ int deplacementJoeur_bis(T_joueur *joueur, int taille, char deplacement)
     x = jx + dx;                  //Positions apres le decalage
     y = jy + dy;
 
-    if (x < 0 || x >= taille || y < 0 || y >= taille)    //Verifie que le joueur ne sort pas de la banquise
+    int caseValeur = tab[x][y];
+
+    if (verifieDeplacement(x, y, caseValeur, taille) == -1)    //Verifie que le joueur ne sort pas de la banquise
     {
-        printf("\nLe joueur est en dehors du jeu !\n");  //Previens le joueur dans ce cas la
+        printf("\nDeplacement impossible\n");  //Previens le joueur dans ce cas la
         return -1;                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
     }
     else                          //Si le joueur est bien dans le jeu apres le decalage
@@ -124,16 +132,16 @@ int deplacementJoeur_bis(T_joueur *joueur, int taille, char deplacement)
 }
 
 //Fonction qui permet le déplacement du personnage
-void deplacementJoeur(T_joueur *joueur, int taille)
+void deplacementJoueur(T_joueur *joueur, int taille, int **tab)
 {
     char clavier = saisieDeplacement(joueur);                     //Recupere la bonne touche saisie par le joueur
 
-    int correct = deplacementJoeur_bis(joueur, taille, clavier);  //Stocke la valeur de la fonction precedente
+    int correct = deplacementJoeur_bis(joueur, taille, clavier, tab);  //Stocke la valeur de la fonction precedente
 
     while (correct == -1)                                         //Si la valeur est une valeur d'echec
     {
         clavier = saisieDeplacement(joueur);                      //On re-recupere la bonne touche saisie par le joueur
-        correct = deplacementJoeur_bis(joueur, taille, clavier);  //On re-stocke la valeur de la fonction precedente
+        correct = deplacementJoeur_bis(joueur, taille, clavier, tab);  //On re-stocke la valeur de la fonction precedente
     }
 }
 

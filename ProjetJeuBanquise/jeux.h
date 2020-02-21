@@ -3,20 +3,11 @@
 
 /***** Structures *****/
 
-//Definition du type etat
-typedef enum
-{
-    ENCOURS,
-    PERDU,
-    GAGNE
-} T_etat;
-
 //Definition du type jeu
 typedef struct
 {
     T_banquise *banquise; //Pointeur sur la banquise
     T_joueur **joueurs;   //Tableau de pointeurs de joueurs
-    T_etat etat;          //Etat du jeu
     int nombreJoueur;     //Nombre de joueur présent sur le jeu
     int nombreTour;       //Nombre de tour actuel du jeu
     int IdJeu;            //Identifiant de la partie en cours
@@ -41,3 +32,12 @@ T_jeu *initJeux(int niveau, int taille);
 
 //Affiche le jeu
 void afficheJeu(T_jeu *jeu);
+
+//Fonction qui met un zero sur (l'ancienne) position du joueur mis en paramettre
+void rafraicheBanquise(T_jeu *jeu, T_joueur *joueur, int val);
+
+//Fonction qui s'occupe d'effectuer le tour d'un joueur
+void tourJoueur(T_jeu *jeu, int numJoueur);
+
+//Fonction qui joue un niveau sélectionné jusqu'à la victoire d'un joueur
+void joueNiveau(T_jeu *jeu);

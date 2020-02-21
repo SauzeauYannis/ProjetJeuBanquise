@@ -17,6 +17,8 @@ T_banquise *initBanquise(int taille)
 
     banquise->tab = banquiseTab;                                     //Met la matrice dans le pointeur banquise
     banquise->tailleN = taille;                                      //Met la taille dans le pointeur banquise
+    banquise->depart.caseX = banquise->depart.caseY = 0;             //Met la case du depart en haut a gauche
+    banquise->arrive.caseX = banquise->arrive.caseY = taille - 1;    //Met la case d'arrive en bas a droite
 
     return banquise;                                                 //Retourne le pointeur de type banquise
 }
@@ -40,4 +42,11 @@ void remplitBanquise(T_banquise *banquise, int valeur)
 void modifieCaseBanquise(T_banquise *banquise, int caseX, int caseY, int valeur)
 {
     banquise->tab[caseX][caseY] = valeur; //Met la valeur a l'emplcamenent donne en parametre
+}
+
+//Change la matrice de la banquise en y ajoutant les cases d'arrive et de depart
+void ajouteDepartArrive(T_banquise *banquise)
+{
+    modifieCaseBanquise(banquise, banquise->depart.caseX, banquise->depart.caseY, 2);  //Modifie la case de depart
+    modifieCaseBanquise(banquise, banquise->arrive.caseX, banquise->arrive.caseY, 3);  //Modifie la case d'arrive
 }
