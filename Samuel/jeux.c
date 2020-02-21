@@ -49,6 +49,8 @@ void afficheMenu()
     system("cls");                               //Nettoie l'ecran
 }
 
+
+
 //Change la couleur du texte selon la type couleur mis en parametre
 void changeCouleurTexte(T_couleur couleur)
 {
@@ -79,6 +81,8 @@ void changeCouleurTexte(T_couleur couleur)
     }
 }
 
+
+
 //Ajoute entre 1 et 4 joueurs au jeu
 void ajouteJoueurs(T_jeu *jeu)
 {
@@ -105,6 +109,8 @@ void ajouteJoueurs(T_jeu *jeu)
     }
 }
 
+
+
 //Retourne un pointeur de type jeu en fonction du niveau et de la taille de la banquise
 T_jeu *initJeux(int niveau, int taille)
 {
@@ -122,12 +128,8 @@ T_jeu *initJeux(int niveau, int taille)
 
     return jeu;                                                //Retourne le pointeur de type jeu
 }
-/*
-void joueTour(T_jeu *jeu, T_joueur *joueur)
-{
 
-}
-*/
+
 
 //Affiche le jeu avec les joueurs en couleur
 void afficheJeu(T_jeu *jeu)
@@ -176,6 +178,8 @@ void afficheJeu(T_jeu *jeu)
     }
 }
 
+
+
 //Fonction qui change la valeur de la banquise en fonction de la position du joueur et d'une valeur
 void rafraicheBanquise(T_jeu *jeu, T_joueur *joueur, int val)
 {
@@ -183,29 +187,87 @@ void rafraicheBanquise(T_jeu *jeu, T_joueur *joueur, int val)
     modifieCaseBanquise(jeu->banquise, posx, posy, val);       //Changement de la valeur sur la banquise
 }
 
+
+
 //Fonction qui s'occupe d'effectuer le tour d'un joueur
-void tourJoueur(T_jeu *jeu, int numJoueur)
+int tourJoueur(T_jeu *jeu, int numJoueur)
 {
+    int caseValeur;
+    int **tab = jeu->banquise->tab;
+    system("cls");                                                                           //efface le terminal
     printf("Tour %d\n", jeu->nombreTour);
     afficheJeu(jeu);                                                                         //Affiche la banquise dans le terminal
     rafraicheBanquise(jeu, jeu->joueurs[numJoueur], 0);                                      //Met un zero sur la futur ancienne case du joueur sur la banquise
-    deplacementJoueur(jeu->joueurs[numJoueur], jeu->banquise->tailleN, jeu->banquise->tab);  //Effectue le déplacement du joueur sur la banquise
+    deplacementJoueur(jeu->joueurs[numJoueur], jeu->banquise->tailleN, tab);  //Effectue le déplacement du joueur sur la banquise
+    caseValeur = tab[jeu->joueurs[numJoueur]->position.x][jeu->joueurs[numJoueur]->position.y];
     printf("\n");
     rafraicheBanquise(jeu, jeu->joueurs[numJoueur], 1);                                      // Met un 1 sur la nouvelle case du joueur sur la banquise
-    system("cls");                                                                           //efface le terminal
+    return caseValeur;
 }
+
+
+
+//Ressort un entier qui détermine si la partie est finie ou non
+int victoire(T_jeu *jeu, int caseVal, int i)
+{
+    if (caseVal == 3)                                                              //Valeur de l'entier correspondant à l'arrivée
+    {
+        jeu->joueurs[i]->etat = 1;                                                 //Change l'etat de ce joueur pour le designer en tant que gagnant
+        printf("La partie est finie ! %s est victorieu !", jeu->joueurs[i]->nom);  //Affiche que la partie est finie, ainsi que le nom du gagnant
+        Sleep(3000);                                                               //Attend 3s avant de passer à l'instruction suivante
+        return 1;                                                                  //Retourne l'entier 1 pour signaler une victoire
+    }
+    else
+    {
+        return 0;                                                                  //Retourne l'entier 0 pour signaler que la partie continue
+    }
+}
+
+
+
+//Affiche le scrore à la fin de la partie
+void afficheScore(T_jeu *jeu)
+{
+    system("cls");                                           //Efface le terminal
+    printf("Score de la partie : \n\n");
+    for(int i = 0; i<jeu->nombreJoueur; i++)                 //Permet d'afficher le score de chaque joueur
+    {
+        printf("->Joueur %d\n", i+1);
+        printf("    Nom : %s\n", jeu->joueurs[i]->nom);
+        printf("    Score : %d\n", jeu->joueurs[i]->score);
+        if (jeu->joueurs[i]->etat == 1)                      //Permet de savoir si le joueur est gagnant ou perdant
+        {
+            printf("    Etat : GAGNANT\n");
+        }
+        else
+        {
+            printf("    Etat : PERDANT\n");
+        }
+        printf("\n");
+    }
+}
+
+
 
 //Fonction qui joue un niveau sélectionné jusqu'à la victoire d'un joueur
 void joueNiveau(T_jeu *jeu)
 {
     jeu->nombreTour = 1;
+    int caseVal, finPartie = 0; //caseVal sert à connaitre la valeur de la case, et finPartie sert à mettre fin à la partie en cours
 
-    while(1)
+    while(finPartie == 0)
     {
-        for(int i = 0; i<jeu->nombreJoueur; i++)  //Boucle for qui permet à chaque joueur de jouer pour un tour
+        for(int i = 0; i<jeu->nombreJoueur; i++)    //Boucle for qui permet à chaque joueur de jouer pour un tour
         {
-            tourJoueur(jeu, i);                   //Tour du joueur i
+            caseVal = tourJoueur(jeu, i);           //Tour du joueur i
+            finPartie = victoire(jeu, caseVal, i);  //Donne un entier si la partie est gagnée, ou si elle continue
+            if (caseVal == 3)                       //Permet de réellement stopper le jeu, pour ainsi éviter les joueurs suivant de jouer
+                break;                              //Brise la boucle for
         }
         jeu->nombreTour += 1;
     }
+    afficheScore(jeu);  //Affiche le score du jeu
+    Sleep(5000);        //Donne 5s au joueur pour lire les scores
+    system("cls");
+    printf("Merci d'avoir joue !\n");
 }
