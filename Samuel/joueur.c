@@ -87,10 +87,12 @@ char saisieDeplacement(T_joueur *joueur)
 
 
 //Retourne un entier en fonction du deplacement du joueur
-int verifieDeplacement_bis(int caseX, int caseY, int caseValeur, int taille, int caseChoisie)
+int verifieDeplacement_bis(int caseX, int caseY, int caseValeur, int taille)
 {
-    if (caseX < 0 || caseX >= taille || caseY < 0 || caseY >= taille || caseValeur != caseChoisie) return -1;  //Entier d'erreur si le joueur sort du jeu ou ne marche pas sur la banquise
-    else return 0;                                                                                             //Entier de validation sinon
+    if (caseX < 0 || caseX >= taille || caseY < 0 || caseY >= taille) return -1;
+    else if (caseValeur == 1) return -2;
+    else if (caseValeur == 2) return -3;
+    else return 0;                                                                 //Entier de validation sinon
 }
 
 
@@ -98,13 +100,21 @@ int verifieDeplacement_bis(int caseX, int caseY, int caseValeur, int taille, int
 //Retourne un entier en fonction du deplacement du joueur, et modifie la position de celui-ci
 int verifieDeplacement(T_joueur *joueur, int caseX, int caseY, int caseValeur, int taille)
 {
-    if (verifieDeplacement_bis(caseX, caseY, caseValeur, taille, 0) == -1 && verifieDeplacement_bis(caseX, caseY, caseValeur, taille, 3) == -1)    //Verifie que le joueur nse déplace bien sur une case valide
+    switch (verifieDeplacement_bis(caseX, caseY, caseValeur, taille))
     {
-        printf("\nDeplacement impossible\n");                             //Previens le joueur dans ce cas la
-        return -1;                                                        //Retourne une valeur d'echec pour prevenir la fonction suivante
-    }
-    else                              //Si le joueur est bien dans le jeu apres le decalage
-    {
+    case -1:
+        printf("\nDeplacement impossible : le joueur est en dehors des limites\n"); //Previens le joueur dans ce cas la
+        return -1;                                                                  //Retourne une valeur d'echec pour prevenir la fonction suivante
+        break;
+    case -2:
+        printf("\nDeplacement impossible : un autre joueur occupe deja la case\n"); //Previens le joueur dans ce cas la
+        return -1;                                                                  //Retourne une valeur d'echec pour prevenir la fonction suivante
+        break;
+    case -3:
+        printf("\nDeplacement impossible : le joueur ne peut pas aller sur le spawn\n"); //Previens le joueur dans ce cas la
+        return -1;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
+        break;
+    default :
         joueur->position.x = caseX;   //Affectation de sa nouvelle position
         joueur->position.y = caseY;
         return 0;                     //Retourne une valeur de succes pour la fonction suivante
