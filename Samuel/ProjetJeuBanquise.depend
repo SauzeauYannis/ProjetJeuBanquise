@@ -23,20 +23,20 @@
 
 1581959742 e:\2019-2020_l2_im_s4\programmation en c\projetjeubanquise\jeux.h
 
-1582282344 source:c:\users\sams8\desktop\projet_banquise\samuel\joueur.c
+1582493986 source:c:\users\sams8\desktop\projet_banquise\samuel\joueur.c
 	<stdio.h>
 	<stdlib.h>
 	"jeux.h"
 
 1582280144 c:\users\sams8\desktop\projet_banquise\samuel\banquise.h
 
-1582282273 c:\users\sams8\desktop\projet_banquise\samuel\joueur.h
+1582493986 c:\users\sams8\desktop\projet_banquise\samuel\joueur.h
 
 1582295542 c:\users\sams8\desktop\projet_banquise\samuel\jeux.h
 	"banquise.h"
 	"joueur.h"
 
-1582295542 source:c:\users\sams8\desktop\projet_banquise\samuel\main.c
+1582992522 source:c:\users\sams8\desktop\projet_banquise\samuel\main.c
 	<stdio.h>
 	<stdlib.h>
 	"jeux.h"
@@ -46,7 +46,7 @@
 	<stdlib.h>
 	"jeux.h"
 
-1582296075 source:c:\users\sams8\desktop\projet_banquise\samuel\jeux.c
+1582493986 source:c:\users\sams8\desktop\projet_banquise\samuel\jeux.c
 	<stdio.h>
 	<stdlib.h>
 	<windows.h>

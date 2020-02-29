@@ -20,7 +20,6 @@ int main()
         free(jeuN1);                                   //Libère l'espace prit par le niveau 1
 
         stop = rejouer();
-
     }
 
     return 0;
