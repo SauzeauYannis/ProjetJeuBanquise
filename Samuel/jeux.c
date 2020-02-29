@@ -88,7 +88,7 @@ void ajouteJoueurs(T_jeu *jeu)
 {
     int nbJoueurs = 0;                                 //Declare le nombre de joueurs
 
-    while (nbJoueurs < 1 || nbJoueurs > 4)             //Verifie que l'utilisateur rentre un chiffre entre 1 et 4
+    while (nbJoueurs != 1 && nbJoueurs != 2 && nbJoueurs != 3 && nbJoueurs != 4)             //Verifie que l'utilisateur rentre un chiffre entre 1 et 4
     {
         printf("Nombre de joueurs (entre 1 et 4) : "); //Demande de rentrer un chiffre
         scanf("%d", &nbJoueurs);                       //Recupere le chiffre rentre
@@ -213,7 +213,7 @@ int victoire(T_jeu *jeu, int caseVal, int i)
     if (caseVal == 3)                                                              //Valeur de l'entier correspondant à l'arrivée
     {
         jeu->joueurs[i]->etat = 1;                                                 //Change l'etat de ce joueur pour le designer en tant que gagnant
-        printf("La partie est finie ! %s est victorieu !", jeu->joueurs[i]->nom);  //Affiche que la partie est finie, ainsi que le nom du gagnant
+        printf("La partie est finie ! %s est victorieux !", jeu->joueurs[i]->nom);  //Affiche que la partie est finie, ainsi que le nom du gagnant
         Sleep(3000);                                                               //Attend 3s avant de passer à l'instruction suivante
         return 1;                                                                  //Retourne l'entier 1 pour signaler une victoire
     }
@@ -318,4 +318,11 @@ void deplacementGlacon(T_jeu *jeu, T_glacon *glacon)
 
     modifieCaseBanquise(jeu->banquise, posx, posy, 0);                              //Modifie la valeur de l'ancienne position du glaçon sur la banquise
     modifieCaseBanquise(jeu->banquise, glacon->position.x, glacon->position.y, 4);  //Modifie la valeur de l'ancienne position du glaçon sur la banquise
+}
+
+
+//Fonction qui gère la collision d'un glaçon contre un mur ou un objet
+void collisionMur(T_jeu *jeu, T_glacon *glacon)
+{
+
 }

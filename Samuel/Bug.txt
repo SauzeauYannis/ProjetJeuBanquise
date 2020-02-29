@@ -3,7 +3,6 @@
 Important :
 
 -Le jeu plante quand le joueur sort de la banquise (par le haut et le bas)
--Lors de la demande de rejouer, si le joueur appui sur ENTREE alors qu'il n'a rien mis, alors une boucle infinie se déclenche
 
 Secondaire :
 
