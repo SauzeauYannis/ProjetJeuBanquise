@@ -1,5 +1,6 @@
 #include "banquise.h"
 #include "joueur.h"
+#include "glacon.h"
 
 /***** Structures *****/
 
@@ -60,3 +61,11 @@ void joueNiveau(T_jeu *jeu);
 
 //Fonction qui renvoie un entier qui permet de rejouer une partie
 int rejouer();
+
+
+//Ajoute un glaçon sur la banquise
+void ajouteGlacon(T_jeu *jeu, T_glacon *glacon);
+
+
+//Actualise la postion d'un glaçon sur la banquise à chaque tour
+void deplacementGlacon(T_jeu *jeu, T_glacon *glacon);

@@ -278,21 +278,14 @@ void joueNiveau(T_jeu *jeu)
 int rejouer()
 {
     char c;  //Enregistre la valeur saisie par l'utilisateur
-    int stop = 0;
     printf("\nVoulez vous rejouer ? (Tapez \"y\" pour oui ou \"n\" pour non) : "); //Permet au joueur de relancer une partie
     c = getchar();
     c = getchar();
 
-    while(stop == 0)
+    while (c != 'n' && c != 'y')
     {
-        if (c != 'n' && c != 'y')
-        {
-            printf("\nChoix inconnue ! Veuillez reessayer : ");
-        }
-        else
-        {
-            stop = 1;
-        }
+        printf("\nChoix inconnue ! Veuillez reessayer : ");
+        c = getchar();
     }
 
     if (c == 'y')
@@ -303,4 +296,26 @@ int rejouer()
     {
         return 1;
     }
+}
+
+
+
+//Ajoute un glaçon sur la banquise
+void ajouteGlacon(T_jeu *jeu, T_glacon *glacon)
+{
+    int posx = glacon->position.x, posy = glacon->position.y;  //Variable qui enregistre la position du glaçon
+    modifieCaseBanquise(jeu->banquise, posx, posy, 4);         //Ajoute le glaçon sur la banquise
+}
+
+
+//Actualise la postion d'un glaçon sur la banquise à chaque tour
+void deplacementGlacon(T_jeu *jeu, T_glacon *glacon)
+{
+    int posx = glacon->position.x, posy = glacon->position.y;                  //Variables qui enregistrent la position du glaçon
+    int dx = glacon->vecteur.dx, dy = glacon->vecteur.dy;                      //Variables qui enregistrent le vecteur du glacon
+
+    glacon->position.x += dx, glacon->position.y += dy;                        //Modifie la position du glacon en fonction de son vecteur
+
+    modifieCaseBanquise(jeu->banquise, posx, posy, 0);                              //Modifie la valeur de l'ancienne position du glaçon sur la banquise
+    modifieCaseBanquise(jeu->banquise, glacon->position.x, glacon->position.y, 4);  //Modifie la valeur de l'ancienne position du glaçon sur la banquise
 }
