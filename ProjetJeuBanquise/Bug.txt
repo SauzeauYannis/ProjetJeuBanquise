@@ -2,7 +2,7 @@
 
 Important :
 
--Le jeu plante quand le joueur sort par le haut et part le bas de la banquise
+-Le jeu plante quand le joueur sort de la banquise (par le haut et le bas)
 
 Secondaire :
 
