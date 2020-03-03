@@ -213,7 +213,8 @@ int victoire(T_jeu *jeu, int caseVal, int i)
     if (caseVal == 3)                                                              //Valeur de l'entier correspondant à l'arrivée
     {
         jeu->joueurs[i]->etat = 1;                                                 //Change l'etat de ce joueur pour le designer en tant que gagnant
-        printf("La partie est finie ! %s est victorieux !", jeu->joueurs[i]->nom);  //Affiche que la partie est finie, ainsi que le nom du gagnant
+        printf("La partie est finie ! %s est victorieux !", jeu->joueurs[i]->nom); //Affiche que la partie est finie, ainsi que le nom du gagnant
+        jeu->joueurs[i]->score += 1000;                                            //Le gagnant reçois 1000 point
         Sleep(3000);                                                               //Attend 3s avant de passer à l'instruction suivante
         return 1;                                                                  //Retourne l'entier 1 pour signaler une victoire
     }
