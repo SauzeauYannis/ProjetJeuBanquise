@@ -92,6 +92,7 @@ int verifieDeplacement_bis(int caseX, int caseY, int caseValeur, int taille)
     if (caseX < 0 || caseX >= taille || caseY < 0 || caseY >= taille) return -1;
     else if (caseValeur == 1) return -2;
     else if (caseValeur == 2) return -3;
+    else if (caseValeur == 4) return -3;
     else return 0;                                                                 //Entier de validation sinon
 }
 
