@@ -61,10 +61,6 @@ T_joueur *initJoueur(int numeroJoueur);
 char saisieDeplacement();
 
 
-//Verifie si le deplacement est possible
-int verifieDeplacement_bis(int caseX, int caseY, int caseValeur, int taille);
-
-
 //Retourne un entier en fonction du deplacement du joueur, et modifie la position de celui-ci
 int verifieDeplacement(T_joueur *joueur, int caseX, int caseY, int caseValeur, int taille);
 

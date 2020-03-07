@@ -1,8 +1,8 @@
-Fichier pour détecter les bugs présent dans le jeu :
+﻿Fichier pour détecter les bugs présent dans le jeu :
 
 Important :
 
--Le jeu plante quand le joueur sort de la banquise
+Rien
 
 Secondaire :
 

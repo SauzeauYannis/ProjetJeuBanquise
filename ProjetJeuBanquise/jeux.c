@@ -213,7 +213,8 @@ int victoire(T_jeu *jeu, int caseVal, int i)
     if (caseVal == 3)                                                              //Valeur de l'entier correspondant à l'arrivée
     {
         jeu->joueurs[i]->etat = 1;                                                 //Change l'etat de ce joueur pour le designer en tant que gagnant
-        printf("La partie est finie ! %s est victorieux !", jeu->joueurs[i]->nom);  //Affiche que la partie est finie, ainsi que le nom du gagnant
+        printf("La partie est finie ! %s est victorieux !", jeu->joueurs[i]->nom); //Affiche que la partie est finie, ainsi que le nom du gagnant
+        jeu->joueurs[i]->score += 1000;                                            //Le gagnant reçois 1000 point
         Sleep(3000);                                                               //Attend 3s avant de passer à l'instruction suivante
         return 1;                                                                  //Retourne l'entier 1 pour signaler une victoire
     }
@@ -255,6 +256,10 @@ void joueNiveau(T_jeu *jeu)
     jeu->nombreTour = 1;
     int caseVal, finPartie = 0; //caseVal sert à connaitre la valeur de la case, et finPartie sert à mettre fin à la partie en cours
 
+    T_glacon *glacon = initGlacon(5,0);
+    glacon->vecteur.dy = 1, glacon->vecteur.dx = 0;
+    ajouteGlacon(jeu, glacon);
+
     while(finPartie == 0)
     {
         for(int i = 0; i<jeu->nombreJoueur; i++)    //Boucle for qui permet à chaque joueur de jouer pour un tour
@@ -264,6 +269,7 @@ void joueNiveau(T_jeu *jeu)
             if (caseVal == 3)                       //Permet de réellement stopper le jeu, pour ainsi éviter les joueurs suivant de jouer
                 break;                              //Brise la boucle for
         }
+        deplacementGlacon(jeu, glacon);
         jeu->nombreTour += 1;
     }
     afficheScore(jeu);  //Affiche le score du jeu
@@ -313,16 +319,16 @@ void deplacementGlacon(T_jeu *jeu, T_glacon *glacon)
 {
     int posx = glacon->position.x, posy = glacon->position.y;                  //Variables qui enregistrent la position du glaçon
     int dx = glacon->vecteur.dx, dy = glacon->vecteur.dy;                      //Variables qui enregistrent le vecteur du glacon
+    int verif = verifieDeplacementGlacon(posx+dx, posy+dy, jeu->banquise->tab[posx][posy],jeu->banquise->tailleN);
 
-    glacon->position.x += dx, glacon->position.y += dy;                        //Modifie la position du glacon en fonction de son vecteur
-
-    modifieCaseBanquise(jeu->banquise, posx, posy, 0);                              //Modifie la valeur de l'ancienne position du glaçon sur la banquise
-    modifieCaseBanquise(jeu->banquise, glacon->position.x, glacon->position.y, 4);  //Modifie la valeur de l'ancienne position du glaçon sur la banquise
-}
-
-
-//Fonction qui gère la collision d'un glaçon contre un mur ou un objet
-void collisionMur(T_jeu *jeu, T_glacon *glacon)
-{
-
+    if(verif  < 0)
+    {
+        glacon->position.x += dx, glacon->position.y += dy;                             //Modifie la position du glacon en fonction de son vecteur
+        modifieCaseBanquise(jeu->banquise, posx, posy, 0);                              //Modifie la valeur de l'ancienne position du glaçon sur la banquise
+        modifieCaseBanquise(jeu->banquise, glacon->position.x, glacon->position.y, 4);  //Modifie la valeur de l'ancienne position du glaçon sur la banquise
+    }
+    else
+    {
+        glacon->vecteur.dx = glacon->vecteur.dy = 0;
+    }
 }

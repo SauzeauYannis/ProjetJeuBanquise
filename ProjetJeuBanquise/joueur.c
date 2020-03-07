@@ -86,31 +86,20 @@ char saisieDeplacement(T_joueur *joueur)
 
 
 
-//Retourne un entier en fonction du deplacement du joueur
-int verifieDeplacement_bis(int caseX, int caseY, int caseValeur, int taille)
-{
-    if (caseX < 0 || caseX >= taille || caseY < 0 || caseY >= taille) return -1;
-    else if (caseValeur == 1) return -2;
-    else if (caseValeur == 2) return -3;
-    else return 0;                                                                 //Entier de validation sinon
-}
-
-
-
 //Retourne un entier en fonction du deplacement du joueur, et modifie la position de celui-ci
 int verifieDeplacement(T_joueur *joueur, int caseX, int caseY, int caseValeur, int taille)
 {
-    switch (verifieDeplacement_bis(caseX, caseY, caseValeur, taille))
+    switch (caseValeur)
     {
     case -1:
         printf("\nDeplacement impossible : le joueur est en dehors des limites\n"); //Previens le joueur dans ce cas la
         return -1;                                                                  //Retourne une valeur d'echec pour prevenir la fonction suivante
         break;
-    case -2:
+    case 1:
         printf("\nDeplacement impossible : un autre joueur occupe deja la case\n"); //Previens le joueur dans ce cas la
         return -1;                                                                  //Retourne une valeur d'echec pour prevenir la fonction suivante
         break;
-    case -3:
+    case 2:
         printf("\nDeplacement impossible : le joueur ne peut pas aller sur le spawn\n"); //Previens le joueur dans ce cas la
         return -1;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
         break;
@@ -153,7 +142,12 @@ int deplacementJoueur_bis(T_joueur *joueur, int taille, char deplacement, int **
     x = jx + dx;                  //Positions apres le decalage
     y = jy + dy;
 
-    int caseValeur = tab[x][y];
+    int caseValeur = -1;
+
+    if (x >= 0 && x < taille && y >= 0 && y < taille)
+    {
+       caseValeur = tab[x][y];
+    }
 
     return verifieDeplacement(joueur, x, y, caseValeur, taille);
 }
