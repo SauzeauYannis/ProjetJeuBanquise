@@ -25,7 +25,7 @@ T_banquise *initBanquise(int taille)
     banquise->depart.y = 1;
 
     banquise->arrive.x = rand() % (taille + 1);                      //Genere aleatoirement la case d'arrive
-    banquise->arrive.y = (taille / 2) + (rand() % (taille / 2)) + 1;
+    banquise->arrive.y = (taille / 2) + (rand() % (taille / 2));
 
     return banquise;                                                 //Retourne le pointeur de type banquise
 }
