@@ -21,7 +21,7 @@ T_banquise *initBanquise(int taille)
     banquise->tab = banquiseTab;                                     //Met la matrice dans le pointeur banquise
     banquise->tailleN = taille;                                      //Met la taille dans le pointeur banquise
 
-    banquise->depart.x = 1 + (rand() % (taille - 1));                  //Genere aleatoirement la case de depart
+    banquise->depart.x = 1 + (rand() % (taille - 2));                  //Genere aleatoirement la case de depart
     banquise->depart.y = 1;
 
     banquise->arrive.x = rand() % (taille + 1);                      //Genere aleatoirement la case d'arrive
