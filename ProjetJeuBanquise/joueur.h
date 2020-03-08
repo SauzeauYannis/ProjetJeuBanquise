@@ -22,7 +22,7 @@ T_couleur choixCouleur();
 
 
 //Initialise un joueur
-T_joueur *initJoueur(int numeroJoueur);
+T_joueur *initJoueur(int numeroJoueur, T_point depart);
 
 
 //Demande au joueur un deplacement

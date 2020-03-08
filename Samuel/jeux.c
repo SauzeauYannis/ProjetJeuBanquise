@@ -100,7 +100,7 @@ void ajouteJoueurs(T_jeu *jeu)
     for (i = 0; i < nbJoueurs; i++)                    //Rentre dans la boucle autant de fois qu'il y a de joueurs
     {
         jeu->joueurs[i] = (T_joueur *)realloc(jeu->joueurs[i], sizeof(T_joueur));                         //Re-alloue de la memoire pour le joueur
-        jeu->joueurs[i] = initJoueur(i);                                                                  //Ajoute un joueur
+        jeu->joueurs[i] = initJoueur(i, jeu->banquise->depart);                                           //Ajoute un joueur
         jeu->nombreJoueur++;                                                                              //Rajoute 1 au nombres de joueurs
 
         modifieCaseBanquise(jeu->banquise, jeu->joueurs[i]->position.x, jeu->joueurs[i]->position.y, 1);  //Ajoute le joueur sur la banquise
