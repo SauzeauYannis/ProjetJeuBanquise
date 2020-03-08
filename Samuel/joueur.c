@@ -46,12 +46,29 @@ T_couleur choixCouleur()
 
 
 //Fonction qui retourne un type joueur selon un numero qui va l'identifier
-T_joueur *initJoueur(int numeroJoueur)
+T_joueur *initJoueur(int numeroJoueur, T_point depart)
 {
     T_joueur *joueur = (T_joueur *)malloc(sizeof(T_joueur));  //Alloue de la memoire au type joueur
     T_point pos;                                              //Declare un type point
-    pos.x = 0;                                                //Met le joueur sur la premiere ligne
-    pos.y = numeroJoueur + 1;                                 //Met le joueur a droite du precedent (en haut a gauche si premier joueur)
+
+    switch (numeroJoueur)
+    {
+    case 0:
+        pos.x = depart.x;
+        pos.y = depart.y + 1;
+        break;
+    case 1:
+        pos.x = depart.x + 1;
+        pos.y = depart.y;
+        break;
+    case 2:
+        pos.x = depart.x;
+        pos.y = depart.y - 1;
+        break;
+    default:
+        pos.x = depart.x - 1;
+        pos.y = depart.y;
+    }
 
     printf("Veuillez choisir un nom pour le joueur numero %d : ", numeroJoueur + 1); //Demande le nom au joueur
     scanf("%s", joueur->nom);                     //Initialise le nom du joueur
