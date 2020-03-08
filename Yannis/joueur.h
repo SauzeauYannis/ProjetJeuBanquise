@@ -1,37 +1,5 @@
 /***** Structures *****/
 
-//Enumeration de differentes couleur
-typedef enum
-{
-    ROUGE,
-    VERT,
-    BLEU,
-    JAUNE,
-    TURQUOISE,
-    ROSE,
-    ERREUR
-} T_couleur;
-
-
-
-//Definition du type point qui represente la case d'une banquise
-typedef struct
-{
-    int x; //Point x = horizontal
-    int y; //Point y = vertical
-} T_point;
-
-
-
-//Definition du type vecteur
-typedef struct
-{
-    int dx; //Vecteur x = deplacement horizontal
-    int dy; //Vecteur y = deplacement vertical
-} T_vecteur;
-
-
-
 //Definition du type joueur
 typedef struct
 {
