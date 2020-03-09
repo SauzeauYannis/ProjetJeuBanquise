@@ -21,10 +21,10 @@ T_banquise *initBanquise(int taille)
     banquise->tab = banquiseTab;                                     //Met la matrice dans le pointeur banquise
     banquise->tailleN = taille;                                      //Met la taille dans le pointeur banquise
 
-    banquise->depart.x = 1 + (rand() % (taille - 2));                  //Genere aleatoirement la case de depart
+    banquise->depart.x = 1 + (rand() % (taille - 2));                //Genere aleatoirement la case de depart
     banquise->depart.y = 1;
 
-    banquise->arrive.x = rand() % (taille + 1);                      //Genere aleatoirement la case d'arrive
+    banquise->arrive.x = rand() % (taille);                          //Genere aleatoirement la case d'arrive
     banquise->arrive.y = (taille / 2) + (rand() % (taille / 2));
 
     return banquise;                                                 //Retourne le pointeur de type banquise
@@ -33,7 +33,7 @@ T_banquise *initBanquise(int taille)
 
 
 //Remplit le tableau du pointeur de type banquise avec la valeur donnee en parametre
-void remplitBanquise(T_banquise *banquise, int valeur)
+void remplitBanquise(T_banquise *banquise, T_case valeur)
 {
     int taille = banquise->tailleN;       //Recupere la taille de la banquise
     int i, j;                             //Declare deux entier pour les boucles for
@@ -50,7 +50,7 @@ void remplitBanquise(T_banquise *banquise, int valeur)
 
 
 //Change une case de la banquise selon la valeur indiquee a l'emplacement donne
-void modifieCaseBanquise(T_banquise *banquise, int caseX, int caseY, int valeur)
+void modifieCaseBanquise(T_banquise *banquise, int caseX, int caseY, T_case valeur)
 {
     banquise->tab[caseX][caseY] = valeur; //Met la valeur a l'emplcamenent donne en parametre
 }
@@ -60,6 +60,6 @@ void modifieCaseBanquise(T_banquise *banquise, int caseX, int caseY, int valeur)
 //Change la matrice de la banquise en y ajoutant les cases d'arrive et de depart
 void ajouteDepartArrive(T_banquise *banquise)
 {
-    modifieCaseBanquise(banquise, banquise->depart.x, banquise->depart.y, 2);  //Modifie la case de depart
-    modifieCaseBanquise(banquise, banquise->arrive.x, banquise->arrive.y, 3);  //Modifie la case d'arrive
+    modifieCaseBanquise(banquise, banquise->depart.x, banquise->depart.y, DEPART);  //Modifie la case de depart
+    modifieCaseBanquise(banquise, banquise->arrive.x, banquise->arrive.y, ARRIVE);  //Modifie la case d'arrive
 }

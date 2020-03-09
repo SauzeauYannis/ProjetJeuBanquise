@@ -3,8 +3,8 @@
 //Definition du type banquise
 typedef struct
 {
-    int **tab;      //Matrice represantant la banquise
-    int tailleN;    //Taille de la matrice (carree)
+    int **tab;    //Matrice represantant la banquise
+    int tailleN;     //Taille de la matrice (carree)
     T_point depart;  //Case depart
     T_point arrive;  //Case arrive
 } T_banquise;
@@ -19,11 +19,11 @@ T_banquise *initBanquise(int taille);
 
 
 //Remplit la banquise avec une valeur donnee
-void remplitBanquise(T_banquise *banquise, int valeur);
+void remplitBanquise(T_banquise *banquise, T_case valeur);
 
 
 //Modifie une case de la banquise
-void modifieCaseBanquise(T_banquise *banquise, int caseX, int caseY, int valeur);
+void modifieCaseBanquise(T_banquise *banquise, int caseX, int caseY, T_case valeur);
 
 
 //Ajoute la case de depart et arrive

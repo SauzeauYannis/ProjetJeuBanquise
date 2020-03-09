@@ -120,6 +120,10 @@ int verifieDeplacement(T_joueur *joueur, int caseX, int caseY, int caseValeur, i
         printf("\nDeplacement impossible : le joueur ne peut pas aller sur le spawn\n"); //Previens le joueur dans ce cas la
         return -1;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
         break;
+    case 4:
+        printf("\n%s pousse un glacon !\n", joueur->nom); //Previens le joueur dans ce cas la
+        return -1;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
+        break;
     default :
         joueur->position.x = caseX;   //Affectation de sa nouvelle position
         joueur->position.y = caseY;

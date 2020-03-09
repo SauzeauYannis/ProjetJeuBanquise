@@ -1,5 +1,14 @@
 /***** Structures *****/
 
+typedef enum
+{
+    GLACE,
+    JOUEUR,
+    DEPART,
+    ARRIVE,
+    GLACON
+} T_case;
+
 //Enumeration de differentes couleur
 typedef enum
 {
@@ -68,7 +77,7 @@ void afficheJeu(T_jeu *jeu);
 
 
 //Fonction qui met un zero sur (l'ancienne) position du joueur mis en paramettre
-void rafraicheBanquise(T_jeu *jeu, T_joueur *joueur, int val);
+void rafraicheBanquise(T_jeu *jeu, T_joueur *joueur, T_case val);
 
 
 //Fonction qui s'occupe d'effectuer le tour d'un joueur
@@ -93,7 +102,3 @@ int rejouer();
 
 //Ajoute un glaçon sur la banquise
 void ajouteGlacon(T_jeu *jeu, T_glacon *glacon);
-
-
-//Actualise la postion d'un glaçon sur la banquise à chaque tour
-void deplacementGlacon(T_jeu *jeu, T_glacon *glacon);
