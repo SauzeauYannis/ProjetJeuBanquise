@@ -6,7 +6,8 @@ typedef enum
     JOUEUR,
     DEPART,
     ARRIVE,
-    GLACON
+    GLACON,
+    EAU
 } T_case;
 
 //Enumeration de differentes couleur
@@ -18,7 +19,8 @@ typedef enum
     JAUNE,
     TURQUOISE,
     ROSE,
-    ERREUR
+    GRIS,
+    BLANC
 } T_couleur;
 
 

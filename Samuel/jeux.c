@@ -76,6 +76,9 @@ void changeCouleurTexte(T_couleur couleur)
     case 5 :
         SetConsoleTextAttribute(console, 13);
         break;
+    case 6 :
+        SetConsoleTextAttribute(console, 8);
+        break;
     default :
         SetConsoleTextAttribute(console, 15);
     }
@@ -122,7 +125,7 @@ T_jeu *initJeux(int niveau, int taille)
     jeu->nombreTour = 0;                                       //Initialise le nombre de tour
     jeu->IdJeu = niveau;                                       //Initialise le niveau
 
-    remplitBanquise(jeu->banquise, GLACE);                     //Remplit la banquise de 0
+    remplitBanquise(jeu->banquise, GLACE, 2);                  //Remplit la banquise de 0
     ajouteDepartArrive(jeu->banquise);                         //Ajoute les cases de depart et d'arrive
     ajouteJoueurs(jeu);                                        //Ajoute les joueurs
 
@@ -135,7 +138,7 @@ T_jeu *initJeux(int niveau, int taille)
 void afficheJeu(T_jeu *jeu)
 {
     int taille = jeu->banquise->tailleN;        //Recupere la taille de la banquise
-    int i, j;                                   //Declare deux entier pour les boucles for
+    int i, j;                                   //Declare deux entiers pour les boucles for
 
     for (i = 0; i < taille; i++)                //Boucle qui parcourt les lignes de la matrice
     {
@@ -156,19 +159,24 @@ void afficheJeu(T_jeu *jeu)
                     {
                         changeCouleurTexte(joueur->couleur);                 //Change la couleur du texte selon celle du joueur
                         printf("%d ", pos);                                  //Affiche le joueur avec sa couleur
-                        changeCouleurTexte(ERREUR);                          //Remet la couleur en blanc
+                        changeCouleurTexte(BLANC);                           //Remet la couleur en blanc
                     }
                 }
                 break;
             case 2 :
-                changeCouleurTexte(TURQUOISE);  //Change la couleur en turquoise pour le depart
+                changeCouleurTexte(GRIS);       //Change la couleur en gris pour le depart
                 printf("%d ", pos);             //Affiche la case de depart
-                changeCouleurTexte(ERREUR);     //Remet la couleur initiale
+                changeCouleurTexte(BLANC);      //Remet la couleur initiale
                 break;
             case 3 :
                 changeCouleurTexte(ROSE);       //Change la couleur en rose pour l'arrive
                 printf("%d ", pos);             //Affiche la case d'arrive
-                changeCouleurTexte(ERREUR);     //Remet la couleur initiale
+                changeCouleurTexte(BLANC);      //Remet la couleur initiale
+                break;
+            case 5 :
+                changeCouleurTexte(TURQUOISE);  //Change la couleur en turquoise pour l'eau
+                printf("%d ", pos);             //Affiche la case d'eau
+                changeCouleurTexte(BLANC);      //Remet la couleur initiale
                 break;
             default :
                 printf("%d ", pos);             //Affiche la case de la matrice qui se trouve a la ligne i et la colonne j
@@ -259,7 +267,7 @@ void joueNiveau(T_jeu *jeu)
     int i;
 
     T_glacon *glacon = initGlacon(5,5);
-    glacon->vecteur.dy = 0, glacon->vecteur.dx = 0;
+    glacon->vecteur.dy = 0, glacon->vecteur.dx = 1;
     ajouteGlacon(jeu, glacon);
 
     while(finPartie == 0)
@@ -307,7 +315,6 @@ int rejouer()
         return 1;
     }
 }
-
 
 
 //Ajoute un glaçon sur la banquise

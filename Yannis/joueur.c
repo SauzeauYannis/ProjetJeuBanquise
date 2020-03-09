@@ -39,7 +39,7 @@ T_couleur choixCouleur()
         return JAUNE;
         break;
     default :
-        return ERREUR;
+        return BLANC;
     }
 }
 
@@ -87,10 +87,13 @@ T_joueur *initJoueur(int numeroJoueur, T_point depart)
 //Retourne une lettre du clavier qui correspond a un deplacement
 char saisieDeplacement(T_joueur *joueur)
 {
-    char clavier = getchar();                    //Declare un caractere et l'initialise pour eviter un bug que nous comprenons pas
+    char clavier = getchar();               //Declare un caractere et l'initialise pour eviter un bug que nous comprenons pas
 
-    printf("%s deplacez vous : ", joueur->nom);  //Demande au joueur ou il veut se deplacer
-    scanf("%c", &clavier);                       //Recupere la touche qui a ete frappe
+    changeCouleurTexte(joueur->couleur);    //Change la couleur selon la couleur choisi par le joueur
+    printf("%s", joueur->nom);              //Affiche le nom du joueur choisi
+    changeCouleurTexte(BLANC);              //Remet la couleur blanche
+    printf(" deplacez vous : ");            //Demande au joueur ou il veut se deplacer
+    scanf("%c", &clavier);                  //Recupere la touche qui a ete frappe
 
     while (clavier != 'z' && clavier != 'q' && clavier != 's' && clavier != 'd')           //Boucle qui fini quand l'utilisateur a rentree une bonne touche
     {

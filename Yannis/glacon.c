@@ -41,9 +41,57 @@ int verifieVecteurGlacon(T_glacon *glacon)
 
 
 //Fonction qui vérifie si le glaçon touche  un rebord ou non
-int verifieDeplacementGlacon(int caseX, int caseY,int caseValeur, int taille)
+int verifieDeplacementGlacon(int caseX, int caseY, int caseValeur, int taille)
 {
-    if (caseX < 0 || caseX >= taille || caseY < 0 || caseY >= taille) return -1;
-    else if(caseValeur != 0) return -1;
-    else return 0;         //Entier de validation sinon
+    switch (caseValeur)
+    {
+    case -1:
+        return -1;                                                                  //Retourne une valeur d'echec pour prevenir la fonction suivante
+        break;
+    case 1:
+        return 1;                                                                   //Retourne une valeur pour dire que le glaçon touche un joueur
+        break;
+    case 2:
+        return -1;                                                                  //Retourne une valeur d'echec pour prevenir la fonction suivante
+        break;
+    case 3:
+        return -1;                                                                  //Retourne une valeur d'echec pour prevenir la fonction suivante
+        break;
+    default :
+        return 0;                                                                   //Entier de validation
+    }
+}
+
+
+//Fonction qui se charge de déplacer le glaçon en paramettre
+int deplacementGlacon(T_glacon *glacon, int taille, int **tab)
+{
+    int posx = glacon->position.x, posy = glacon->position.y;          //Position du glaçon avant son déplacement
+    int x = posx + glacon->vecteur.dx, y = posy + glacon->vecteur.dy;  //Position vers laquelle le glaçon se déplace
+    int caseValeur, verif;
+
+    if(x < 0 || x >= taille || y < 0 || y >= taille)                   //Vérifie si le glaçon se déplace en dehors du cadre
+    {
+        caseValeur = -1;
+    }
+    else
+    {
+        caseValeur = tab[x][y];
+    }
+
+    verif = verifieDeplacementGlacon(x, y, caseValeur, taille);
+
+    switch(verif)
+    {
+        case -1 :
+            glacon->vecteur.dx = glacon->vecteur.dy = 0;
+            return 0;
+            break;
+        case 1 :
+            return 1;
+            break;
+        default :
+            glacon->position.x = x, glacon->position.y = y;
+            return 0;
+    }
 }

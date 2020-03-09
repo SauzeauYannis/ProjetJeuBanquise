@@ -23,4 +23,8 @@ int verifieVecteurGlacon(T_glacon *glacon);
 
 
 //Fonction qui vérifie si le glaçon touche  un rebord ou non
-int verifieDeplacementGlacon(int caseX, int caseY,int caseValeur, int taille);
+int verifieDeplacementGlacon(int caseX, int caseY, int caseValeur, int taille);
+
+
+//Fonction qui se charge de déplacer le glaçon en paramettre
+int deplacementGlacon(T_glacon *glacon, int taille, int **tab);
