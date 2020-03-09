@@ -5,15 +5,22 @@
 
 int main()
 {
-    afficheMenu();                                 //Affiche le menu du jeu
+    int stop;
 
-    T_jeu *jeuN1 = initJeux(1, 10);                //Creer le niveau
+    afficheMenu();                                     //Affiche le menu du jeu
 
-    joueNiveau(jeuN1);                             //Joue le niveau selectionné
+    while(stop == 0)
+    {
+        stop = 0;                                      //Permet d'éviter un bug lorsqu'on relance une partie et qu'elle se finie
+        system("cls");
+        T_jeu *jeuN1 = initJeux(1,10);                 //Creer le niveau
 
-    free(jeuN1);                                   //Libère l'espace prit par le niveau 1
+        joueNiveau(jeuN1);                             //Joue le niveau selectionné
 
-    printf("\nOK");                                //Pour tester ou debugger
+        free(jeuN1);                                   //Libère l'espace prit par le niveau 1
+
+        stop = rejouer();
+    }
 
     return 0;
 }

@@ -2,7 +2,7 @@
 
 Important :
 
--Le jeu plante quand le joueur sort de la banquise (par le haut et le bas)
+-Quand le glaçon passe sur la case du spanw, celle-ci disparaît
 
 Secondaire :
 

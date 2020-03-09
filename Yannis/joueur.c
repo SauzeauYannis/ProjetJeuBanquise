@@ -43,13 +43,32 @@ T_couleur choixCouleur()
     }
 }
 
+
+
 //Fonction qui retourne un type joueur selon un numero qui va l'identifier
-T_joueur *initJoueur(int numeroJoueur)
+T_joueur *initJoueur(int numeroJoueur, T_point depart)
 {
     T_joueur *joueur = (T_joueur *)malloc(sizeof(T_joueur));  //Alloue de la memoire au type joueur
     T_point pos;                                              //Declare un type point
-    pos.x = 0;                                                //Met le joueur sur la premiere ligne
-    pos.y = numeroJoueur + 1;                                 //Met le joueur a droite du precedent (en haut a gauche si premier joueur)
+
+    switch (numeroJoueur)
+    {
+    case 0:
+        pos.x = depart.x;
+        pos.y = depart.y + 1;
+        break;
+    case 1:
+        pos.x = depart.x + 1;
+        pos.y = depart.y;
+        break;
+    case 2:
+        pos.x = depart.x;
+        pos.y = depart.y - 1;
+        break;
+    default:
+        pos.x = depart.x - 1;
+        pos.y = depart.y;
+    }
 
     printf("Veuillez choisir un nom pour le joueur numero %d : ", numeroJoueur + 1); //Demande le nom au joueur
     scanf("%s", joueur->nom);                     //Initialise le nom du joueur
@@ -58,9 +77,12 @@ T_joueur *initJoueur(int numeroJoueur)
     joueur->position = pos;                       //Initialise la position du joueur
     joueur->vecteur.dx = joueur->vecteur.dy = 0;  //Initialise le veteur deplacement du joueur
     joueur->score = 0;
+    joueur->etat = 0;                             //Initialise l'etat du joueur
 
     return joueur;                                //Retourne un pointeur de type joueur
 }
+
+
 
 //Retourne une lettre du clavier qui correspond a un deplacement
 char saisieDeplacement(T_joueur *joueur)
@@ -79,15 +101,36 @@ char saisieDeplacement(T_joueur *joueur)
     return clavier;                              //Retourne la bonne touche
 }
 
-//Retourne un entier en fonction du deplacement du joueur
-int verifieDeplacement(int caseX, int caseY, int caseValeur, int taille)
+
+
+//Retourne un entier en fonction du deplacement du joueur, et modifie la position de celui-ci
+int verifieDeplacement(T_joueur *joueur, int caseX, int caseY, int caseValeur, int taille)
 {
-    if (caseX < 0 || caseX >= taille || caseY < 0 || caseY >= taille || caseValeur != 0) return -1;  //Entier d'erreur si le joueur sort du jeu ou ne marche pas sur la banquise
-    else return 0;                                                                                   //Entier de validation sinon
+    switch (caseValeur)
+    {
+    case -1:
+        printf("\nDeplacement impossible : le joueur est en dehors des limites\n"); //Previens le joueur dans ce cas la
+        return -1;                                                                  //Retourne une valeur d'echec pour prevenir la fonction suivante
+        break;
+    case 1:
+        printf("\nDeplacement impossible : un autre joueur occupe deja la case\n"); //Previens le joueur dans ce cas la
+        return -1;                                                                  //Retourne une valeur d'echec pour prevenir la fonction suivante
+        break;
+    case 2:
+        printf("\nDeplacement impossible : le joueur ne peut pas aller sur le spawn\n"); //Previens le joueur dans ce cas la
+        return -1;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
+        break;
+    default :
+        joueur->position.x = caseX;   //Affectation de sa nouvelle position
+        joueur->position.y = caseY;
+        return 0;                     //Retourne une valeur de succes pour la fonction suivante
+    }
 }
 
+
+
 //Fonction qui s'occupe du déplacement du personnage en fonction de ses paramettres, et renvoie un entier en fonction du déplacement
-int deplacementJoeur_bis(T_joueur *joueur, int taille, char deplacement, int **tab)
+int deplacementJoueur_bis(T_joueur *joueur, int taille, char deplacement, int **tab)
 {
     int jx = joueur->position.x,  //Recupere la position du joueur
         jy = joueur->position.y,
@@ -116,34 +159,33 @@ int deplacementJoeur_bis(T_joueur *joueur, int taille, char deplacement, int **t
     x = jx + dx;                  //Positions apres le decalage
     y = jy + dy;
 
-    int caseValeur = tab[x][y];
+    int caseValeur = -1;
 
-    if (verifieDeplacement(x, y, caseValeur, taille) == -1)    //Verifie que le joueur ne sort pas de la banquise
+    if (x >= 0 && x < taille && y >= 0 && y < taille)
     {
-        printf("\nDeplacement impossible\n");  //Previens le joueur dans ce cas la
-        return -1;                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
+       caseValeur = tab[x][y];
     }
-    else                          //Si le joueur est bien dans le jeu apres le decalage
-    {
-        joueur->position.x = x;   //Affectation de sa nouvelle position
-        joueur->position.y = y;
-        return 0;                 //Retourne une valeur de succes pour la fonction suivante
-    }
+
+    return verifieDeplacement(joueur, x, y, caseValeur, taille);
 }
+
+
 
 //Fonction qui permet le déplacement du personnage
 void deplacementJoueur(T_joueur *joueur, int taille, int **tab)
 {
     char clavier = saisieDeplacement(joueur);                     //Recupere la bonne touche saisie par le joueur
 
-    int correct = deplacementJoeur_bis(joueur, taille, clavier, tab);  //Stocke la valeur de la fonction precedente
+    int correct = deplacementJoueur_bis(joueur, taille, clavier, tab);  //Stocke la valeur de la fonction precedente
 
     while (correct == -1)                                         //Si la valeur est une valeur d'echec
     {
         clavier = saisieDeplacement(joueur);                      //On re-recupere la bonne touche saisie par le joueur
-        correct = deplacementJoeur_bis(joueur, taille, clavier, tab);  //On re-stocke la valeur de la fonction precedente
+        correct = deplacementJoueur_bis(joueur, taille, clavier, tab);  //On re-stocke la valeur de la fonction precedente
     }
 }
+
+
 
 //Fonction test
 void affichePositionJoueur(T_joueur *joueur)

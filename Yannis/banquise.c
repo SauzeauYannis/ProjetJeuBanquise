@@ -1,10 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "time.h"
 #include "jeux.h"
 
 //Retourne un pointeur de type banquise initialisé avec une taille en parametre
 T_banquise *initBanquise(int taille)
 {
+    srand(time(NULL));
+
     T_banquise *banquise = (T_banquise *)malloc(sizeof(T_banquise)); //Alloue de la memoire pour retourner un pointeur de type banquise
 
     int **banquiseTab;                                               //Declare la matrice qui va representer la banquise
@@ -17,11 +20,17 @@ T_banquise *initBanquise(int taille)
 
     banquise->tab = banquiseTab;                                     //Met la matrice dans le pointeur banquise
     banquise->tailleN = taille;                                      //Met la taille dans le pointeur banquise
-    banquise->depart.caseX = banquise->depart.caseY = 0;             //Met la case du depart en haut a gauche
-    banquise->arrive.caseX = banquise->arrive.caseY = taille - 1;    //Met la case d'arrive en bas a droite
+
+    banquise->depart.x = 1 + (rand() % (taille - 2));                  //Genere aleatoirement la case de depart
+    banquise->depart.y = 1;
+
+    banquise->arrive.x = rand() % (taille + 1);                      //Genere aleatoirement la case d'arrive
+    banquise->arrive.y = (taille / 2) + (rand() % (taille / 2));
 
     return banquise;                                                 //Retourne le pointeur de type banquise
 }
+
+
 
 //Remplit le tableau du pointeur de type banquise avec la valeur donnee en parametre
 void remplitBanquise(T_banquise *banquise, int valeur)
@@ -38,15 +47,19 @@ void remplitBanquise(T_banquise *banquise, int valeur)
     }
 }
 
+
+
 //Change une case de la banquise selon la valeur indiquee a l'emplacement donne
 void modifieCaseBanquise(T_banquise *banquise, int caseX, int caseY, int valeur)
 {
     banquise->tab[caseX][caseY] = valeur; //Met la valeur a l'emplcamenent donne en parametre
 }
 
+
+
 //Change la matrice de la banquise en y ajoutant les cases d'arrive et de depart
 void ajouteDepartArrive(T_banquise *banquise)
 {
-    modifieCaseBanquise(banquise, banquise->depart.caseX, banquise->depart.caseY, 2);  //Modifie la case de depart
-    modifieCaseBanquise(banquise, banquise->arrive.caseX, banquise->arrive.caseY, 3);  //Modifie la case d'arrive
+    modifieCaseBanquise(banquise, banquise->depart.x, banquise->depart.y, 2);  //Modifie la case de depart
+    modifieCaseBanquise(banquise, banquise->arrive.x, banquise->arrive.y, 3);  //Modifie la case d'arrive
 }

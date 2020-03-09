@@ -46,12 +46,29 @@ T_couleur choixCouleur()
 
 
 //Fonction qui retourne un type joueur selon un numero qui va l'identifier
-T_joueur *initJoueur(int numeroJoueur)
+T_joueur *initJoueur(int numeroJoueur, T_point depart)
 {
     T_joueur *joueur = (T_joueur *)malloc(sizeof(T_joueur));  //Alloue de la memoire au type joueur
     T_point pos;                                              //Declare un type point
-    pos.x = 0;                                                //Met le joueur sur la premiere ligne
-    pos.y = numeroJoueur + 1;                                 //Met le joueur a droite du precedent (en haut a gauche si premier joueur)
+
+    switch (numeroJoueur)
+    {
+    case 0:
+        pos.x = depart.x;
+        pos.y = depart.y + 1;
+        break;
+    case 1:
+        pos.x = depart.x + 1;
+        pos.y = depart.y;
+        break;
+    case 2:
+        pos.x = depart.x;
+        pos.y = depart.y - 1;
+        break;
+    default:
+        pos.x = depart.x - 1;
+        pos.y = depart.y;
+    }
 
     printf("Veuillez choisir un nom pour le joueur numero %d : ", numeroJoueur + 1); //Demande le nom au joueur
     scanf("%s", joueur->nom);                     //Initialise le nom du joueur
@@ -86,32 +103,20 @@ char saisieDeplacement(T_joueur *joueur)
 
 
 
-//Retourne un entier en fonction du deplacement du joueur
-int verifieDeplacement_bis(int caseX, int caseY, int caseValeur, int taille)
-{
-    if (caseX < 0 || caseX >= taille || caseY < 0 || caseY >= taille) return -1;
-    else if (caseValeur == 1) return -2;
-    else if (caseValeur == 2) return -3;
-    else if (caseValeur == 4) return -3;
-    else return 0;                                                                 //Entier de validation sinon
-}
-
-
-
 //Retourne un entier en fonction du deplacement du joueur, et modifie la position de celui-ci
 int verifieDeplacement(T_joueur *joueur, int caseX, int caseY, int caseValeur, int taille)
 {
-    switch (verifieDeplacement_bis(caseX, caseY, caseValeur, taille))
+    switch (caseValeur)
     {
     case -1:
         printf("\nDeplacement impossible : le joueur est en dehors des limites\n"); //Previens le joueur dans ce cas la
         return -1;                                                                  //Retourne une valeur d'echec pour prevenir la fonction suivante
         break;
-    case -2:
+    case 1:
         printf("\nDeplacement impossible : un autre joueur occupe deja la case\n"); //Previens le joueur dans ce cas la
         return -1;                                                                  //Retourne une valeur d'echec pour prevenir la fonction suivante
         break;
-    case -3:
+    case 2:
         printf("\nDeplacement impossible : le joueur ne peut pas aller sur le spawn\n"); //Previens le joueur dans ce cas la
         return -1;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
         break;
@@ -154,7 +159,12 @@ int deplacementJoueur_bis(T_joueur *joueur, int taille, char deplacement, int **
     x = jx + dx;                  //Positions apres le decalage
     y = jy + dy;
 
-    int caseValeur = tab[x][y];
+    int caseValeur = -1;
+
+    if (x >= 0 && x < taille && y >= 0 && y < taille)
+    {
+       caseValeur = tab[x][y];
+    }
 
     return verifieDeplacement(joueur, x, y, caseValeur, taille);
 }

@@ -21,10 +21,7 @@ T_glacon *initGlacon(int caseX, int caseY)
 }
 
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 1f32d699bab69a0c6b9c0255e17a453032ea1b06
 //Fonction qui vérifie que le vecteur du glaçon est valide : HAUT BAS GAUCHE DROITE
 int verifieVecteurGlacon(T_glacon *glacon)
 {
@@ -40,8 +37,6 @@ int verifieVecteurGlacon(T_glacon *glacon)
         return 0;
     }
 }
-<<<<<<< HEAD
-=======
 
 
 
@@ -52,4 +47,3 @@ int verifieDeplacementGlacon(int caseX, int caseY,int caseValeur, int taille)
     else if(caseValeur != 0) return -1;
     else return 0;         //Entier de validation sinon
 }
->>>>>>> 1f32d699bab69a0c6b9c0255e17a453032ea1b06
