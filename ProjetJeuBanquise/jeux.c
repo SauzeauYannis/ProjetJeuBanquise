@@ -125,8 +125,7 @@ T_jeu *initJeux(int niveau, int taille)
     jeu->nombreTour = 0;                                       //Initialise le nombre de tour
     jeu->IdJeu = niveau;                                       //Initialise le niveau
 
-    remplitBanquise(jeu->banquise, GLACE, 2);                  //Remplit la banquise de 0
-    ajouteDepartArrive(jeu->banquise);                         //Ajoute les cases de depart et d'arrive
+    remplitBanquise(jeu->banquise, GLACE, 2);                  //Remplit la banquise
     ajouteJoueurs(jeu);                                        //Ajoute les joueurs
 
     return jeu;                                                //Retourne le pointeur de type jeu
@@ -202,17 +201,19 @@ int tourJoueur(T_jeu *jeu, int numJoueur)
 {
     int caseValeur;
     int **tab = jeu->banquise->tab;
+    int verifDep;
     system("cls");                                                                           //efface le terminal
     printf("Tour %d\n", jeu->nombreTour);
     afficheJeu(jeu);                                                                         //Affiche la banquise dans le terminal
     rafraicheBanquise(jeu, jeu->joueurs[numJoueur], GLACE);                                  //Met un zero sur la futur ancienne case du joueur sur la banquise
-    deplacementJoueur(jeu->joueurs[numJoueur], jeu->banquise->tailleN, tab);                 //Effectue le déplacement du joueur sur la banquise
+    verifDep = deplacementJoueur(jeu->joueurs[numJoueur], jeu->banquise->tailleN, tab);                 //Effectue le déplacement du joueur sur la banquise
     caseValeur = tab[jeu->joueurs[numJoueur]->position.x][jeu->joueurs[numJoueur]->position.y];
+    if(verifDep == 4)
+        caseValeur = 4;
     printf("\n");
     rafraicheBanquise(jeu, jeu->joueurs[numJoueur], JOUEUR);                                 // Met un 1 sur la nouvelle case du joueur sur la banquise
     return caseValeur;
 }
-
 
 
 //Ressort un entier qui détermine si la partie est finie ou non
@@ -267,7 +268,7 @@ void joueNiveau(T_jeu *jeu)
     int i;
 
     T_glacon *glacon = initGlacon(5,5);
-    glacon->vecteur.dy = 0, glacon->vecteur.dx = 1;
+    glacon->vecteur.dy = 0, glacon->vecteur.dx = 0;
     ajouteGlacon(jeu, glacon);
 
     while(finPartie == 0)
@@ -278,10 +279,9 @@ void joueNiveau(T_jeu *jeu)
             finPartie = victoire(jeu, caseVal, i);  //Donne un entier si la partie est gagnée, ou si elle continue
             if (caseVal == 3)                       //Permet de réellement stopper le jeu, pour ainsi éviter les joueurs suivant de jouer
                 break;                              //Brise la boucle for
+            if (caseVal == 4)
+                joueurPousseGlacon(jeu->joueurs[i], glacon, jeu);
         }
-        modifieCaseBanquise(jeu->banquise, glacon->position.x, glacon->position.y, GLACE);
-        deplacementGlacon(glacon, jeu->banquise->tailleN, jeu->banquise->tab);
-        modifieCaseBanquise(jeu->banquise, glacon->position.x, glacon->position.y, GLACON);
         jeu->nombreTour += 1;
     }
     afficheScore(jeu);  //Affiche le score du jeu
@@ -289,6 +289,7 @@ void joueNiveau(T_jeu *jeu)
     system("cls");
     printf("Merci d'avoir joue !\n");
 }
+
 
 
 
@@ -325,7 +326,33 @@ void ajouteGlacon(T_jeu *jeu, T_glacon *glacon)
 }
 
 
-void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon)
+//S'occupe du déplacement du glaçon après que celui-ci se soit fait pousser par un joueur
+void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu)
 {
+    int Jdx = joueur->vecteur.dx, Jdy = joueur->vecteur.dy;  //Enregistre le vecteur du joueur
+    glacon->vecteur.dx = Jdx, glacon->vecteur.dy = Jdy;      //Transfert le vecteur du joueur au glaçon
+    int Gdx = glacon->vecteur.dx, Gdy = glacon->vecteur.dy;
+    int verifDep, stop = 0;
 
+    while(stop == 0)
+    {
+        verifDep = deplacementGlacon(glacon, jeu->banquise);
+        Sleep(1000);
+        Gdx = glacon->vecteur.dx, Gdy = glacon->vecteur.dy;
+
+        if(Gdx == 0 && Gdy == 0)
+            stop = 1;
+
+        switch(verifDep)
+        {
+            case 2 :
+                modifieCaseBanquise(jeu->banquise, glacon->position.x, glacon->position.y, GLACE);
+                free(glacon);
+                break;
+            default :
+                modifieCaseBanquise(jeu->banquise, glacon->position.x, glacon->position.y, GLACON);
+                system("cls");
+                afficheJeu(jeu);
+        }
+    }
 }

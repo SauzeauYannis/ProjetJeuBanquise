@@ -89,9 +89,9 @@ void changeCouleurTexte(T_couleur couleur)
 //Ajoute entre 1 et 4 joueurs au jeu
 void ajouteJoueurs(T_jeu *jeu)
 {
-    int nbJoueurs = -1;                                 //Declare le nombre de joueurs
+    int nbJoueurs = 0;                                 //Declare le nombre de joueurs
 
-    while (nbJoueurs < 0 || nbJoueurs > 4)  //Verifie que l'utilisateur rentre un chiffre entre 1 et 4
+    while (nbJoueurs != 1 && nbJoueurs != 2 && nbJoueurs != 3 && nbJoueurs != 4)  //Verifie que l'utilisateur rentre un chiffre entre 1 et 4
     {
         printf("Nombre de joueurs (entre 1 et 4) : "); //Demande de rentrer un chiffre
         scanf("%d", &nbJoueurs);                       //Recupere le chiffre rentre
@@ -125,8 +125,7 @@ T_jeu *initJeux(int niveau, int taille)
     jeu->nombreTour = 0;                                       //Initialise le nombre de tour
     jeu->IdJeu = niveau;                                       //Initialise le niveau
 
-    remplitBanquise(jeu->banquise, GLACE, 2);                  //Remplit la banquise de 0
-    ajouteDepartArrive(jeu->banquise);                         //Ajoute les cases de depart et d'arrive
+    remplitBanquise(jeu->banquise, GLACE, 2);                  //Remplit la banquise
     ajouteJoueurs(jeu);                                        //Ajoute les joueurs
 
     return jeu;                                                //Retourne le pointeur de type jeu
@@ -217,7 +216,6 @@ int tourJoueur(T_jeu *jeu, int numJoueur)
 }
 
 
-
 //Ressort un entier qui détermine si la partie est finie ou non
 int victoire(T_jeu *jeu, int caseVal, int i)
 {
@@ -294,6 +292,7 @@ void joueNiveau(T_jeu *jeu)
 
 
 
+
 //Fonction qui renvoie un entier qui permet de rejouer une partie
 int rejouer()
 {
@@ -352,6 +351,8 @@ void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu)
                 break;
             default :
                 modifieCaseBanquise(jeu->banquise, glacon->position.x, glacon->position.y, GLACON);
+                system("cls");
+                afficheJeu(jeu);
         }
     }
 }

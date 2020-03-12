@@ -38,7 +38,7 @@ int deplacementJoueur_bis(T_joueur *joueur, int taille, char deplacement, int **
 
 
 //Applique le deplacement du joueur
-void deplacementJoueur(T_joueur *joueur, int taille, int **tab);
+int deplacementJoueur(T_joueur *joueur, int taille, int **tab);
 
 
 //Fonction test

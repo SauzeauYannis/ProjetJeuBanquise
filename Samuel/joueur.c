@@ -131,7 +131,7 @@ int verifieDeplacement(T_joueur *joueur, int caseX, int caseY, int caseValeur, i
         changeCouleurTexte(joueur->couleur);
         printf("\n%s ", joueur->nom);                                                                //Previens le joueur dans ce cas la
         changeCouleurTexte(BLANC);
-        printf("est tombe dans l'eau ! (fonction qui tue le joueur et le ramène au spawn)\n");
+        printf("est tombe dans l'eau ! (fonction qui tue le joueur et le ramene au spawn)\n");
         return -1;                                                                                  //Retourne une valeur d'echec pour prevenir la fonction suivante
         break;
     default :
@@ -140,7 +140,6 @@ int verifieDeplacement(T_joueur *joueur, int caseX, int caseY, int caseValeur, i
         return 0;                     //Retourne une valeur de succes pour la fonction suivante
     }
 }
-
 
 
 //Fonction qui s'occupe du déplacement du personnage en fonction de ses paramettres, et renvoie un entier en fonction du déplacement
@@ -183,7 +182,6 @@ int deplacementJoueur_bis(T_joueur *joueur, int taille, char deplacement, int **
 
     return verifieDeplacement(joueur, x, y, caseValeur, taille);
 }
-
 
 
 //Fonction qui permet le déplacement du personnage

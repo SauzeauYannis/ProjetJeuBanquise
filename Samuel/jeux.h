@@ -109,3 +109,4 @@ void ajouteGlacon(T_jeu *jeu, T_glacon *glacon);
 
 //S'occupe du déplacement du glaçon après que celui-ci se soit fait pousser par un joueur
 void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu);
+

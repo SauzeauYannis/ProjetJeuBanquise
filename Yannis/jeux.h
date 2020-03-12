@@ -48,6 +48,7 @@ typedef struct
 {
     T_banquise *banquise; //Pointeur sur la banquise
     T_joueur **joueurs;   //Tableau de pointeurs de joueurs
+    T_glacon **glacon;    //Tableau de pointeurs de glaçons
     int nombreJoueur;     //Nombre de joueur présent sur le jeu
     int nombreTour;       //Nombre de tour actuel du jeu
     int IdJeu;            //Identifiant de la partie en cours
@@ -104,3 +105,8 @@ int rejouer();
 
 //Ajoute un glaçon sur la banquise
 void ajouteGlacon(T_jeu *jeu, T_glacon *glacon);
+
+
+//S'occupe du déplacement du glaçon après que celui-ci se soit fait pousser par un joueur
+void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu);
+

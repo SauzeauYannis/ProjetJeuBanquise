@@ -10,7 +10,7 @@ T_glacon *initGlacon(int caseX, int caseY)
     pos.x = caseX;          //Initialise la postion du glaçon via les paramètres
     pos.y = caseY;
     T_vecteur vect;         //Créer le vecteur du glacon
-    vect.dx = 1;
+    vect.dx = 0;
     vect.dy = 0;            //Initialise le vecteur à 0
 
     glacon->position = pos;
@@ -45,20 +45,16 @@ int verifieDeplacementGlacon(int caseX, int caseY, int caseValeur, int taille)
 {
     switch (caseValeur)
     {
-    case -1:
-        return -1;                                                                  //Retourne une valeur d'echec pour prevenir la fonction suivante
+    case -1:                                                                        //Retourne une valeur d'echec pour prevenir la fonction suivante
+    case 2:
+    case 3:
+        return -1;
         break;
     case 1:
         return 1;                                                                   //Retourne une valeur pour dire que le glaçon touche un joueur
         break;
-    case 2:
-        return -1;                                                                  //Retourne une valeur d'echec pour prevenir la fonction suivante
-        break;
-    case 3:
-        return -1;                                                                  //Retourne une valeur d'echec pour prevenir la fonction suivante
-        break;
     case 5:
-        return 2;                                                                  //Retourne une valeur pour indiquer que la glaçon touche de l'eau
+        return 2;                                                                   //Retourne une valeur pour indiquer que la glaçon touche de l'eau
         break;
     default :
         return 0;                                                                   //Entier de validation
@@ -106,4 +102,3 @@ int deplacementGlacon(T_glacon *glacon, T_banquise *banquise)
             return 0;
     }
 }
-
