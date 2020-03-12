@@ -102,11 +102,11 @@ void ajouteJoueurs(T_jeu *jeu)
 
     for (i = 0; i < nbJoueurs; i++)                    //Rentre dans la boucle autant de fois qu'il y a de joueurs
     {
-        jeu->joueurs[i] = (T_joueur *)realloc(jeu->joueurs[i], sizeof(T_joueur));                             //Re-alloue de la memoire pour le joueur
-        jeu->joueurs[i] = initJoueur(i, jeu->banquise->depart);                                               //Ajoute un joueur
-        jeu->nombreJoueur++;                                                                                  //Rajoute 1 au nombres de joueurs
+        jeu->joueurs[i] = (T_joueur *)realloc(jeu->joueurs[i], sizeof(T_joueur));                          //Re-alloue de la memoire pour le joueur
+        jeu->joueurs[i] = initJoueur(i);                                                                   //Ajoute un joueur
+        jeu->nombreJoueur++;                                                                               //Rajoute 1 au nombres de joueurs
 
-        modifieCaseBanquise(jeu->banquise, jeu->joueurs[i]->position.x, jeu->joueurs[i]->position.y, JOUEUR); //Ajoute le joueur sur la banquise
+        spawnJoueur(jeu->banquise, jeu->joueurs[i]);
 
         system("cls");                                 //Nettoie la console
     }
@@ -191,7 +191,15 @@ void afficheJeu(T_jeu *jeu)
 void rafraicheBanquise(T_jeu *jeu, T_joueur *joueur, T_case val)
 {
     int posx = joueur->position.x, posy = joueur->position.y;  //Variables contenant la position du joueur
-    modifieCaseBanquise(jeu->banquise, posx, posy, val);       //Changement de la valeur sur la banquise
+
+    if (val == GLACE)
+    {
+        ajouteCaseGlace(jeu->banquise, posx, posy);
+    }
+    else
+    {
+        enleveCaseGlace(jeu->banquise, posx, posy, JOUEUR);
+    }
 }
 
 
@@ -206,7 +214,7 @@ int tourJoueur(T_jeu *jeu, int numJoueur)
     printf("Tour %d\n", jeu->nombreTour);
     afficheJeu(jeu);                                                                         //Affiche la banquise dans le terminal
     rafraicheBanquise(jeu, jeu->joueurs[numJoueur], GLACE);                                  //Met un zero sur la futur ancienne case du joueur sur la banquise
-    verifDep = deplacementJoueur(jeu->joueurs[numJoueur], jeu->banquise->tailleN, tab);                 //Effectue le déplacement du joueur sur la banquise
+    verifDep = deplacementJoueur(jeu->banquise, jeu->joueurs[numJoueur], jeu->banquise->tailleN, tab);                 //Effectue le déplacement du joueur sur la banquise
     caseValeur = tab[jeu->joueurs[numJoueur]->position.x][jeu->joueurs[numJoueur]->position.y];
     if(verifDep == 4)
         caseValeur = 4;
@@ -322,7 +330,7 @@ int rejouer()
 void ajouteGlacon(T_jeu *jeu, T_glacon *glacon)
 {
     int posx = glacon->position.x, posy = glacon->position.y;  //Variable qui enregistre la position du glaçon
-    modifieCaseBanquise(jeu->banquise, posx, posy, GLACON);    //Ajoute le glaçon sur la banquise
+    enleveCaseGlace(jeu->banquise, posx, posy, GLACON);
 }
 
 
@@ -346,11 +354,11 @@ void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu)
         switch(verifDep)
         {
             case 2 :
-                modifieCaseBanquise(jeu->banquise, glacon->position.x, glacon->position.y, GLACE);
+                ajouteCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y);
                 free(glacon);
                 break;
             default :
-                modifieCaseBanquise(jeu->banquise, glacon->position.x, glacon->position.y, GLACON);
+                enleveCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y, GLACON);
                 system("cls");
                 afficheJeu(jeu);
         }

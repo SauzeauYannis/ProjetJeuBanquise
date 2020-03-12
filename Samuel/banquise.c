@@ -72,14 +72,14 @@ void ajouteDepartArrive(T_banquise *banquise, int tailleEau)
 
     int taille = banquise->tailleN;                                                 //Recupere la taille de la banquise
 
-    banquise->depart.x = 1 + tailleEau + (rand() % (taille - 3 - tailleEau));       //Genere aleatoirement la case de depart
+    banquise->depart.x = 1 + tailleEau + (rand() % (taille - 1 - (tailleEau * tailleEau)));       //Genere aleatoirement la case de depart
     banquise->depart.y = 1 + tailleEau;
 
-    banquise->arrive.x = 1 + tailleEau + (rand() % (taille - 3 - tailleEau));       //Genere aleatoirement la case d'arrive
+    banquise->arrive.x = tailleEau + (rand() % (taille - tailleEau));       //Genere aleatoirement la case d'arrive
     banquise->arrive.y = (taille / 2) + (rand() % (taille / 2)) - tailleEau;
 
-    modifieCaseBanquise(banquise, banquise->depart.x, banquise->depart.y, DEPART);  //Modifie la case de depart
-    modifieCaseBanquise(banquise, banquise->arrive.x, banquise->arrive.y, ARRIVE);  //Modifie la case d'arrive
+    enleveCaseGlace(banquise, banquise->depart.x, banquise->depart.y, DEPART);  //Modifie la case de depart
+    enleveCaseGlace(banquise, banquise->arrive.x, banquise->arrive.y, ARRIVE);  //Modifie la case d'arrive
 }
 
 

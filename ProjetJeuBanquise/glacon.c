@@ -46,14 +46,14 @@ int verifieDeplacementGlacon(int caseX, int caseY, int caseValeur, int taille)
     switch (caseValeur)
     {
     case -1:                                                                        //Retourne une valeur d'echec pour prevenir la fonction suivante
-    case 2:
-    case 3:
+    case DEPART:
+    case ARRIVE:
         return -1;
         break;
-    case 1:
+    case JOUEUR:
         return 1;                                                                   //Retourne une valeur pour dire que le glaçon touche un joueur
         break;
-    case 5:
+    case EAU:
         return 2;                                                                   //Retourne une valeur pour indiquer que la glaçon touche de l'eau
         break;
     default :
