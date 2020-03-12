@@ -123,6 +123,17 @@ int verifieDeplacement(T_joueur *joueur, int caseX, int caseY, int caseValeur, i
         printf("\nDeplacement impossible : le joueur ne peut pas aller sur le spawn\n"); //Previens le joueur dans ce cas la
         return -1;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
         break;
+    case 4:
+        printf("\nDeplacement d'un glacon\n");                                           //Previens le joueur dans ce cas la
+        return -2;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
+        break;
+    case 5:
+        changeCouleurTexte(joueur->couleur);
+        printf("\n%s ", joueur->nom);                                                                //Previens le joueur dans ce cas la
+        changeCouleurTexte(BLANC);
+        printf("est tombe dans l'eau ! (fonction qui tue le joueur et le ramène au spawn)\n");
+        return -1;                                                                                  //Retourne une valeur d'echec pour prevenir la fonction suivante
+        break;
     default :
         joueur->position.x = caseX;   //Affectation de sa nouvelle position
         joueur->position.y = caseY;
@@ -137,30 +148,30 @@ int deplacementJoueur_bis(T_joueur *joueur, int taille, char deplacement, int **
 {
     int jx = joueur->position.x,  //Recupere la position du joueur
         jy = joueur->position.y,
-        dx, dy,                   //Declare 4 entier pour tester le deplacement
-        x, y;
+        x, y;                     //Declare 2 entier pour tester le deplacement
 
-    switch (deplacement)          //Effectue le decalage selon la touche mis en parametre
+    switch (deplacement)          //Effectue le decalage selon la touche mis en parametre et change le vecteur du joueur (utile pour la collision avec un glaçon immobile)
     {
     case 'z' :
-        dx = -1;
-        dy = 0;
+        joueur->vecteur.dx = -1;
+        joueur->vecteur.dy = 0;
         break;
     case 'q' :
-        dx = 0;
-        dy = -1;
+        joueur->vecteur.dx = 0;
+        joueur->vecteur.dy = -1;
         break;
     case 's' :
-        dx = 1;
-        dy = 0;
+        joueur->vecteur.dx = 1;
+        joueur->vecteur.dy = 0;
         break;
     default :
-        dx = 0;
-        dy = 1;
+        joueur->vecteur.dx = 0;
+        joueur->vecteur.dy = 1;
     }
 
-    x = jx + dx;                  //Positions apres le decalage
-    y = jy + dy;
+
+    x = jx + joueur->vecteur.dx;                  //Positions apres le decalage
+    y = jy + joueur->vecteur.dy;
 
     int caseValeur = -1;
 
@@ -169,23 +180,31 @@ int deplacementJoueur_bis(T_joueur *joueur, int taille, char deplacement, int **
        caseValeur = tab[x][y];
     }
 
+
     return verifieDeplacement(joueur, x, y, caseValeur, taille);
 }
 
 
 
 //Fonction qui permet le déplacement du personnage
-void deplacementJoueur(T_joueur *joueur, int taille, int **tab)
+int deplacementJoueur(T_joueur *joueur, int taille, int **tab)
 {
+
     char clavier = saisieDeplacement(joueur);                     //Recupere la bonne touche saisie par le joueur
 
     int correct = deplacementJoueur_bis(joueur, taille, clavier, tab);  //Stocke la valeur de la fonction precedente
+
+    if (correct == -2)
+        return 4;
 
     while (correct == -1)                                         //Si la valeur est une valeur d'echec
     {
         clavier = saisieDeplacement(joueur);                      //On re-recupere la bonne touche saisie par le joueur
         correct = deplacementJoueur_bis(joueur, taille, clavier, tab);  //On re-stocke la valeur de la fonction precedente
     }
+
+    joueur->score -= 10;
+    return 0;
 }
 
 

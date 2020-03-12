@@ -24,31 +24,32 @@
 	"joueur.h"
 	"glacon.h"
 
-1583244032 source:c:\users\sams8\desktop\projet_banquise\samuel\joueur.c
+1584012142 source:c:\users\sams8\desktop\projet_banquise\samuel\joueur.c
 	<stdio.h>
 	<stdlib.h>
 	"jeux.h"
 
-1582280144 c:\users\sams8\desktop\projet_banquise\samuel\banquise.h
+1583866270 c:\users\sams8\desktop\projet_banquise\samuel\banquise.h
 
-1582493986 c:\users\sams8\desktop\projet_banquise\samuel\joueur.h
+1584011905 c:\users\sams8\desktop\projet_banquise\samuel\joueur.h
 
-1583000829 c:\users\sams8\desktop\projet_banquise\samuel\jeux.h
+1584011734 c:\users\sams8\desktop\projet_banquise\samuel\jeux.h
 	"banquise.h"
 	"joueur.h"
 	"glacon.h"
 
-1583244575 source:c:\users\sams8\desktop\projet_banquise\samuel\main.c
+1583768284 source:c:\users\sams8\desktop\projet_banquise\samuel\main.c
 	<stdio.h>
 	<stdlib.h>
 	"jeux.h"
 
-1582280144 source:c:\users\sams8\desktop\projet_banquise\samuel\banquise.c
+1584007720 source:c:\users\sams8\desktop\projet_banquise\samuel\banquise.c
 	<stdio.h>
 	<stdlib.h>
+	"time.h"
 	"jeux.h"
 
-1583243836 source:c:\users\sams8\desktop\projet_banquise\samuel\jeux.c
+1584012287 source:c:\users\sams8\desktop\projet_banquise\samuel\jeux.c
 	<stdio.h>
 	<stdlib.h>
 	<windows.h>
@@ -175,9 +176,9 @@
 	<stdlib.h>
 	"jeux.h"
 
-1583242965 c:\users\sams8\desktop\projet_banquise\samuel\glacon.h
+1584007741 c:\users\sams8\desktop\projet_banquise\samuel\glacon.h
 
-1583244136 source:c:\users\sams8\desktop\projet_banquise\samuel\glacon.c
+1584010196 source:c:\users\sams8\desktop\projet_banquise\samuel\glacon.c
 	<stdio.h>
 	<stdlib.h>
 	"jeux.h"

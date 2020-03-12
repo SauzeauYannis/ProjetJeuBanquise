@@ -89,4 +89,6 @@ void ajouteCaseGlace(T_banquise *banquise, int caseX, int caseY)
     banquise->nombreGlaces += 1;                                                                     //Augmente le nombre de glaces present sur la banquise
     banquise->glaces = (T_point *)realloc(banquise->glaces, banquise->nombreGlaces * sizeof(glace)); //Re-aloue de la memoire pour ajouter un glacon
     banquise->glaces[banquise->nombreGlaces - 1] = glace;                                            //Met la glace dans le tableau
+
+    modifieCaseBanquise(banquise, caseX, caseY, GLACE);
 }

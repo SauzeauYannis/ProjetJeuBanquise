@@ -57,6 +57,9 @@ int verifieDeplacementGlacon(int caseX, int caseY, int caseValeur, int taille)
     case 3:
         return -1;                                                                  //Retourne une valeur d'echec pour prevenir la fonction suivante
         break;
+    case 5:
+        return 2;                                                                  //Retourne une valeur pour indiquer que la glaçon touche de l'eau
+        break;
     default :
         return 0;                                                                   //Entier de validation
     }
@@ -64,10 +67,13 @@ int verifieDeplacementGlacon(int caseX, int caseY, int caseValeur, int taille)
 
 
 //Fonction qui se charge de déplacer le glaçon en paramettre
-int deplacementGlacon(T_glacon *glacon, int taille, int **tab)
+int deplacementGlacon(T_glacon *glacon, T_banquise *banquise)
 {
+    modifieCaseBanquise(banquise, glacon->position.x, glacon->position.y, GLACE);
+
     int posx = glacon->position.x, posy = glacon->position.y;          //Position du glaçon avant son déplacement
     int x = posx + glacon->vecteur.dx, y = posy + glacon->vecteur.dy;  //Position vers laquelle le glaçon se déplace
+    int taille = banquise->tailleN;
     int caseValeur, verif;
 
     if(x < 0 || x >= taille || y < 0 || y >= taille)                   //Vérifie si le glaçon se déplace en dehors du cadre
@@ -76,7 +82,7 @@ int deplacementGlacon(T_glacon *glacon, int taille, int **tab)
     }
     else
     {
-        caseValeur = tab[x][y];
+        caseValeur = banquise->tab[x][y];
     }
 
     verif = verifieDeplacementGlacon(x, y, caseValeur, taille);
@@ -90,8 +96,14 @@ int deplacementGlacon(T_glacon *glacon, int taille, int **tab)
         case 1 :
             return 1;
             break;
+        case 2 :
+            glacon->position.x = x, glacon->position.y = y;
+            glacon->vecteur.dx = glacon->vecteur.dy = 0;
+            return 2;
+            break;
         default :
             glacon->position.x = x, glacon->position.y = y;
             return 0;
     }
 }
+

@@ -27,4 +27,4 @@ int verifieDeplacementGlacon(int caseX, int caseY, int caseValeur, int taille);
 
 
 //Fonction qui se charge de déplacer le glaçon en paramettre
-int deplacementGlacon(T_glacon *glacon, int taille, int **tab);
+int deplacementGlacon(T_glacon *glacon, T_banquise *banquise);
