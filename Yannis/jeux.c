@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <windows.h>
 #include "jeux.h"
 
 //Affiche le Menu du jeu
@@ -91,7 +88,7 @@ void ajouteJoueurs(T_jeu *jeu)
 {
     int nbJoueurs = 0;                                 //Declare le nombre de joueurs
 
-    while (nbJoueurs != 1 && nbJoueurs != 2 && nbJoueurs != 3 && nbJoueurs != 4)  //Verifie que l'utilisateur rentre un chiffre entre 1 et 4
+    while (nbJoueurs < 1 || nbJoueurs > 4)             //Verifie que l'utilisateur rentre un chiffre entre 1 et 4
     {
         printf("Nombre de joueurs (entre 1 et 4) : "); //Demande de rentrer un chiffre
         scanf("%d", &nbJoueurs);                       //Recupere le chiffre rentre
@@ -121,7 +118,9 @@ T_jeu *initJeux(int niveau, int taille)
 
     jeu->banquise = initBanquise(taille);                      //Initialise la banquise dans le jeu
     jeu->joueurs = (T_joueur **)malloc(sizeof(T_joueur *));    //Aloue de la memoire pour creer un tableau de pointeur de joueur
+    jeu->glacons = (T_glacon **)malloc(sizeof(T_glacon *));
     jeu->nombreJoueur = 0;                                     //Initialise le nombre de joueur
+    jeu->nombreGlacon = 4;                                     //Initialise le nombre de glaçon
     jeu->nombreTour = 0;                                       //Initialise le nombre de tour
     jeu->IdJeu = niveau;                                       //Initialise le niveau
 
@@ -217,7 +216,15 @@ int tourJoueur(T_jeu *jeu, int numJoueur)
     verifDep = deplacementJoueur(jeu->banquise, jeu->joueurs[numJoueur], jeu->banquise->tailleN, tab);                 //Effectue le déplacement du joueur sur la banquise
     caseValeur = tab[jeu->joueurs[numJoueur]->position.x][jeu->joueurs[numJoueur]->position.y];
     if(verifDep == 4)
-        caseValeur = 4;
+        for(int j = 0; j<jeu->nombreGlacon; j++)                                          //Regarde chaque glacon du tableau
+        {
+            if(jeu->joueurs[numJoueur]->position.x == jeu->glacons[j]->position.x && jeu->joueurs[numJoueur]->position.y == jeu->glacons[j]->position.y)  //Condition qui regarde si le position en paramettre correspond à celle du glacon
+            {
+                printf("x = %d\ny = %d\n", jeu->glacons[j]->position.x, jeu->glacons[j]->position.y);
+                joueurPousseGlacon(jeu->joueurs[numJoueur], jeu->glacons[j], jeu);
+                break;
+            }
+        }
     printf("\n");
     rafraicheBanquise(jeu, jeu->joueurs[numJoueur], JOUEUR);                                 // Met un 1 sur la nouvelle case du joueur sur la banquise
     fonteBanquise(jeu->banquise, 1);
@@ -254,6 +261,7 @@ void afficheScore(T_jeu *jeu)
     {
         printf("->Joueur %d\n", i+1);
         printf("    Nom : %s\n", jeu->joueurs[i]->nom);
+        printf("    Mort : %d\n", jeu->joueurs[i]->nbMort);
         printf("    Score : %d\n", jeu->joueurs[i]->score);
         if (jeu->joueurs[i]->etat == 1)                      //Permet de savoir si le joueur est gagnant ou perdant
         {
@@ -267,7 +275,15 @@ void afficheScore(T_jeu *jeu)
     }
 }
 
-
+//Fonction qui retourne le glaçon sur lequel le joueur va buter
+/*T_glacon *returnGlaconJoueur(T_joueur **glacons, int posX, int posY, int nbGlacons)
+{
+    for(int i = 0; i<nbGlacons; i++)                                          //Regarde chaque glacon du tableau
+    {
+        if(posX == glacons[i]->position.x && posY == glacons[i]->position.y)  //Condition qui regarde si le position en paramettre correspond à celle du glacon
+            return glacons[i];                                                //Si la condition est vrai, retourne le glacon
+    }
+}*/
 
 //Fonction qui joue un niveau sélectionné jusqu'à la victoire d'un joueur
 void joueNiveau(T_jeu *jeu)
@@ -275,10 +291,9 @@ void joueNiveau(T_jeu *jeu)
     jeu->nombreTour = 1;
     int caseVal, finPartie = 0; //caseVal sert à connaitre la valeur de la case, et finPartie sert à mettre fin à la partie en cours
     int i;
+    //T_glacon *glacon;
 
-    T_glacon *glacon = initGlacon(5,5);
-    glacon->vecteur.dy = 0, glacon->vecteur.dx = 0;
-    ajouteGlacon(jeu, glacon);
+    ajouteGlacon(jeu);
 
     while(finPartie == 0)
     {
@@ -288,8 +303,13 @@ void joueNiveau(T_jeu *jeu)
             finPartie = victoire(jeu, caseVal, i);  //Donne un entier si la partie est gagnée, ou si elle continue
             if (caseVal == 3)                       //Permet de réellement stopper le jeu, pour ainsi éviter les joueurs suivant de jouer
                 break;                              //Brise la boucle for
-            if (caseVal == 4)
-                joueurPousseGlacon(jeu->joueurs[i], glacon, jeu);
+           // if (caseVal == 4)
+           // {
+                /*glacon = returnGlaconJoueur(jeu->glacons, jeu->joueurs[i]->position.x, jeu->joueurs[i]->position.y, jeu->nombreGlacon);
+                printf("x = %d\ny = %d\n", glacon->position.x, glacon->position.y);
+                //joueurPousseGlacon(jeu->joueurs[i], glacon, jeu);*/
+
+            //}
         }
         jeu->nombreTour += 1;
     }
@@ -328,11 +348,21 @@ int rejouer()
 
 
 //Ajoute un glaçon sur la banquise
-void ajouteGlacon(T_jeu *jeu, T_glacon *glacon)
+void ajouteGlacon(T_jeu *jeu)
 {
-    int posx = glacon->position.x, posy = glacon->position.y;  //Variable qui enregistre la position du glaçon
-    enleveCaseGlace(jeu->banquise, posx, posy, GLACON);
+    int nbGlacons = jeu->nombreGlacon;
+
+    for(int i = 0; i<nbGlacons; i++)
+    {
+        jeu->glacons[i] = (T_glacon *)realloc(jeu->glacons[i], sizeof(T_glacon));
+        jeu->glacons[i] = initGlacon(3, i+3);
+
+        enleveCaseGlace(jeu->banquise, jeu->glacons[i]->position.x, jeu->glacons[i]->position.y, GLACON);
+
+        system("cls");
+    }
 }
+
 
 
 //S'occupe du déplacement du glaçon après que celui-ci se soit fait pousser par un joueur
@@ -342,11 +372,10 @@ void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu)
     glacon->vecteur.dx = Jdx, glacon->vecteur.dy = Jdy;      //Transfert le vecteur du joueur au glaçon
     int Gdx = glacon->vecteur.dx, Gdy = glacon->vecteur.dy;
     int verifDep, stop = 0;
-
     while(stop == 0)
     {
-        verifDep = deplacementGlacon(glacon, jeu->banquise);
-        Sleep(150);
+        verifDep = deplacementGlacon(glacon, jeu->banquise, jeu->joueurs, jeu->nombreJoueur);
+        Sleep(200);
         Gdx = glacon->vecteur.dx, Gdy = glacon->vecteur.dy;
 
         if(Gdx == 0 && Gdy == 0)
@@ -361,7 +390,9 @@ void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu)
             default :
                 enleveCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y, GLACON);
                 system("cls");
+                printf("Tour %d\n", jeu->nombreTour);
                 afficheJeu(jeu);
         }
     }
 }
+

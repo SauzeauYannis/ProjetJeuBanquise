@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "jeux.h"
 
 //Retourne le type couleur qu'a choisi l'utilisateur
@@ -59,6 +57,7 @@ T_joueur *initJoueur(int numeroJoueur)
     joueur->vecteur.dx = joueur->vecteur.dy = 0;  //Initialise le veteur deplacement du joueur
     joueur->score = 0;
     joueur->etat = 0;                             //Initialise l'etat du joueur
+    joueur->nbMort = 0;
 
     return joueur;                                //Retourne un pointeur de type joueur
 }
@@ -138,12 +137,7 @@ int verifieDeplacement(T_banquise *banquise, T_joueur *joueur, int caseX, int ca
         return -2;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
         break;
     case EAU:
-        changeCouleurTexte(joueur->couleur);
-        printf("\n%s ", joueur->nom);                                                    //Previens le joueur dans ce cas la
-        changeCouleurTexte(BLANC);
-        printf("est tombe dans l'eau !");
-        ajouteCaseGlace(banquise, joueur->position.x, joueur->position.y);
-        spawnJoueur(banquise, joueur);
+		tuerJoueur(joueur, banquise);
         return 0;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
         break;
     default :
@@ -219,9 +213,21 @@ int deplacementJoueur(T_banquise *banquise, T_joueur *joueur, int taille, int **
 
 
 
-//Fonction test
-void affichePositionJoueur(T_joueur *joueur)
+//Fonction qui s'occupe de tuer le joueur et de le ramener au point de départ
+void tuerJoueur(T_joueur *joueur, T_banquise *banquise)
 {
-    printf("x = %d\n", joueur->position.x);
-    printf("y = %d\n", joueur->position.y);
+    int posx = joueur->position.x, posy = joueur->position.y;  //Enregistre la position du joueur dans 2 varibles
+
+    printf("\nLe joueur ");                                    //Affichage du message de mort du joueur
+    changeCouleurTexte(joueur->couleur);
+    printf("%s ", joueur->nom);
+    changeCouleurTexte(BLANC);
+    printf("est mort !\n");
+    Sleep(2000);                                               //Attend 2 secondes pour laisser le temps au joueur de lire le message
+
+    joueur->score -= 150;                                      //Enlève des points au joueur qui meurt
+    joueur->nbMort += 1;                                       //Ajoute 1 au nombre de mort du joueur
+
+    ajouteCaseGlace(banquise, posx, posy);                     //Ajoute une case GLACE sur la position où le joueur est mort
+    spawnJoueur(banquise, joueur);                             //Fait réapparaitre le joueur sur sa case de départ
 }

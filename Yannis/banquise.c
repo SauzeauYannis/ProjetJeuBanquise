@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "jeux.h"
 
 //Retourne un pointeur de type banquise initialisé avec une taille en parametre
@@ -165,7 +163,6 @@ T_point caseGlaceFonteAleatoire(T_banquise *banquise)
             || banquise->tab[glace.x][(glace.y) + 1] == EAU
             || banquise->tab[glace.x][(glace.y) - 1] == EAU))
         {
-            printf("rentre dans la boucle : %d\n", tailleTabTemp);
             tabTemp[tailleTabTemp] = glace;                            //Met dans le tableau temporaire la glace
             tailleTabTemp++;                                           //Incremente la taille du tableau temporaire
         }
