@@ -18,6 +18,10 @@ typedef struct
 T_glacon *initGlacon(int caseX, int caseY);
 
 
+//Initialise un tableau remplit de n glaçons (n est un paramettre de l fonction)
+/*T_glacon **initTabGlacon(int nbGlacons);*/
+
+
 //Fonction qui vérifie que le vecteur du glaçon est valide : HAUT BAS GAUCHE DROITE
 int verifieVecteurGlacon(T_glacon *glacon);
 
@@ -26,5 +30,9 @@ int verifieVecteurGlacon(T_glacon *glacon);
 int verifieDeplacementGlacon(int caseX, int caseY, int caseValeur, int taille);
 
 
+//Cherche un joueur en fonction d'une position en paramettre
+T_joueur *returnJoueurGlacon(T_joueur **joueurs, int posX, int posY, int nbJoueurs);
+
+
 //Fonction qui se charge de déplacer le glaçon en paramettre
-int deplacementGlacon(T_glacon *glacon, T_banquise *banquise);
+int deplacementGlacon(T_glacon *glacon, T_banquise *banquise, T_joueur **joueurs, int nbJoueurs);

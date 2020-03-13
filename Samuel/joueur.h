@@ -10,6 +10,7 @@ typedef struct
     T_vecteur vecteur;  //Deplacement du joueur sur la banquise (Ne sert à rien à  rien pour le moment)
     int score;          //Score du joueur
     int etat;           //Etat du joueur : Gagnant - Perdant
+    int nbMort;
 } T_joueur;
 
 
@@ -43,5 +44,5 @@ int deplacementJoueur_bis(T_banquise *banquise, T_joueur *joueur, int taille, ch
 int deplacementJoueur(T_banquise *banquise, T_joueur *joueur, int taille, int **tab);
 
 
-//Fonction test
-void affichePositionJoueur(T_joueur *joueur);
+//Fonction qui s'occupe de tuer le joueur et de le ramener au point de départ
+void tuerJoueur(T_joueur *joueur, T_banquise *banquise);

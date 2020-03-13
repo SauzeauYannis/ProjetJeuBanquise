@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "time.h"
 #include "jeux.h"
 
 //Retourne un pointeur de type banquise initialisé avec une taille en parametre
@@ -18,7 +15,7 @@ T_banquise *initBanquise(int taille)
 
     banquise->tab = banquiseTab;                                     //Met la matrice dans le pointeur banquise
     banquise->tailleN = taille;                                      //Met la taille dans le pointeur banquise
-    banquise->depart.x = banquise->depart.y =                        //Initialise les cases d'arrivee et de depart
+    banquise->depart.x = banquise->depart.y = 0;                     //Initialise les cases d'arrivee et de depart
     banquise->arrive.x = banquise->arrive.y = 0;
 
     banquise->tabGlaces = (T_point *)malloc(taille * taille * sizeof(T_point)); //Alloue de memoire pour le tableau de glaces
@@ -75,7 +72,7 @@ void ajouteDepartArrive(T_banquise *banquise, int tailleEau)
     banquise->depart.x = 1 + tailleEau + (rand() % (taille - 1 - (tailleEau * tailleEau)));       //Genere aleatoirement la case de depart
     banquise->depart.y = 1 + tailleEau;
 
-    banquise->arrive.x = tailleEau + (rand() % (taille - tailleEau));       //Genere aleatoirement la case d'arrive
+    banquise->arrive.x = tailleEau + (rand() % (taille - 1 - (tailleEau * tailleEau)));       //Genere aleatoirement la case d'arrive
     banquise->arrive.y = (taille / 2) + (rand() % (taille / 2)) - tailleEau;
 
     enleveCaseGlace(banquise, banquise->depart.x, banquise->depart.y, DEPART);  //Modifie la case de depart
