@@ -65,7 +65,7 @@ int verifieDeplacementGlacon(int caseX, int caseY, int caseValeur, int taille)
 //Fonction qui se charge de déplacer le glaçon en paramettre
 int deplacementGlacon(T_glacon *glacon, T_banquise *banquise)
 {
-    modifieCaseBanquise(banquise, glacon->position.x, glacon->position.y, GLACE);
+    ajouteCaseGlace(banquise, glacon->position.x, glacon->position.y);
 
     int posx = glacon->position.x, posy = glacon->position.y;          //Position du glaçon avant son déplacement
     int x = posx + glacon->vecteur.dx, y = posy + glacon->vecteur.dy;  //Position vers laquelle le glaçon se déplace

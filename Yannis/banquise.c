@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "time.h"
 #include "jeux.h"
 
 //Retourne un pointeur de type banquise initialisé avec une taille en parametre
@@ -22,6 +21,7 @@ T_banquise *initBanquise(int taille)
     banquise->arrive.x = banquise->arrive.y = 0;
 
     banquise->tabGlaces = (T_point *)malloc(taille * taille * sizeof(T_point)); //Alloue de memoire pour le tableau de glaces
+    banquise->nombreGlaces = 0;                                      //Initialise le nombre de glaces a 0
 
     return banquise;                                                 //Retourne le pointeur de type banquise
 }
@@ -68,15 +68,13 @@ void modifieCaseBanquise(T_banquise *banquise, int caseX, int caseY, T_case vale
 //Change la matrice de la banquise en y ajoutant les cases d'arrive et de depart
 void ajouteDepartArrive(T_banquise *banquise, int tailleEau)
 {
-    srand(time(NULL));                                                              //Pour faire de l'aleatoire
-
     int taille = banquise->tailleN;                                                 //Recupere la taille de la banquise
 
-    banquise->depart.x = 1 + tailleEau + (rand() % (taille - 1 - (tailleEau * tailleEau)));       //Genere aleatoirement la case de depart
+    banquise->depart.x = 1 + tailleEau + (rand() % (taille - 2 - (tailleEau * tailleEau)));  //Genere aleatoirement la case de depart
     banquise->depart.y = 1 + tailleEau;
 
-    banquise->arrive.x = tailleEau + (rand() % (taille - tailleEau));       //Genere aleatoirement la case d'arrive
-    banquise->arrive.y = (taille / 2) + (rand() % (taille / 2)) - tailleEau;
+    banquise->arrive.x = tailleEau + (rand() % (taille - 1 -(tailleEau * tailleEau)));       //Genere aleatoirement la case d'arrive
+    banquise->arrive.y = taille - 1 - tailleEau;
 
     enleveCaseGlace(banquise, banquise->depart.x, banquise->depart.y, DEPART);  //Modifie la case de depart
     enleveCaseGlace(banquise, banquise->arrive.x, banquise->arrive.y, ARRIVE);  //Modifie la case d'arrive
@@ -105,6 +103,7 @@ void ajouteCaseGlace(T_banquise *banquise, int caseX, int caseY)
     }
 
     modifieCaseBanquise(banquise, caseX, caseY, GLACE);            //Met la glace sur la banquise
+    banquise->nombreGlaces++;                                      //Incremente le nombre de glace
 }
 
 //Enleve une glace du tableau de glace selon sa position et remplace la glace par une autre valeur de case
@@ -122,4 +121,67 @@ void enleveCaseGlace(T_banquise *banquise, int caseX, int caseY, T_case valeur)
     }
 
     modifieCaseBanquise(banquise, caseX, caseY, valeur);                                                                                         //Change l'ancienne glace en un autre type
+    banquise->nombreGlaces--;                                                                                                                    //Decremente le nombre de glaces
+}
+
+
+
+//Retourne une position dans la banquise ou la case est une case de type glace
+T_point caseGlaceAleatoire(T_banquise *banquise)
+{
+    T_point tabTemp[banquise->tailleN * banquise->tailleN];            //Initialise un tableau temporaire de positions
+    int tailleTabTemp = 0;                                             //Initialise la taille du tableau temporaire a 0
+    int i = 0;                                                         //Valeur pour la boucle while
+
+    while (tailleTabTemp != banquise->nombreGlaces)                    //Boucle tant que la taille du tableau temporaire est differente du nombre de glaces dans la banquise
+    {
+        if (banquise->tabGlaces[i].estPresent == 1)                    //Verifie si la glace est bien sur la banquise
+        {
+            tabTemp[tailleTabTemp] = banquise->tabGlaces[i].position;  //Met dans le tableau temporaire la glace
+            tailleTabTemp++;                                           //Incremente la taille du tableau temporaire
+        }
+        i++;                                                           //Incremente la valeur i qui parcourt le tableau de glaces de la banquise
+    }
+
+    return tabTemp[rand() % banquise->nombreGlaces];                   //Retourne une case de type glace aleatoire
+}
+
+
+
+//
+T_point caseGlaceFonteAleatoire(T_banquise *banquise)
+{
+    T_point tabTemp[banquise->tailleN * banquise->tailleN];            //Initialise un tableau temporaire de positions
+    int tailleTabTemp = 0;                                             //Initialise la taille du tableau temporaire a 0
+    int i;                                                             //Valeur pour la boucle while
+
+    for (i = 0; i < banquise->nombreGlaces; i++)
+    {
+        T_point glace = banquise->tabGlaces[i].position;
+
+        if (banquise->tabGlaces[i].estPresent == 1
+            &&(banquise->tab[(glace.x) + 1][glace.y] == EAU
+            || banquise->tab[(glace.x) - 1][glace.y] == EAU
+            || banquise->tab[glace.x][(glace.y) + 1] == EAU
+            || banquise->tab[glace.x][(glace.y) - 1] == EAU))
+        {
+            printf("rentre dans la boucle : %d\n", tailleTabTemp);
+            tabTemp[tailleTabTemp] = glace;                            //Met dans le tableau temporaire la glace
+            tailleTabTemp++;                                           //Incremente la taille du tableau temporaire
+        }
+    }
+
+    return tabTemp[rand() % tailleTabTemp];                   //Retourne une case de type glace aleatoire
+}
+
+
+
+//
+void fonteBanquise(T_banquise *banquise, int chanceFonte)
+{
+    if (rand() % chanceFonte == 0)
+    {
+        T_point glace = caseGlaceFonteAleatoire(banquise);
+        enleveCaseGlace(banquise, glace.x, glace.y, EAU);
+    }
 }

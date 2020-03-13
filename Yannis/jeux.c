@@ -58,25 +58,25 @@ void changeCouleurTexte(T_couleur couleur)
 
     switch (couleur)                                  //Change la couleur du texte de la console selon le type couleur mis en parametre
     {
-    case 0 :
+    case ROUGE:
         SetConsoleTextAttribute(console, 12);
         break;
-    case 1 :
+    case VERT :
         SetConsoleTextAttribute(console, 2);
         break;
-    case 2 :
+    case BLEU:
         SetConsoleTextAttribute(console, 9);
         break;
-    case 3 :
+    case JAUNE :
         SetConsoleTextAttribute(console, 14);
         break;
-    case 4 :
+    case TURQUOISE :
         SetConsoleTextAttribute(console, 11);
         break;
-    case 5 :
+    case ROSE :
         SetConsoleTextAttribute(console, 13);
         break;
-    case 6 :
+    case GRIS :
         SetConsoleTextAttribute(console, 8);
         break;
     default :
@@ -220,6 +220,7 @@ int tourJoueur(T_jeu *jeu, int numJoueur)
         caseValeur = 4;
     printf("\n");
     rafraicheBanquise(jeu, jeu->joueurs[numJoueur], JOUEUR);                                 // Met un 1 sur la nouvelle case du joueur sur la banquise
+    fonteBanquise(jeu->banquise, 1);
     return caseValeur;
 }
 
@@ -345,7 +346,7 @@ void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu)
     while(stop == 0)
     {
         verifDep = deplacementGlacon(glacon, jeu->banquise);
-        Sleep(1000);
+        Sleep(150);
         Gdx = glacon->vecteur.dx, Gdy = glacon->vecteur.dy;
 
         if(Gdx == 0 && Gdy == 0)

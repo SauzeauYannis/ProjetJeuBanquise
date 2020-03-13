@@ -16,6 +16,7 @@ typedef struct
     T_point depart;      //Case depart
     T_point arrive;      //Case arrive
     T_glace *tabGlaces;  //Tableau de glaces
+    int nombreGlaces;    //Nombres de glaces dans la banquise
 } T_banquise;
 
 
@@ -44,3 +45,15 @@ void ajouteCaseGlace(T_banquise *banquise, int caseX, int caseY);
 
 //Enleve une position de glace dans le tableau de glaces de la banquise
 void enleveCaseGlace(T_banquise *banquise, int caseX, int caseY, T_case valeur);
+
+
+//Retourne une case de glace aleatoire
+T_point caseGlaceAleatoire(T_banquise *banquise);
+
+
+//
+T_point caseGlaceFonteAleatoire(T_banquise *banquise);
+
+
+//
+void fonteBanquise(T_banquise *banquise, int chanceFonte);

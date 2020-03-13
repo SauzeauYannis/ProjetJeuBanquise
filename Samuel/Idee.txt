@@ -1,17 +1,5 @@
 ﻿Fichier pour noter les idées sur la suite du jeux :
 
--Fonction qui entoure la banquise d'eau pour délimiter la banquise
--Fonction de réchauffement climatique
-
--Créer le type glaçon et les fonctions qui vont avec :
-	x Création du glaçon
-	x Ajout du glaçon sur la banquise
-	x Deplacement du glaçon en fonction de son vecteur
-	x Verification du vecteur (déplacement seulement HAUT BAS GAUCHE DROITE)
-	Collision avec un mur
-	Joueur n pousse le glaçon
-	Le glaçon tombe dans l'eau et devient une banquise
-
 -Créer les autres types objets et leurs fonctions
 -Corriger les bugs présent dans le fichier "Bug.txt"
 -Corriger les fautes d'orthographes (affichage + commentaires) et mettre les accents
