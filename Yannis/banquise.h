@@ -1,5 +1,6 @@
 /***** Structures *****/
 
+
 //Definition du type glace
 typedef struct
 {
@@ -13,6 +14,7 @@ typedef struct
 {
     int **tab;           //Matrice represantant la banquise
     int tailleN;         //Taille de la matrice (carree)
+    int tailleEau;
     T_point depart;      //Case depart
     T_point arrive;      //Case arrive
     T_glace *tabGlaces;  //Tableau de glaces
@@ -23,20 +25,17 @@ typedef struct
 
 /***** Fonctions *****/
 
+
+//
+T_glace *initTabGlaces(int taille);
+
+
 //Definition de la fonction qui initialise le pointeur de type banquise
-T_banquise *initBanquise(int taille);
-
-
-//Remplit la banquise avec une valeur donnee
-void remplitBanquise(T_banquise *banquise, T_case valeur, int tailleEau);
+T_banquise *initBanquise(int tailleMatrice, int tailleEau);
 
 
 //Modifie une case de la banquise
 void modifieCaseBanquise(T_banquise *banquise, int caseX, int caseY, T_case valeur);
-
-
-//Ajoute la case de depart et arrive
-void ajouteDepartArrive(T_banquise *banquise, int tailleEau);
 
 
 //Ajoute une position de glace dans le tableau de glaces de la banquise
@@ -47,12 +46,16 @@ void ajouteCaseGlace(T_banquise *banquise, int caseX, int caseY);
 void enleveCaseGlace(T_banquise *banquise, int caseX, int caseY, T_case valeur);
 
 
+//Ajoute la case de depart et arrive
+void ajouteDepartArrive(T_banquise *banquise);
+
+
+//Remplit la banquise avec une valeur donnee
+void remplitBanquise(T_banquise *banquise);
+
+
 //Retourne une case de glace aleatoire
-T_point caseGlaceAleatoire(T_banquise *banquise);
-
-
-//
-T_point caseGlaceFonteAleatoire(T_banquise *banquise);
+T_point caseGlaceAleatoire(T_banquise *banquise, int choix);
 
 
 //

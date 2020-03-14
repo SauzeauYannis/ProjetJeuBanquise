@@ -7,6 +7,7 @@
 
 typedef enum
 {
+    ERREUR = -1,
     GLACE,
     JOUEUR,
     DEPART,
@@ -25,6 +26,7 @@ typedef enum
     TURQUOISE,
     ROSE,
     GRIS,
+    BLEUFONCE,
     BLANC
 } T_couleur;
 

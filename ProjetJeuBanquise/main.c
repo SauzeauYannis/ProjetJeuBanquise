@@ -1,10 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "jeux.h"
 
 
 int main()
 {
+    srand(time(NULL));                                                              //Pour faire de l'aleatoire
+
     int stop;
 
     afficheMenu();                                     //Affiche le menu du jeu

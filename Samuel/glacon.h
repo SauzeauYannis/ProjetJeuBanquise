@@ -31,7 +31,7 @@ int verifieDeplacementGlacon(int caseX, int caseY, int caseValeur, int taille);
 
 
 //Cherche un joueur en fonction d'une position en paramettre
-T_joueur *returnJoueurGlacon(T_joueur **joueurs, int posX, int posY, int nbJoueurs);
+T_joueur *retourneJoueurGlacon(T_joueur **joueurs, int posX, int posY, int nbJoueurs);
 
 
 //Fonction qui se charge de déplacer le glaçon en paramettre

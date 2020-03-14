@@ -25,8 +25,10 @@ T_couleur choixCouleur();
 //Initialise un joueur
 T_joueur *initJoueur(int numeroJoueur);
 
-//Fait spawner le joueur a son emplacement
-void spawnJoueur(T_banquise *banquise, T_joueur *joueur);
+
+//Fait apparaitre le joueur a sa case de depart
+void departJoueur(T_banquise *banquise, T_joueur *joueur);
+
 
 //Demande au joueur un deplacement
 char saisieDeplacement();

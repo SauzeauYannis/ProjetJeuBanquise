@@ -10,6 +10,7 @@ typedef struct
     T_vecteur vecteur;  //Deplacement du joueur sur la banquise (Ne sert à rien à  rien pour le moment)
     int score;          //Score du joueur
     int etat;           //Etat du joueur : Gagnant - Perdant
+    int nbMort;
 } T_joueur;
 
 
@@ -24,8 +25,10 @@ T_couleur choixCouleur();
 //Initialise un joueur
 T_joueur *initJoueur(int numeroJoueur);
 
-//Fait spawner le joueur a son emplacement
-void spawnJoueur(T_banquise *banquise, T_joueur *joueur);
+
+//Fait apparaitre le joueur a sa case de depart
+void departJoueur(T_banquise *banquise, T_joueur *joueur);
+
 
 //Demande au joueur un deplacement
 char saisieDeplacement();
@@ -43,5 +46,5 @@ int deplacementJoueur_bis(T_banquise *banquise, T_joueur *joueur, int taille, ch
 int deplacementJoueur(T_banquise *banquise, T_joueur *joueur, int taille, int **tab);
 
 
-//Fonction test
-void affichePositionJoueur(T_joueur *joueur);
+//Fonction qui s'occupe de tuer le joueur et de le ramener au point de départ
+void tuerJoueur(T_joueur *joueur, T_banquise *banquise);

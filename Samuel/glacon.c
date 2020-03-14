@@ -75,13 +75,21 @@ int verifieDeplacementGlacon(int caseX, int caseY, int caseValeur, int taille)
 
 
 //Cherche un joueur en fonction d'une position en paramettre
-T_joueur *returnJoueurGlacon(T_joueur **joueurs, int posX, int posY, int nbJoueurs)
+T_joueur *retourneJoueurGlacon(T_joueur **joueurs, int posX, int posY, int nbJoueurs)
 {
-    for(int i = 0; i<nbJoueurs; i++)                                          //Regarde chaque joueur du tableau
+    int i;
+    T_joueur *joueur;
+
+    for(i = 0; i < nbJoueurs; i++)                                            //Regarde chaque joueur du tableau
     {
-        if(posX == joueurs[i]->position.x && posY == joueurs[i]->position.y)  //Condition qui regarde si le position en paramettre correspond à celle du joueur
-            return joueurs[i];                                                //Si la condition est vrai, retourne le joueur
+        if (posX == joueurs[i]->position.x && posY == joueurs[i]->position.y) //Condition qui regarde si le position en paramettre correspond à celle du joueur
+        {
+            joueur = joueurs[i];                                              //Si la condition est vrai, retourne le joueur
+            break;
+        }
     }
+
+    return joueur;
 }
 
 //Fonction qui se charge de déplacer le glaçon en paramettre
@@ -114,7 +122,7 @@ int deplacementGlacon(T_glacon *glacon, T_banquise *banquise, T_joueur **joueurs
             break;
         case 1 :
             glacon->position.x = x, glacon->position.y = y;
-            joueur = returnJoueurGlacon(joueurs, x, y, nbJoueurs);
+            joueur = retourneJoueurGlacon(joueurs, x, y, nbJoueurs);
             tuerJoueur(joueur, banquise);
             return 0;
             break;

@@ -1,7 +1,13 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <windows.h>
+#include <time.h>
+
 /***** Structures *****/
 
 typedef enum
 {
+    ERREUR = -1,
     GLACE,
     JOUEUR,
     DEPART,
@@ -20,6 +26,7 @@ typedef enum
     TURQUOISE,
     ROSE,
     GRIS,
+    BLEUFONCE,
     BLANC
 } T_couleur;
 
@@ -39,9 +46,6 @@ typedef struct
     int dy; //Vecteur y = deplacement vertical
 } T_vecteur;
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <windows.h>
 #include "banquise.h"
 #include "joueur.h"
 #include "glacon.h"

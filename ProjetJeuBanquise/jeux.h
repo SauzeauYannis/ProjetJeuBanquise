@@ -1,7 +1,13 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <windows.h>
+#include <time.h>
+
 /***** Structures *****/
 
 typedef enum
 {
+    ERREUR = -1,
     GLACE,
     JOUEUR,
     DEPART,
@@ -20,6 +26,7 @@ typedef enum
     TURQUOISE,
     ROSE,
     GRIS,
+    BLEUFONCE,
     BLANC
 } T_couleur;
 
@@ -48,8 +55,9 @@ typedef struct
 {
     T_banquise *banquise; //Pointeur sur la banquise
     T_joueur **joueurs;   //Tableau de pointeurs de joueurs
-    T_glacon **glacon;    //Tableau de pointeurs de glaçons
+    T_glacon **glacons;    //Tableau de pointeurs de glaçons
     int nombreJoueur;     //Nombre de joueur présent sur le jeu
+    int nombreGlacon;     //Nombre de glaçon présent sur le jeu
     int nombreTour;       //Nombre de tour actuel du jeu
     int IdJeu;            //Identifiant de la partie en cours
 } T_jeu;
@@ -95,6 +103,10 @@ int victoire(T_jeu *jeu, int caseVal, int i);
 void afficheScore(T_jeu *jeu);
 
 
+//Fonction qui retourne le glaçon sur lequel le joueur va buter
+/*T_glacon *returnGlaconJoueur(T_joueur **glacons, int posX, int posY, int nbGlacons);*/
+
+
 //Fonction qui joue un niveau sélectionné jusqu'à la victoire d'un joueur
 void joueNiveau(T_jeu *jeu);
 
@@ -104,7 +116,7 @@ int rejouer();
 
 
 //Ajoute un glaçon sur la banquise
-void ajouteGlacon(T_jeu *jeu, T_glacon *glacon);
+void ajouteGlacon(T_jeu *jeu);
 
 
 //S'occupe du déplacement du glaçon après que celui-ci se soit fait pousser par un joueur
