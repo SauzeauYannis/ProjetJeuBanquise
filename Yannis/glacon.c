@@ -20,7 +20,7 @@ T_glacon *initGlacon(int caseX, int caseY)
 }
 
 
-
+/*
 //Initialise un tableau remplit de n glacons (n est un paramettre de l fonction)
 T_glacon **initTabGlacon(T_banquise *banquise, int nbGlacons)
 {
@@ -36,7 +36,7 @@ T_glacon **initTabGlacon(T_banquise *banquise, int nbGlacons)
 
     return glaconTab;                                                            //Retourne le tableau de glaces initialisee
 }
-
+*/
 
 
 //Fonction qui verifie que le vecteur du glacon est valide : HAUT BAS GAUCHE DROITE
@@ -44,7 +44,7 @@ int verifieVecteurGlacon(T_glacon *glacon)
 {
     int dx = glacon->vecteur.dx, dy = glacon->vecteur.dy;                              //Recupere les vecteurs du glacon en parametre
 
-    if(dx != 0 && dy != 0)                                                             //Verifie si il n'y a aucun des deux vecteurs a zero
+    if(dx != 0 && dy != 0)                                                             //Verifie si il n'y a aucun des deux vecteurs a 0
     {
         printf("Le vecteur du glacon à la position x = %d y = %d est incorrecte !",
                glacon->position.x, glacon->position.y);                                //Affiche un message d'erreur
@@ -62,37 +62,41 @@ int verifieVecteurGlacon(T_glacon *glacon)
 //Fonction qui se charge de deplacer le glacon en paramettre
 int deplacementGlacon(T_glacon *glacon, T_banquise *banquise, T_joueur **joueurs, int nbJoueurs)
 {
-    ajouteCaseGlace(banquise, glacon->position.x, glacon->position.y);
 
-    int posx = glacon->position.x, posy = glacon->position.y;          //Position du glacon avant son deplacement
-    int x = posx + glacon->vecteur.dx, y = posy + glacon->vecteur.dy;  //Position vers laquelle le glacon se deplace
-    int taille = banquise->tailleN;
-    int caseValeur;
-    T_joueur *joueur;
+    int posx = glacon->position.x, posy = glacon->position.y,          //Position du glacon avant son deplacement
+        x = posx + glacon->vecteur.dx, y = posy + glacon->vecteur.dy,  //Position vers laquelle le glacon se deplace
+        taille = banquise->tailleN,                                     //Recupere la taille de la banquise
+        caseValeur;                                                    //Variable pour prendre la valeur de la case
 
-    if(x < 0 || x >= taille || y < 0 || y >= taille)                   //Verifie si le glacon se deplace en dehors du cadre
+    ajouteCaseGlace(banquise, posx, posy);                             //Remplace le glacon par de la glace
+
+    if(x < 0 || x >= taille || y < 0 || y >= taille)                   //Verifie si le glacon est dans la matrice
     {
-        caseValeur = -1;
+        caseValeur = ERREUR;                                           //Met la valeur de la case a ERREUR
     }
-    else
+    else                                                               //Si le glacon va bien dans la matrice
     {
-        caseValeur = banquise->matrice[x][y];
+        caseValeur = banquise->matrice[x][y];                          //Met la valeur de la case selon le deplacement du glacon
     }
 
-    switch(caseValeur)
+    switch(caseValeur)                                                 //Selon la valeur de la case
     {
         case ERREUR :
         case DEPART :
         case ARRIVE :
-            glacon->vecteur.dx = glacon->vecteur.dy = 0;
+            glacon->vecteur.dx = glacon->vecteur.dy = 0;               //Arrete le glacon
             return 0;
             break;
         case JOUEUR :
+            {
+            T_joueur *joueur;
+
             glacon->position.x = x, glacon->position.y = y;
-            joueur = joueurSelonPoisition(joueurs, x, y, nbJoueurs);
+            joueur = joueurSelonPoisition(joueurs, x, y, nbJoueurs);   //
             tuerJoueur(joueur, banquise);
             return 0;
             break;
+            }
         case EAU :
             glacon->position.x = x, glacon->position.y = y;
             glacon->vecteur.dx = glacon->vecteur.dy = 0;

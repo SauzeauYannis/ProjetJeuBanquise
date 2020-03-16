@@ -184,9 +184,9 @@ T_point caseGlaceAleatoire(T_banquise *banquise, int choix)
             }
         }
     }
-    else
+    else                                                                  //Si le parametre choix est different de 0
     {
-        int i = 0;                                                        //Initialise la variable i a zero
+        int i = 0;                                                        //Initialise la variable i a 0
 
         while (tailleTabTemp != banquise->nombreGlaces)                   //Boucle tant que la taille du tableau temporaire est differente du nombre de glaces dans la banquise
         {

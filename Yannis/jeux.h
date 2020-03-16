@@ -87,7 +87,7 @@ T_jeu *initJeux(int niveau, int taille);
 void afficheJeu(T_jeu *jeu);
 
 
-//Fonction qui met un zero sur (l'ancienne) position du joueur mis en paramettre
+//Fonction qui met un 0 sur (l'ancienne) position du joueur mis en paramettre
 void rafraicheBanquise(T_jeu *jeu, T_joueur *joueur, T_case val);
 
 

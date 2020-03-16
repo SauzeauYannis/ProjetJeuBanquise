@@ -12,9 +12,9 @@ typedef struct
 //Definition du type banquise
 typedef struct
 {
-    int **tab;           //Matrice represantant la banquise
+    int **matrice;       //Matrice represantant la banquise
     int tailleN;         //Taille de la matrice (carree)
-    int tailleEau;
+    int tailleEau;       //Taille de l'eau
     T_point depart;      //Case depart
     T_point arrive;      //Case arrive
     T_glace *tabGlaces;  //Tableau de glaces
@@ -22,15 +22,18 @@ typedef struct
 } T_banquise;
 
 
-
 /***** Fonctions *****/
 
 
-//
+//Initialise la matrice qui represente la banquise
+int **initMatrice(int tailleMatrice);
+
+
+//Initialise le tableau de glaces
 T_glace *initTabGlaces(int taille);
 
 
-//Definition de la fonction qui initialise le pointeur de type banquise
+//Initialise le pointeur de type banquise
 T_banquise *initBanquise(int tailleMatrice, int tailleEau);
 
 
@@ -58,5 +61,5 @@ void remplitBanquise(T_banquise *banquise);
 T_point caseGlaceAleatoire(T_banquise *banquise, int choix);
 
 
-//
+//Applique la fonte de la banquise
 void fonteBanquise(T_banquise *banquise, int chanceFonte);

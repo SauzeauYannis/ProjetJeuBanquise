@@ -15,7 +15,7 @@ typedef struct
 
 
 //Fonction qui initialise un glacon
-T_glacon *initGlacon(int caseX, int caseY);
+//T_glacon *initGlacon(int caseX, int caseY);
 
 
 //Initialise un tableau remplit de n glacons (n est un paramettre de l fonction)

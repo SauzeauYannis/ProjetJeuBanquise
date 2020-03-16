@@ -55,9 +55,9 @@ typedef struct
 {
     T_banquise *banquise; //Pointeur sur la banquise
     T_joueur **joueurs;   //Tableau de pointeurs de joueurs
-    T_glacon **glacons;    //Tableau de pointeurs de glaçons
-    int nombreJoueur;     //Nombre de joueur présent sur le jeu
-    int nombreGlacon;     //Nombre de glaçon présent sur le jeu
+    T_glacon **glacons;    //Tableau de pointeurs de glacons
+    int nombreJoueur;     //Nombre de joueur present sur le jeu
+    int nombreGlacon;     //Nombre de glacon present sur le jeu
     int nombreTour;       //Nombre de tour actuel du jeu
     int IdJeu;            //Identifiant de la partie en cours
 } T_jeu;
@@ -87,7 +87,7 @@ T_jeu *initJeux(int niveau, int taille);
 void afficheJeu(T_jeu *jeu);
 
 
-//Fonction qui met un zero sur (l'ancienne) position du joueur mis en paramettre
+//Fonction qui met un 0 sur (l'ancienne) position du joueur mis en paramettre
 void rafraicheBanquise(T_jeu *jeu, T_joueur *joueur, T_case val);
 
 
@@ -95,7 +95,7 @@ void rafraicheBanquise(T_jeu *jeu, T_joueur *joueur, T_case val);
 int tourJoueur(T_jeu *jeu, int numJoueur);
 
 
-//Ressort un entier qui détermine si la partie est finie ou non
+//Ressort un entier qui determine si la partie est finie ou non
 int victoire(T_jeu *jeu, int caseVal, int i);
 
 
@@ -103,11 +103,11 @@ int victoire(T_jeu *jeu, int caseVal, int i);
 void afficheScore(T_jeu *jeu);
 
 
-//Fonction qui retourne le glaçon sur lequel le joueur va buter
+//Fonction qui retourne le glacon sur lequel le joueur va buter
 /*T_glacon *returnGlaconJoueur(T_joueur **glacons, int posX, int posY, int nbGlacons);*/
 
 
-//Fonction qui joue un niveau sélectionné jusqu'à la victoire d'un joueur
+//Fonction qui joue un niveau selectionne jusqu'à la victoire d'un joueur
 void joueNiveau(T_jeu *jeu);
 
 
@@ -115,10 +115,10 @@ void joueNiveau(T_jeu *jeu);
 int rejouer();
 
 
-//Ajoute un glaçon sur la banquise
+//Ajoute un glacon sur la banquise
 void ajouteGlacon(T_jeu *jeu);
 
 
-//S'occupe du déplacement du glaçon après que celui-ci se soit fait pousser par un joueur
+//S'occupe du deplacement du glacon apres que celui-ci se soit fait pousser par un joueur
 void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu);
 

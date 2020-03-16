@@ -14,9 +14,8 @@ typedef struct
 } T_joueur;
 
 
-
-
 /***** Fonctions *****/
+
 
 //Fait choisir une couleur a l'utilisateur
 T_couleur choixCouleur();
@@ -35,16 +34,20 @@ char saisieDeplacement();
 
 
 //Retourne un entier en fonction du deplacement du joueur, et modifie la position de celui-ci
-int verifieDeplacement(T_banquise *banquise, T_joueur *joueur, int caseX, int caseY, int caseValeur, int taille);
+int verifieDeplacement(T_banquise *banquise, T_joueur *joueur, int caseX, int caseY, int caseValeur);
 
 
 //Applique le deplacement si possible ou retourne une erreur
-int deplacementJoueur_bis(T_banquise *banquise, T_joueur *joueur, int taille, char deplacement, int **tab);
+int deplacementJoueur_bis(T_banquise *banquise, T_joueur *joueur, char deplacement);
 
 
 //Applique le deplacement du joueur
-int deplacementJoueur(T_banquise *banquise, T_joueur *joueur, int taille, int **tab);
+int deplacementJoueur(T_banquise *banquise, T_joueur *joueur);
 
 
-//Fonction qui s'occupe de tuer le joueur et de le ramener au point de départ
+//Fonction qui s'occupe de tuer le joueur et de le ramener au point de depart
 void tuerJoueur(T_joueur *joueur, T_banquise *banquise);
+
+
+//
+T_joueur *joueurSelonPoisition(T_joueur **joueurs, int posX, int posY, int nbJoueurs);

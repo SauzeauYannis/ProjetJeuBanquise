@@ -103,7 +103,7 @@ char saisieDeplacement(T_joueur *joueur)
 
 
 //Retourne un entier en fonction du deplacement du joueur, et modifie la position de celui-ci
-int verifieDeplacement(T_banquise *banquise, T_joueur *joueur, int caseX, int caseY, int caseValeur, int taille)
+int verifieDeplacement(T_banquise *banquise, T_joueur *joueur, int caseX, int caseY, int caseValeur)
 {
     switch (caseValeur)                                                                  //Retourne un entier selon la valeur de la case
     {
@@ -135,14 +135,15 @@ int verifieDeplacement(T_banquise *banquise, T_joueur *joueur, int caseX, int ca
 }
 
 
-//Fonction qui s'occupe du déplacement du personnage en fonction de ses paramettres, et renvoie un entier en fonction du déplacement
-int deplacementJoueur_bis(T_banquise *banquise, T_joueur *joueur, int taille, char deplacement, int **tab)
+//Fonction qui s'occupe du deplacement du personnage en fonction de ses paramettres, et renvoie un entier en fonction du deplacement
+int deplacementJoueur_bis(T_banquise *banquise, T_joueur *joueur, char deplacement)
 {
     int jx = joueur->position.x,  //Recupere la position du joueur
         jy = joueur->position.y,
-        x, y;                     //Declare 2 entier pour tester le deplacement
+        x, y,
+        taille = banquise->tailleN;
 
-    switch (deplacement)          //Effectue le decalage selon la touche mis en parametre et change le vecteur du joueur (utile pour la collision avec un glaçon immobile)
+    switch (deplacement)          //Effectue le decalage selon la touche mis en parametre et change le vecteur du joueur (utile pour la collision avec un glacon immobile)
     {
     case 'z' :
         joueur->vecteur.dx = -1;
@@ -169,24 +170,24 @@ int deplacementJoueur_bis(T_banquise *banquise, T_joueur *joueur, int taille, ch
 
     if (x >= 0 && x < taille && y >= 0 && y < taille)
     {
-        caseValeur = tab[x][y];
+        caseValeur = banquise->matrice[x][y];
     }
     else
     {
         caseValeur = ERREUR;
     }
 
-    return verifieDeplacement(banquise, joueur, x, y, caseValeur, taille);
+    return verifieDeplacement(banquise, joueur, x, y, caseValeur);
 }
 
 
-//Fonction qui permet le déplacement du personnage
-int deplacementJoueur(T_banquise *banquise, T_joueur *joueur, int taille, int **tab)
+//Fonction qui permet le deplacement du personnage
+int deplacementJoueur(T_banquise *banquise, T_joueur *joueur)
 {
 
     char clavier = saisieDeplacement(joueur);                                     //Recupere la bonne touche saisie par le joueur
 
-    int correct = deplacementJoueur_bis(banquise, joueur, taille, clavier, tab);            //Stocke la valeur de la fonction precedente
+    int correct = deplacementJoueur_bis(banquise, joueur, clavier);            //Stocke la valeur de la fonction precedente
 
     if (correct == -2)
         return 4;
@@ -194,7 +195,7 @@ int deplacementJoueur(T_banquise *banquise, T_joueur *joueur, int taille, int **
     while (correct == -1)                                                         //Si la valeur est une valeur d'echec
     {
         clavier = saisieDeplacement(joueur);                                      //On re-recupere la bonne touche saisie par le joueur
-        correct = deplacementJoueur_bis(banquise, joueur, taille, clavier, tab);  //On re-stocke la valeur de la fonction precedente
+        correct = deplacementJoueur_bis(banquise, joueur, clavier);  //On re-stocke la valeur de la fonction precedente
     }
 
     joueur->score -= 10;
@@ -203,7 +204,7 @@ int deplacementJoueur(T_banquise *banquise, T_joueur *joueur, int taille, int **
 
 
 
-//Fonction qui s'occupe de tuer le joueur et de le ramener au point de départ
+//Fonction qui s'occupe de tuer le joueur et de le ramener au point de depart
 void tuerJoueur(T_joueur *joueur, T_banquise *banquise)
 {
     int posx = joueur->position.x, posy = joueur->position.y;  //Enregistre la position du joueur dans 2 varibles
@@ -215,9 +216,29 @@ void tuerJoueur(T_joueur *joueur, T_banquise *banquise)
     printf("est mort !\n");
     Sleep(2000);                                               //Attend 2 secondes pour laisser le temps au joueur de lire le message
 
-    joueur->score -= 150;                                      //Enlève des points au joueur qui meurt
+    joueur->score -= 150;                                      //Enleve des points au joueur qui meurt
     joueur->nbMort += 1;                                       //Ajoute 1 au nombre de mort du joueur
 
     ajouteCaseGlace(banquise, posx, posy);                     //Ajoute une case GLACE sur la position où le joueur est mort
-    departJoueur(banquise, joueur);                            //Fait réapparaitre le joueur sur sa case de départ
+    departJoueur(banquise, joueur);                            //Fait reapparaitre le joueur sur sa case de depart
+}
+
+
+
+//Cherche un joueur en fonction d'une position en paramettre
+T_joueur *joueurSelonPoisition(T_joueur **joueurs, int posX, int posY, int nbJoueurs)
+{
+    T_joueur *joueur;
+    int i;
+
+    for(i = 0; i < nbJoueurs; i++)                                            //Regarde chaque joueur du tableau
+    {
+        if (posX == joueurs[i]->position.x && posY == joueurs[i]->position.y) //Condition qui regarde si le position en paramettre correspond à celle du joueur
+        {
+            joueur = joueurs[i];                                              //Si la condition est vrai, retourne le joueur
+            break;
+        }
+    }
+
+    return joueur;
 }
