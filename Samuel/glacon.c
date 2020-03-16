@@ -41,6 +41,24 @@ int verifieVecteurGlacon(T_glacon *glacon)
 
 
 
+//Fonction qui retourne le glacon a la position donnee
+T_glacon *glaconSelonPosition(T_glacon **glacons, int posX, int posY, int nbGlacons)
+{
+    int i;                                     //Variable pour la boucle suivante
+
+    for(i = 0; i < nbGlacons; i++)             //Boucle qui parcourt les glacons du tableau de glacons
+    {
+        if(posX == glacons[i]->position.x
+           && posY == glacons[i]->position.y)  //Condition qui regarde si le position en paramettre correspond à celle du glacon
+        {
+            break;                             //Sort de la boucle
+        }
+    }
+    return glacons[i];                         //Retourne le glacon qui verifie la condition du dessus
+}
+
+
+
 //Fonction qui se charge de deplacer le glacon en paramettre
 int deplacementGlacon(T_glacon *glacon, T_banquise *banquise, T_joueur **joueurs, int nbJoueurs)
 {
@@ -73,23 +91,22 @@ int deplacementGlacon(T_glacon *glacon, T_banquise *banquise, T_joueur **joueurs
             {
             T_joueur *joueur;                                          //Variable pour recuperer le joueur touche
 
-            glacon->position.x = x, glacon->position.y = y;            //Recupere la position du glacon
-            joueur = joueurSelonPoisition(joueurs, x, y, nbJoueurs);   //Recupere le joueur ou
-            tuerJoueur(joueur, banquise);
+            glacon->position.x = x, glacon->position.y = y;            //Fais bouger le glacon
+            joueur = joueurSelonPosition(joueurs, x, y, nbJoueurs);    //Recupere le joueur que touche le glacon
+            tuerJoueur(joueur, banquise);                              //Tue le joueur touche par le glacon
             return 0;
             break;
             }
         case GLACON :
-            //glacon->position.x = x, glacon->position.y = y;
             return 1;
             break;
         case EAU :
-            glacon->position.x = x, glacon->position.y = y;
-            glacon->vecteur.dx = glacon->vecteur.dy = 0;
+            glacon->position.x = x, glacon->position.y = y;             //Fais bouger le glacon
+            glacon->vecteur.dx = glacon->vecteur.dy = 0;                //Arrete le glacon
             return 2;
             break;
         default :
-            glacon->position.x = x, glacon->position.y = y;
+            glacon->position.x = x, glacon->position.y = y;             //Fais bouger le glacon
             return 0;
     }
 }

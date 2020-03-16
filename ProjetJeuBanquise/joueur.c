@@ -1,5 +1,7 @@
 #include "jeux.h"
 
+
+
 //Retourne le type couleur qu'a choisi l'utilisateur
 T_couleur choixCouleur()
 {
@@ -39,8 +41,8 @@ T_joueur *initJoueur(int numeroJoueur)
     joueur->identifiant = numeroJoueur;                                              //Initialise l'identifiant du joueur
     joueur->position.x = joueur->position.y = 0;                                     //Initialise la position du joueur
     joueur->vecteur.dx = joueur->vecteur.dy = 0;                                     //Initialise le veteur deplacement du joueur
-    joueur->score = 0;                                                               //Initialise le score du joueur
-    joueur->etat = 0;                                                                //Initialise l'etat du joueur
+    joueur->score = 1000;                                                            //Initialise le score du joueur
+    joueur->etat = ENCOURS;                                                          //Initialise l'etat du joueur
     joueur->nbMort = 0;                                                              //Initialise le nombre de mort
 
     return joueur;                                                                   //Retourne un pointeur de type joueur
@@ -91,7 +93,14 @@ char saisieDeplacement(T_joueur *joueur)
     printf(" deplacez vous : ");                                                             //Demande au joueur ou il veut se deplacer
     scanf("%c", &clavier);                                                                   //Recupere la touche qui a ete frappe
 
-    while (clavier != 'z' && clavier != 'q' && clavier != 's' && clavier != 'd')             //Boucle qui fini quand l'utilisateur a rentree une bonne touche
+    while (clavier != 'z'
+           && clavier != 'q'
+           && clavier != 's'
+           && clavier != 'd'
+           && clavier != 'Z'
+           && clavier != 'Q'
+           && clavier != 'S'
+           && clavier != 'D')                                                                //Boucle qui fini quand l'utilisateur a rentree une bonne touche
     {
         printf("\r\nTouche incorrect, veuillez saisir une touche entre \"z, q, s, d\" : ");  //Re-demande le deplacement en rappellant les bonnes touches
         scanf("%c", &clavier);                                                               //Recupere la touche qui a ete frappe
@@ -128,9 +137,9 @@ int verifieDeplacement(T_banquise *banquise, T_joueur *joueur, int caseX, int ca
         return 0;                                                                        //Retourne une valeur d'echec pour prevenir la fonction suivante
         break;
     default :
-        joueur->position.x = caseX;   //Affectation de sa nouvelle position
+        joueur->position.x = caseX;                                                      //Affectation de sa nouvelle position
         joueur->position.y = caseY;
-        return 0;                     //Retourne une valeur de succes pour la fonction suivante
+        return 0;                                                                        //Retourne une valeur de succes pour la fonction suivante
     }
 }
 
@@ -138,72 +147,97 @@ int verifieDeplacement(T_banquise *banquise, T_joueur *joueur, int caseX, int ca
 //Fonction qui s'occupe du deplacement du personnage en fonction de ses paramettres, et renvoie un entier en fonction du deplacement
 int deplacementJoueur_bis(T_banquise *banquise, T_joueur *joueur, char deplacement)
 {
-    int jx = joueur->position.x,  //Recupere la position du joueur
+    int jx = joueur->position.x,                                     //Recupere la position du joueur
         jy = joueur->position.y,
-        x, y,
-        taille = banquise->tailleN;
+        x, y,                                                        //Variable pour simuler le deplacement du joueur
+        taille = banquise->tailleN,                                  //Recupere la taille de la banquise
+        caseValeur;                                                  //Variable qui recupere la valeur de la case ou le joueur va aller
 
-    switch (deplacement)          //Effectue le decalage selon la touche mis en parametre et change le vecteur du joueur (utile pour la collision avec un glacon immobile)
+    switch (deplacement)                                             //Effectue le decalage selon la touche mis en parametre et change le vecteur du joueur (utile pour la collision avec un glacon immobile)
     {
     case 'z' :
+    case 'Z' :
         joueur->vecteur.dx = -1;
         joueur->vecteur.dy = 0;
         break;
     case 'q' :
+    case 'Q' :
         joueur->vecteur.dx = 0;
         joueur->vecteur.dy = -1;
         break;
     case 's' :
+    case 'S' :
         joueur->vecteur.dx = 1;
         joueur->vecteur.dy = 0;
         break;
+    case 'd' :
     default :
         joueur->vecteur.dx = 0;
         joueur->vecteur.dy = 1;
     }
 
 
-    x = jx + joueur->vecteur.dx;                  //Positions apres le decalage
+    x = jx + joueur->vecteur.dx;                                     //Simule la nouvelle position du joueur
     y = jy + joueur->vecteur.dy;
 
-    int caseValeur;
-
-    if (x >= 0 && x < taille && y >= 0 && y < taille)
+    if (x >= 0 && x < taille && y >= 0 && y < taille)                //Verifie si le joueur ne sort pas de la matrice
     {
-        caseValeur = banquise->matrice[x][y];
+        caseValeur = banquise->matrice[x][y];                        //Affecte la valeur de la case ou le joueur va
     }
-    else
+    else                                                             //Si le joueur sort de la matrice
     {
-        caseValeur = ERREUR;
+        caseValeur = ERREUR;                                         //Affecte une valeur de case d'erreur
     }
 
-    return verifieDeplacement(banquise, joueur, x, y, caseValeur);
+    return verifieDeplacement(banquise, joueur, x, y, caseValeur);   //Retourne la valeur de la fonction qui verifie la case ou le joueur va aller
 }
+
 
 
 //Fonction qui permet le deplacement du personnage
 int deplacementJoueur(T_banquise *banquise, T_joueur *joueur)
 {
 
-    char clavier = saisieDeplacement(joueur);                                     //Recupere la bonne touche saisie par le joueur
+    char clavier = saisieDeplacement(joueur);                        //Recupere la bonne touche saisie par le joueur
+    int correct = deplacementJoueur_bis(banquise, joueur, clavier);  //Stocke la valeur de la fonction precedente
 
-    int correct = deplacementJoueur_bis(banquise, joueur, clavier);            //Stocke la valeur de la fonction precedente
-
-    while (correct == -1)                                                         //Si la valeur est une valeur d'echec
+    while (correct == -1)                                            //Tant que la valeur est mauvaise
     {
-        clavier = saisieDeplacement(joueur);                                      //On re-recupere la bonne touche saisie par le joueur
+        clavier = saisieDeplacement(joueur);                         //On re-recupere la bonne touche saisie par le joueur
         correct = deplacementJoueur_bis(banquise, joueur, clavier);  //On re-stocke la valeur de la fonction precedente
     }
 
-    if (correct == -2)
+    if (correct == -2)                                               //Verifie si le joueur pousse un glacon
     {
-        return 4;
+        joueur->score += 100;                                        //Incremente le score du joueur
+        return GLACON;                                               //Retourne la valeur qui correspond au glacon
     }
-    else
+    else                                                             //Si le joueur va vers une case de glace
     {
-        joueur->score -= 10;
-        return 0;
+        joueur->score -= 10;                                         //Decremente le score du joueur
+        return GLACE;                                                //Retourne la valeur qui correspond a la glace
     }
+}
+
+
+
+//Cherche un joueur en fonction d'une position en paramettre
+T_joueur *joueurSelonPosition(T_joueur **joueurs, int posX, int posY, int nbJoueurs)
+{
+    T_joueur *joueur;                           //Variable pour retourner le joueur
+    int i;                                      //Variable pour la boucle suivante
+
+    for(i = 0; i < nbJoueurs; i++)              //Regarde chaque joueur du tableau
+    {
+        if (posX == joueurs[i]->position.x
+            && posY == joueurs[i]->position.y)  //Condition qui regarde si le position en paramettre correspond à celle du joueur
+        {
+            joueur = joueurs[i];                //Affecte le bon joueur
+            break;                              //Sort de la boucle
+        }
+    }
+
+    return joueur;                              //Retourne le joueur
 }
 
 
@@ -225,24 +259,4 @@ void tuerJoueur(T_joueur *joueur, T_banquise *banquise)
 
     ajouteCaseGlace(banquise, posx, posy);                     //Ajoute une case GLACE sur la position où le joueur est mort
     departJoueur(banquise, joueur);                            //Fait reapparaitre le joueur sur sa case de depart
-}
-
-
-
-//Cherche un joueur en fonction d'une position en paramettre
-T_joueur *joueurSelonPoisition(T_joueur **joueurs, int posX, int posY, int nbJoueurs)
-{
-    T_joueur *joueur;
-    int i;
-
-    for(i = 0; i < nbJoueurs; i++)                                            //Regarde chaque joueur du tableau
-    {
-        if (posX == joueurs[i]->position.x && posY == joueurs[i]->position.y) //Condition qui regarde si le position en paramettre correspond à celle du joueur
-        {
-            joueur = joueurs[i];                                              //Si la condition est vrai, retourne le joueur
-            break;
-        }
-    }
-
-    return joueur;
 }
