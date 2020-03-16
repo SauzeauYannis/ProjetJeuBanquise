@@ -129,7 +129,7 @@ void ajouteGlacons(T_jeu *jeu)
     {
         T_point glacon = caseGlaceAleatoire(jeu->banquise, 1);                                             //Initialise une position aleatoire pour le glacon i
 
-        jeu->glacons[i] = (T_glacon *)initGlacon(glacon.x, glacon.y);                                      //Initialise le glacon i
+        jeu->glacons[i] = (T_glacon *)initGlacon(glacon.x, glacon.y, jeu->rechauffement);                  //Initialise le glacon i
 
         enleveCaseGlace(jeu->banquise, jeu->glacons[i]->position.x, jeu->glacons[i]->position.y, GLACON);  //Met le glacon i a la place d'une glace
     }
@@ -254,6 +254,24 @@ void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu)
 
 
 
+//Fonction qui fait fondre ou non un glaçon à chaque tour
+void fonteGlacon(T_jeu *jeu)
+{
+    if (jeu->nombreGlacon != 0)
+    {
+        T_glacon *glacon = jeu->glacons[jeu->nombreGlacon - 1];
+
+        if(verifFonteGlacon(glacon) == 1)
+        {
+            enleveCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y, GLACE);
+            jeu->nombreGlacon -= 1;
+            free(glacon);
+        }
+    }
+}
+
+
+
 //Fonction qui s'occupe d'effectuer le tour d'un joueur dont l'identifiant est donne en parametre
 int tourJoueur(T_jeu *jeu, int numJoueur)
 {
@@ -268,7 +286,6 @@ int tourJoueur(T_jeu *jeu, int numJoueur)
     verifDep = deplacementJoueur(jeu->banquise, joueur);                                     //Effectue le deplacement du joueur sur la banquise
     caseValeur = matrice[joueur->position.x][joueur->position.y];                            //Regarde la valeur de la case ou le joueur est
     enleveCaseGlace(jeu->banquise, joueur->position.x, joueur->position.y, JOUEUR);          //Remplace la case glace ou le joueur est alle
-    fonteBanquise(jeu->banquise, jeu->rechauffement);                                        //Applique le rechauffement climatique sur la banquise
 
     if(verifDep == GLACON)                                                                   //Verifie si le joueur touche un glacon
     {
@@ -346,29 +363,32 @@ void afficheScore(T_jeu *jeu)
 //Fonction qui joue un niveau selectionne jusqu'à la victoire d'un joueur
 void joueNiveau(T_jeu *jeu)
 {
-    int caseVal, finPartie = 0,                     //caseVal sert à connaitre la valeur de la case, et finPartie sert à mettre fin à la partie en cours
-        i;                                          //Variable pour la boucle suivante
+    int caseVal, finPartie = 0,                                //caseVal sert à connaitre la valeur de la case, et finPartie sert à mettre fin à la partie en cours
+        i;                                                     //Variable pour la boucle suivante
 
-    jeu->nombreTour = 1;                            //Initialise le nombre de tour a 1
+    jeu->nombreTour = 1;                                       //Initialise le nombre de tour a 1
 
-    while(finPartie == 0)                           //Boucle tant que la partie n'est pas finie, c'est a dire tant qu'un joueur n'a pas atteint la case d'arrive
+    while(finPartie == 0)                                      //Boucle tant que la partie n'est pas finie, c'est a dire tant qu'un joueur n'a pas atteint la case d'arrive
     {
-        for(i = 0; i < jeu->nombreJoueur; i++)      //Boucle for qui permet à chaque joueur de jouer pour un tour
+        for(i = 0; i < jeu->nombreJoueur; i++)                 //Boucle for qui permet à chaque joueur de jouer pour un tour
         {
-            caseVal = tourJoueur(jeu, i);           //Tour du joueur i
-            finPartie = victoire(jeu, caseVal, i);  //Donne un entier si la partie est gagnee, ou si elle continue
+            caseVal = tourJoueur(jeu, i);                      //Tour du joueur i
+            finPartie = victoire(jeu, caseVal, i);             //Donne un entier si la partie est gagnee, ou si elle continue
 
-            if (caseVal == ARRIVE)                  //Permet de reellement stopper le jeu, pour ainsi eviter les joueurs suivant de jouer
+            if (caseVal == ARRIVE)                             //Permet de reellement stopper le jeu, pour ainsi eviter les joueurs suivant de jouer
             {
-                break;                              //Brise la boucle for
+                break;                                         //Brise la boucle for
             }
+
+            fonteBanquise(jeu->banquise, jeu->rechauffement);  //Applique le rechauffement climatique sur la banquise
+            fonteGlacon(jeu);                                  //
         }
-        jeu->nombreTour += 1;                       //Incremente le nombre de tour
+        jeu->nombreTour += 1;                                  //Incremente le nombre de tour
     }
-    afficheScore(jeu);                              //Affiche le score du jeu
-    Sleep(5000);                                    //Donne 5s au joueur pour lire les scores
-    system("cls");                                  //Netoie la console
-    printf("Merci d'avoir joue !\n");               //Affiche remerciement
+    afficheScore(jeu);                                         //Affiche le score du jeu
+    Sleep(5000);                                               //Donne 5s au joueur pour lire les scores
+    system("cls");                                             //Netoie la console
+    printf("Merci d'avoir joue !\n");                          //Affiche remerciement
 }
 
 

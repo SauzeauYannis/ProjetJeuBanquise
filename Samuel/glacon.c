@@ -3,7 +3,7 @@
 
 
 //Fonction qui initialise un glacon
-T_glacon *initGlacon(int caseX, int caseY)
+T_glacon *initGlacon(int caseX, int caseY, int chanceFonte)
 {
     T_point pos;                                              //Creer un point qui sera la position du glacon
     T_vecteur vect;                                           //Creer le vecteur du glacon
@@ -14,7 +14,8 @@ T_glacon *initGlacon(int caseX, int caseY)
 
     glacon->position = pos;                                   //Initialise la position
     glacon->vecteur = vect;                                   //Initialise le vecteur
-    glacon->pourcentage_fondre = 1;                           //Initialise le pourcentage de fonte
+    glacon->pourcentage_fondre = chanceFonte;                 //Initialise le pourcentage de fonte
+    //glacon->estFondu = PRESENT;
 
     return glacon;                                            //Retourne le glacon
 }
@@ -37,6 +38,24 @@ int verifieVecteurGlacon(T_glacon *glacon)
     {
         return 0;                                                                      //Retourne une valeur de succes
     }
+}
+
+
+
+//Fonction qui retourne le glacon a la position donnee
+T_glacon *glaconSelonPosition(T_glacon **glacons, int posX, int posY, int nbGlacons)
+{
+    int i;                                     //Variable pour la boucle suivante
+
+    for(i = 0; i < nbGlacons; i++)             //Boucle qui parcourt les glacons du tableau de glacons
+    {
+        if(posX == glacons[i]->position.x
+           && posY == glacons[i]->position.y)  //Condition qui regarde si le position en paramettre correspond à celle du glacon
+        {
+            break;                             //Sort de la boucle
+        }
+    }
+    return glacons[i];                         //Retourne le glacon qui verifie la condition du dessus
 }
 
 
@@ -73,26 +92,26 @@ int deplacementGlacon(T_glacon *glacon, T_banquise *banquise, T_joueur **joueurs
             {
             T_joueur *joueur;                                          //Variable pour recuperer le joueur touche
 
-            glacon->position.x = x, glacon->position.y = y;            //Recupere la position du glacon
-            joueur = joueurSelonPoisition(joueurs, x, y, nbJoueurs);   //Recupere le joueur ou
-            tuerJoueur(joueur, banquise);
+            glacon->position.x = x, glacon->position.y = y;            //Fais bouger le glacon
+            joueur = joueurSelonPosition(joueurs, x, y, nbJoueurs);    //Recupere le joueur que touche le glacon
+            tuerJoueur(joueur, banquise);                              //Tue le joueur touche par le glacon
             return 0;
             break;
             }
         case GLACON :
-            //glacon->position.x = x, glacon->position.y = y;
             return 1;
             break;
         case EAU :
-            glacon->position.x = x, glacon->position.y = y;
-            glacon->vecteur.dx = glacon->vecteur.dy = 0;
+            glacon->position.x = x, glacon->position.y = y;             //Fais bouger le glacon
+            glacon->vecteur.dx = glacon->vecteur.dy = 0;                //Arrete le glacon
             return 2;
             break;
         default :
-            glacon->position.x = x, glacon->position.y = y;
+            glacon->position.x = x, glacon->position.y = y;             //Fais bouger le glacon
             return 0;
     }
 }
+
 
 
 //Fonction qui regarde si le glaçon va fondre
@@ -100,7 +119,7 @@ int verifFonteGlacon(T_glacon *glacon)
 {
     int chanceFonteGlacon = glacon->pourcentage_fondre;  //Récupère la valeur du pourcentage de fonte du glaçon
 
-    if(chanceFonteGlacon == glacon->pourcentage_fondre)                  //Condition qui verifie si le glaçon va fondre ou non
+    if ((rand() % chanceFonteGlacon) == 0)                 //Condition qui verifie si le glaçon va fondre ou non
     {
         return 1;                                        //Retourne un entier qui valide la fonte du glaçon
     }

@@ -3,7 +3,7 @@
 
 
 //Fonction qui initialise un glacon
-T_glacon *initGlacon(int caseX, int caseY)
+T_glacon *initGlacon(int caseX, int caseY, int chanceFonte)
 {
     T_point pos;                                              //Creer un point qui sera la position du glacon
     T_vecteur vect;                                           //Creer le vecteur du glacon
@@ -14,7 +14,8 @@ T_glacon *initGlacon(int caseX, int caseY)
 
     glacon->position = pos;                                   //Initialise la position
     glacon->vecteur = vect;                                   //Initialise le vecteur
-    glacon->pourcentage_fondre = 0;                           //Initialise le pourcentage de fonte
+    glacon->pourcentage_fondre = chanceFonte;                 //Initialise le pourcentage de fonte
+    //glacon->estFondu = PRESENT;
 
     return glacon;                                            //Retourne le glacon
 }
@@ -108,5 +109,22 @@ int deplacementGlacon(T_glacon *glacon, T_banquise *banquise, T_joueur **joueurs
         default :
             glacon->position.x = x, glacon->position.y = y;             //Fais bouger le glacon
             return 0;
+    }
+}
+
+
+
+//Fonction qui regarde si le glaçon va fondre
+int verifFonteGlacon(T_glacon *glacon)
+{
+    int chanceFonteGlacon = glacon->pourcentage_fondre;  //Récupère la valeur du pourcentage de fonte du glaçon
+
+    if ((rand() % chanceFonteGlacon) == 0)                 //Condition qui verifie si le glaçon va fondre ou non
+    {
+        return 1;                                        //Retourne un entier qui valide la fonte du glaçon
+    }
+    else
+    {
+        return 0;                                        //Retourne un entier qui interdit la fonte du glaçon
     }
 }

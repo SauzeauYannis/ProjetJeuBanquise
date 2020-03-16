@@ -100,6 +100,10 @@ void afficheJeu(T_jeu *jeu);
 void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu);
 
 
+//
+void fonteGlacon(T_jeu *jeu);
+
+
 //S'occupe d'effectuer le tour d'un joueur
 int tourJoueur(T_jeu *jeu, int numJoueur);
 
