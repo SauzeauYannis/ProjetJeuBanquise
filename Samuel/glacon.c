@@ -20,24 +20,6 @@ T_glacon *initGlacon(int caseX, int caseY)
 }
 
 
-/*
-//Initialise un tableau remplit de n glacons (n est un paramettre de l fonction)
-T_glacon **initTabGlacon(T_banquise *banquise, int nbGlacons)
-{
-    T_glacon **glaconTab = (T_glacon **)malloc(nbGlacons * sizeof(T_glacon *));  //Alloue de la memoire pour le tableau de glacons
-    int i;                                                                       //Variable pour la boucle for
-
-    for(i = 0; i < nbGlacons; i++)                                               //Ajoute n glacons initialises à des positions alleatoires sur la banquise
-    {
-        T_point pos = caseGlaceAleatoire(banquise, 1);                           //Recupere une position de glace aleatoire
-
-        glaconTab[i] = initGlacon(pos.x, pos.y);                                 //Ajoute le glacon dans le tableau
-    }
-
-    return glaconTab;                                                            //Retourne le tableau de glaces initialisee
-}
-*/
-
 
 //Fonction qui verifie que le vecteur du glacon est valide : HAUT BAS GAUCHE DROITE
 int verifieVecteurGlacon(T_glacon *glacon)
@@ -89,14 +71,18 @@ int deplacementGlacon(T_glacon *glacon, T_banquise *banquise, T_joueur **joueurs
             break;
         case JOUEUR :
             {
-            T_joueur *joueur;
+            T_joueur *joueur;                                          //Variable pour recuperer le joueur touche
 
-            glacon->position.x = x, glacon->position.y = y;
-            joueur = joueurSelonPoisition(joueurs, x, y, nbJoueurs);   //
+            glacon->position.x = x, glacon->position.y = y;            //Recupere la position du glacon
+            joueur = joueurSelonPoisition(joueurs, x, y, nbJoueurs);   //Recupere le joueur ou
             tuerJoueur(joueur, banquise);
             return 0;
             break;
             }
+        case GLACON :
+            //glacon->position.x = x, glacon->position.y = y;
+            return 1;
+            break;
         case EAU :
             glacon->position.x = x, glacon->position.y = y;
             glacon->vecteur.dx = glacon->vecteur.dy = 0;
