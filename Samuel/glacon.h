@@ -24,3 +24,7 @@ int verifieVecteurGlacon(T_glacon *glacon);
 
 //Fonction qui se charge de deplacer le glacon en paramettre
 int deplacementGlacon(T_glacon *glacon, T_banquise *banquise, T_joueur **joueurs, int nbJoueurs);
+
+
+//Fonction qui regarde si le glaçon va fondre
+int verifFonteGlacon(T_glacon *glacon);

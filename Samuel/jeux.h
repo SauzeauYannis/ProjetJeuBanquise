@@ -122,3 +122,6 @@ void ajouteGlacon(T_jeu *jeu);
 //S'occupe du deplacement du glacon apres que celui-ci se soit fait pousser par un joueur
 void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu);
 
+
+//Fonction qui fait fondre ou non un glaçon à chaque tour
+void fonteGlacon(T_jeu *jeu);

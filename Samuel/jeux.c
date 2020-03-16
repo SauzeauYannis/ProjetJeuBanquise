@@ -114,6 +114,8 @@ void ajouteJoueurs(T_jeu *jeu)
     }
 }
 
+
+
 //Retourne un pointeur de type jeu en fonction du niveau et de la taille de la banquise
 T_jeu *initJeux(int niveau, int taille)
 {
@@ -127,7 +129,7 @@ T_jeu *initJeux(int niveau, int taille)
     jeu->nombreTour = 0;                                       //Initialise le nombre de tour
     jeu->IdJeu = niveau;                                       //Initialise le niveau
 
-    remplitBanquise(jeu->banquise);                  //Remplit la banquise
+    remplitBanquise(jeu->banquise);                            //Remplit la banquise
     ajouteJoueurs(jeu);                                        //Ajoute les joueurs
     ajouteGlacon(jeu);
 
@@ -232,6 +234,7 @@ int tourJoueur(T_jeu *jeu, int numJoueur)
 }
 
 
+
 //Ressort un entier qui determine si la partie est finie ou non
 int victoire(T_jeu *jeu, int caseVal, int i)
 {
@@ -275,12 +278,14 @@ void afficheScore(T_jeu *jeu)
     }
 }
 
+
+
 //Fonction qui retourne le glacon sur lequel le joueur va buter
 T_glacon *returnGlaconJoueur(T_glacon **glacons, int posX, int posY, int nbGlacons)
 {
     int i;
 
-    for(i = 0; i < nbGlacons; i++)                                          //Regarde chaque glacon du tableau
+    for(i = 0; i < nbGlacons; i++)                                            //Regarde chaque glacon du tableau
     {
         if(posX == glacons[i]->position.x && posY == glacons[i]->position.y)  //Condition qui regarde si le position en paramettre correspond à celle du glacon
         {
@@ -290,29 +295,24 @@ T_glacon *returnGlaconJoueur(T_glacon **glacons, int posX, int posY, int nbGlaco
     return glacons[i];
 }
 
+
+
 //Fonction qui joue un niveau selectionne jusqu'à la victoire d'un joueur
 void joueNiveau(T_jeu *jeu)
 {
     jeu->nombreTour = 1;
     int caseVal, finPartie = 0; //caseVal sert à connaitre la valeur de la case, et finPartie sert à mettre fin à la partie en cours
     int i;
-    T_glacon *glacon;
 
     while(finPartie == 0)
     {
-        for(i = 0; i<jeu->nombreJoueur; i++)    //Boucle for qui permet à chaque joueur de jouer pour un tour
+        for(i = 0; i<jeu->nombreJoueur; i++)        //Boucle for qui permet à chaque joueur de jouer pour un tour
         {
             caseVal = tourJoueur(jeu, i);           //Tour du joueur i
             finPartie = victoire(jeu, caseVal, i);  //Donne un entier si la partie est gagnee, ou si elle continue
-            if (caseVal == ARRIVE)                       //Permet de reellement stopper le jeu, pour ainsi eviter les joueurs suivant de jouer
+            if (caseVal == ARRIVE)                  //Permet de reellement stopper le jeu, pour ainsi eviter les joueurs suivant de jouer
                 break;                              //Brise la boucle for
-            if (caseVal == GLACON)
-            {
-                glacon = returnGlaconJoueur(jeu->glacons, jeu->joueurs[i]->position.x, jeu->joueurs[i]->position.y, jeu->nombreGlacon);
-                printf("x = %d\ny = %d\n", glacon->position.x, glacon->position.y);
-                Sleep(2000);
-                joueurPousseGlacon(jeu->joueurs[i], glacon, jeu);
-            }
+            fonteGlacon(jeu);
         }
         jeu->nombreTour += 1;
     }
@@ -321,7 +321,6 @@ void joueNiveau(T_jeu *jeu)
     system("cls");
     printf("Merci d'avoir joue !\n");
 }
-
 
 
 
@@ -408,3 +407,18 @@ void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu)
     }
 }
 
+
+//Fonction qui fait fondre ou non un glaçon à chaque tour
+void fonteGlacon(T_jeu *jeu)
+{
+    int indGlacon = rand() % jeu->nombreGlacon;
+    T_glacon *glacon;
+
+    glacon = jeu->glacons[indGlacon];
+
+    if(verifFonteGlacon(glacon) == 1)
+    {
+        enleveCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y, GLACE);
+        free(glacon);
+    }
+}

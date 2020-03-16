@@ -243,6 +243,5 @@ T_joueur *joueurSelonPoisition(T_joueur **joueurs, int posX, int posY, int nbJou
             break;
         }
     }
-
     return joueur;
 }
