@@ -1,98 +1,89 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "jeux.h"
 
-//Fonction qui initialise un glaçon
+
+
+//Fonction qui initialise un glacon
 T_glacon *initGlacon(int caseX, int caseY)
 {
-    T_glacon *glacon = (T_glacon *)malloc(sizeof(T_glacon));  //Alloue de la mémoire pour le glaçon
-    T_point pos;            //Créer un point qui sera la position du glaçon
-    pos.x = caseX;          //Initialise la postion du glaçon via les paramètres
-    pos.y = caseY;
-    T_vecteur vect;         //Créer le vecteur du glacon
-    vect.dx = 0;
-    vect.dy = 0;            //Initialise le vecteur à 0
+    T_point pos;                                              //Creer un point qui sera la position du glacon
+    T_vecteur vect;                                           //Creer le vecteur du glacon
+    T_glacon *glacon = (T_glacon *)malloc(sizeof(T_glacon));  //Alloue de la memoire pour le glacon
 
-    glacon->position = pos;
-    glacon->vecteur = vect;
-    glacon->pourcentage_fondre = 0;
+    pos.x = caseX, pos.y = caseY;                             //Initialise la postion du glacon via les parametres
+    vect.dx = vect.dy = 0;                                    //Initialise le vecteur à 0
 
-    return glacon;         //Retourne le glaçon
+    glacon->position = pos;                                   //Initialise la position
+    glacon->vecteur = vect;                                   //Initialise le vecteur
+    glacon->pourcentage_fondre = 0;                           //Initialise le pourcentage de fonte
+
+    return glacon;                                            //Retourne le glacon
 }
 
 
 
-//Fonction qui vérifie que le vecteur du glaçon est valide : HAUT BAS GAUCHE DROITE
+//Fonction qui verifie que le vecteur du glacon est valide : HAUT BAS GAUCHE DROITE
 int verifieVecteurGlacon(T_glacon *glacon)
 {
-    int dx = glacon->vecteur.dx, dy = glacon->vecteur.dy;
+    int dx = glacon->vecteur.dx, dy = glacon->vecteur.dy;                              //Recupere les vecteurs du glacon en parametre
 
-    if(dx != 0 && dy != 0)
+    if(dx != 0 && dy != 0)                                                             //Verifie si il n'y a aucun des deux vecteurs a 0
     {
-        printf("Le vecteur du glacon à la position x = %d y = %d est incorrecte !", glacon->position.x, glacon->position.y);
-        return -1;
+        printf("Le vecteur du glacon à la position x = %d y = %d est incorrecte !",
+               glacon->position.x, glacon->position.y);                                //Affiche un message d'erreur
+
+        return -1;                                                                     //Retourne une valeur d'echec
     }
-    else
+    else                                                                               //Si les vecteurs sont bons
     {
-        return 0;
-    }
-}
-
-
-
-//Fonction qui vérifie si le glaçon touche  un rebord ou non
-int verifieDeplacementGlacon(int caseX, int caseY, int caseValeur, int taille)
-{
-    switch (caseValeur)
-    {
-    case -1:                                                                        //Retourne une valeur d'echec pour prevenir la fonction suivante
-    case DEPART:
-    case ARRIVE:
-        return -1;
-        break;
-    case JOUEUR:
-        return 1;                                                                   //Retourne une valeur pour dire que le glaçon touche un joueur
-        break;
-    case EAU:
-        return 2;                                                                   //Retourne une valeur pour indiquer que la glaçon touche de l'eau
-        break;
-    default :
-        return 0;                                                                   //Entier de validation
+        return 0;                                                                      //Retourne une valeur de succes
     }
 }
 
 
-//Fonction qui se charge de déplacer le glaçon en paramettre
-int deplacementGlacon(T_glacon *glacon, T_banquise *banquise)
+
+//Fonction qui se charge de deplacer le glacon en paramettre
+int deplacementGlacon(T_glacon *glacon, T_banquise *banquise, T_joueur **joueurs, int nbJoueurs)
 {
-    modifieCaseBanquise(banquise, glacon->position.x, glacon->position.y, GLACE);
 
-    int posx = glacon->position.x, posy = glacon->position.y;          //Position du glaçon avant son déplacement
-    int x = posx + glacon->vecteur.dx, y = posy + glacon->vecteur.dy;  //Position vers laquelle le glaçon se déplace
-    int taille = banquise->tailleN;
-    int caseValeur, verif;
+    int posx = glacon->position.x, posy = glacon->position.y,          //Position du glacon avant son deplacement
+        x = posx + glacon->vecteur.dx, y = posy + glacon->vecteur.dy,  //Position vers laquelle le glacon se deplace
+        taille = banquise->tailleN,                                    //Recupere la taille de la banquise
+        caseValeur;                                                    //Variable pour prendre la valeur de la case
 
-    if(x < 0 || x >= taille || y < 0 || y >= taille)                   //Vérifie si le glaçon se déplace en dehors du cadre
+    ajouteCaseGlace(banquise, posx, posy);                             //Remplace le glacon par de la glace
+
+    if(x < 0 || x >= taille || y < 0 || y >= taille)                   //Verifie si le glacon est dans la matrice
     {
-        caseValeur = -1;
+        caseValeur = ERREUR;                                           //Met la valeur de la case a ERREUR
     }
-    else
+    else                                                               //Si le glacon va bien dans la matrice
     {
-        caseValeur = banquise->tab[x][y];
+        caseValeur = banquise->matrice[x][y];                          //Met la valeur de la case selon le deplacement du glacon
     }
 
-    verif = verifieDeplacementGlacon(x, y, caseValeur, taille);
-
-    switch(verif)
+    switch(caseValeur)                                                 //Selon la valeur de la case
     {
-        case -1 :
-            glacon->vecteur.dx = glacon->vecteur.dy = 0;
+        case ERREUR :
+        case DEPART :
+        case ARRIVE :
+            glacon->vecteur.dx = glacon->vecteur.dy = 0;               //Arrete le glacon
             return 0;
             break;
-        case 1 :
+        case JOUEUR :
+            {
+            T_joueur *joueur;                                          //Variable pour recuperer le joueur touche
+
+            glacon->position.x = x, glacon->position.y = y;            //Recupere la position du glacon
+            joueur = joueurSelonPoisition(joueurs, x, y, nbJoueurs);   //Recupere le joueur ou
+            tuerJoueur(joueur, banquise);
+            return 0;
+            break;
+            }
+        case GLACON :
+            //glacon->position.x = x, glacon->position.y = y;
             return 1;
             break;
-        case 2 :
+        case EAU :
             glacon->position.x = x, glacon->position.y = y;
             glacon->vecteur.dx = glacon->vecteur.dy = 0;
             return 2;

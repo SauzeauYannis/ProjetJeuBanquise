@@ -1,5 +1,6 @@
 /***** Structures *****/
 
+
 //Definition du type glace
 typedef struct
 {
@@ -11,31 +12,33 @@ typedef struct
 //Definition du type banquise
 typedef struct
 {
-    int **tab;           //Matrice represantant la banquise
+    int **matrice;       //Matrice represantant la banquise
     int tailleN;         //Taille de la matrice (carree)
+    int tailleEau;       //Taille de l'eau
     T_point depart;      //Case depart
     T_point arrive;      //Case arrive
     T_glace *tabGlaces;  //Tableau de glaces
+    int nombreGlaces;    //Nombres de glaces dans la banquise
 } T_banquise;
-
 
 
 /***** Fonctions *****/
 
-//Definition de la fonction qui initialise le pointeur de type banquise
-T_banquise *initBanquise(int taille);
+
+//Initialise la matrice qui represente la banquise
+int **initMatrice(int tailleMatrice);
 
 
-//Remplit la banquise avec une valeur donnee
-void remplitBanquise(T_banquise *banquise, T_case valeur, int tailleEau);
+//Initialise le tableau de glaces
+T_glace *initTabGlaces(int taille);
+
+
+//Initialise le pointeur de type banquise
+T_banquise *initBanquise(int tailleMatrice, int tailleEau);
 
 
 //Modifie une case de la banquise
 void modifieCaseBanquise(T_banquise *banquise, int caseX, int caseY, T_case valeur);
-
-
-//Ajoute la case de depart et arrive
-void ajouteDepartArrive(T_banquise *banquise, int tailleEau);
 
 
 //Ajoute une position de glace dans le tableau de glaces de la banquise
@@ -44,3 +47,19 @@ void ajouteCaseGlace(T_banquise *banquise, int caseX, int caseY);
 
 //Enleve une position de glace dans le tableau de glaces de la banquise
 void enleveCaseGlace(T_banquise *banquise, int caseX, int caseY, T_case valeur);
+
+
+//Ajoute la case de depart et arrive
+void ajouteDepartArrive(T_banquise *banquise);
+
+
+//Remplit la banquise avec une valeur donnee
+void remplitBanquise(T_banquise *banquise);
+
+
+//Retourne une case de glace aleatoire
+T_point caseGlaceAleatoire(T_banquise *banquise, int choix);
+
+
+//Applique la fonte de la banquise
+void fonteBanquise(T_banquise *banquise, int chanceFonte);

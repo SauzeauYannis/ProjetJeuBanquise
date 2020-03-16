@@ -22,23 +22,7 @@ T_couleur choixCouleur()
         }
     }
 
-    switch (couleur)                                      //Transforme un entier en un type couleur pour le retourner
-    {
-    case 0 :
-        return ROUGE;
-        break;
-    case 1 :
-        return VERT;
-        break;
-    case 2 :
-        return BLEU;
-        break;
-    case 3 :
-        return JAUNE;
-        break;
-    default :
-        return BLANC;
-    }
+    return couleur;                                       //Retourne la couleur choisie
 }
 
 
@@ -46,47 +30,50 @@ T_couleur choixCouleur()
 //Fonction qui retourne un type joueur selon un numero qui va l'identifier
 T_joueur *initJoueur(int numeroJoueur)
 {
-    T_joueur *joueur = (T_joueur *)malloc(sizeof(T_joueur));  //Alloue de la memoire au type joueur
+    T_joueur *joueur = (T_joueur *)malloc(sizeof(T_joueur));                         //Alloue de la memoire au type joueur
 
     printf("Veuillez choisir un nom pour le joueur numero %d : ", numeroJoueur + 1); //Demande le nom au joueur
     scanf("%s", joueur->nom);                                                        //Initialise le nom du joueur
 
-    joueur->couleur = choixCouleur();             //Initialise la couleur de joueur
-    joueur->identifiant = numeroJoueur;           //Initialise l'identifiant du joueur
-    joueur->position.x = joueur->position.y = 0;  //Initialise la position du joueur
-    joueur->vecteur.dx = joueur->vecteur.dy = 0;  //Initialise le veteur deplacement du joueur
-    joueur->score = 0;
-    joueur->etat = 0;                             //Initialise l'etat du joueur
-    joueur->nbMort = 0;
+    joueur->couleur = choixCouleur();                                                //Initialise la couleur de joueur
+    joueur->identifiant = numeroJoueur;                                              //Initialise l'identifiant du joueur
+    joueur->position.x = joueur->position.y = 0;                                     //Initialise la position du joueur
+    joueur->vecteur.dx = joueur->vecteur.dy = 0;                                     //Initialise le veteur deplacement du joueur
+    joueur->score = 0;                                                               //Initialise le score du joueur
+    joueur->etat = 0;                                                                //Initialise l'etat du joueur
+    joueur->nbMort = 0;                                                              //Initialise le nombre de mort
 
-    return joueur;                                //Retourne un pointeur de type joueur
+    return joueur;                                                                   //Retourne un pointeur de type joueur
 }
 
-void spawnJoueur(T_banquise *banquise, T_joueur *joueur)
-{
-    T_point pos;                            //Declare un type point
-    T_point depart = banquise->depart;
 
-    switch (joueur->identifiant)
+
+//Fait apparaitre le joueur sur sa case de depart
+void departJoueur(T_banquise *banquise, T_joueur *joueur)
+{
+    T_point pos;                                      //Declare la position du joueur
+    T_point depart = banquise->depart;                //Recupere la psotion de la case de depart
+
+    switch (joueur->identifiant)                      //Retourne la case de depart du joueur selon son identifiant
     {
-    case 0:
+    case 0:                                           //Joueur 0 a droite de la case de depart
         pos.x = depart.x;
         pos.y = depart.y + 1;
         break;
-    case 1:
+    case 1:                                           //Joueur 1 en bas de la case de depart
         pos.x = depart.x + 1;
         pos.y = depart.y;
         break;
-    case 2:
+    case 2:                                           //Joueur 2 en gauche de la case de depart
         pos.x = depart.x;
         pos.y = depart.y - 1;
         break;
-    default:
+    default:                                          //Joueur 3 en haut de la case de depart
         pos.x = depart.x - 1;
         pos.y = depart.y;
     }
 
-    joueur->position = pos;
+    joueur->position = pos;                           //Change la position du joueur
 
     enleveCaseGlace(banquise, pos.x, pos.y, JOUEUR);  //Ajoute le joueur sur la banquise
 }
@@ -96,37 +83,37 @@ void spawnJoueur(T_banquise *banquise, T_joueur *joueur)
 //Retourne une lettre du clavier qui correspond a un deplacement
 char saisieDeplacement(T_joueur *joueur)
 {
-    char clavier = getchar();               //Declare un caractere et l'initialise pour eviter un bug que nous comprenons pas
+    char clavier = getchar();                                                                //Declare un caractere et l'initialise pour eviter un bug que nous comprenons pas
 
-    changeCouleurTexte(joueur->couleur);    //Change la couleur selon la couleur choisi par le joueur
-    printf("%s", joueur->nom);              //Affiche le nom du joueur choisi
-    changeCouleurTexte(BLANC);              //Remet la couleur blanche
-    printf(" deplacez vous : ");            //Demande au joueur ou il veut se deplacer
-    scanf("%c", &clavier);                  //Recupere la touche qui a ete frappe
+    changeCouleurTexte(joueur->couleur);                                                     //Change la couleur selon la couleur choisi par le joueur
+    printf("%s", joueur->nom);                                                               //Affiche le nom du joueur choisi
+    changeCouleurTexte(BLANC);                                                               //Remet la couleur blanche
+    printf(" deplacez vous : ");                                                             //Demande au joueur ou il veut se deplacer
+    scanf("%c", &clavier);                                                                   //Recupere la touche qui a ete frappe
 
-    while (clavier != 'z' && clavier != 'q' && clavier != 's' && clavier != 'd')           //Boucle qui fini quand l'utilisateur a rentree une bonne touche
+    while (clavier != 'z' && clavier != 'q' && clavier != 's' && clavier != 'd')             //Boucle qui fini quand l'utilisateur a rentree une bonne touche
     {
         printf("\r\nTouche incorrect, veuillez saisir une touche entre \"z, q, s, d\" : ");  //Re-demande le deplacement en rappellant les bonnes touches
-        scanf("%c", &clavier);                                                             //Recupere la touche qui a ete frappe
+        scanf("%c", &clavier);                                                               //Recupere la touche qui a ete frappe
     }
 
-    return clavier;                              //Retourne la bonne touche
+    return clavier;                                                                          //Retourne la bonne touche
 }
 
 
 
 //Retourne un entier en fonction du deplacement du joueur, et modifie la position de celui-ci
-int verifieDeplacement(T_banquise *banquise, T_joueur *joueur, int caseX, int caseY, int caseValeur, int taille)
+int verifieDeplacement(T_banquise *banquise, T_joueur *joueur, int caseX, int caseY, int caseValeur)
 {
-    switch (caseValeur)
+    switch (caseValeur)                                                                  //Retourne un entier selon la valeur de la case
     {
-    case -1:
-        printf("\nDeplacement impossible : le joueur est en dehors des limites\n"); //Previens le joueur dans ce cas la
-        return -1;                                                                  //Retourne une valeur d'echec pour prevenir la fonction suivante
+    case ERREUR:
+        printf("\nDeplacement impossible : le joueur est en dehors des limites\n");      //Previens le joueur dans ce cas la
+        return -1;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
         break;
     case JOUEUR:
-        printf("\nDeplacement impossible : un autre joueur occupe deja la case\n"); //Previens le joueur dans ce cas la
-        return -1;                                                                  //Retourne une valeur d'echec pour prevenir la fonction suivante
+        printf("\nDeplacement impossible : un autre joueur occupe deja la case\n");      //Previens le joueur dans ce cas la
+        return -1;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
         break;
     case DEPART:
         printf("\nDeplacement impossible : le joueur ne peut pas aller sur le spawn\n"); //Previens le joueur dans ce cas la
@@ -138,7 +125,7 @@ int verifieDeplacement(T_banquise *banquise, T_joueur *joueur, int caseX, int ca
         break;
     case EAU:
 		tuerJoueur(joueur, banquise);
-        return 0;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
+        return 0;                                                                        //Retourne une valeur d'echec pour prevenir la fonction suivante
         break;
     default :
         joueur->position.x = caseX;   //Affectation de sa nouvelle position
@@ -148,14 +135,15 @@ int verifieDeplacement(T_banquise *banquise, T_joueur *joueur, int caseX, int ca
 }
 
 
-//Fonction qui s'occupe du déplacement du personnage en fonction de ses paramettres, et renvoie un entier en fonction du déplacement
-int deplacementJoueur_bis(T_banquise *banquise, T_joueur *joueur, int taille, char deplacement, int **tab)
+//Fonction qui s'occupe du deplacement du personnage en fonction de ses paramettres, et renvoie un entier en fonction du deplacement
+int deplacementJoueur_bis(T_banquise *banquise, T_joueur *joueur, char deplacement)
 {
     int jx = joueur->position.x,  //Recupere la position du joueur
         jy = joueur->position.y,
-        x, y;                     //Declare 2 entier pour tester le deplacement
+        x, y,
+        taille = banquise->tailleN;
 
-    switch (deplacement)          //Effectue le decalage selon la touche mis en parametre et change le vecteur du joueur (utile pour la collision avec un glaçon immobile)
+    switch (deplacement)          //Effectue le decalage selon la touche mis en parametre et change le vecteur du joueur (utile pour la collision avec un glacon immobile)
     {
     case 'z' :
         joueur->vecteur.dx = -1;
@@ -178,42 +166,49 @@ int deplacementJoueur_bis(T_banquise *banquise, T_joueur *joueur, int taille, ch
     x = jx + joueur->vecteur.dx;                  //Positions apres le decalage
     y = jy + joueur->vecteur.dy;
 
-    int caseValeur = -1;
+    int caseValeur;
 
     if (x >= 0 && x < taille && y >= 0 && y < taille)
     {
-       caseValeur = tab[x][y];
+        caseValeur = banquise->matrice[x][y];
+    }
+    else
+    {
+        caseValeur = ERREUR;
     }
 
-
-    return verifieDeplacement(banquise, joueur, x, y, caseValeur, taille);
+    return verifieDeplacement(banquise, joueur, x, y, caseValeur);
 }
 
 
-//Fonction qui permet le déplacement du personnage
-int deplacementJoueur(T_banquise *banquise, T_joueur *joueur, int taille, int **tab)
+//Fonction qui permet le deplacement du personnage
+int deplacementJoueur(T_banquise *banquise, T_joueur *joueur)
 {
 
     char clavier = saisieDeplacement(joueur);                                     //Recupere la bonne touche saisie par le joueur
 
-    int correct = deplacementJoueur_bis(banquise, joueur, taille, clavier, tab);            //Stocke la valeur de la fonction precedente
-
-    if (correct == -2)
-        return 4;
+    int correct = deplacementJoueur_bis(banquise, joueur, clavier);            //Stocke la valeur de la fonction precedente
 
     while (correct == -1)                                                         //Si la valeur est une valeur d'echec
     {
         clavier = saisieDeplacement(joueur);                                      //On re-recupere la bonne touche saisie par le joueur
-        correct = deplacementJoueur_bis(banquise, joueur, taille, clavier, tab);  //On re-stocke la valeur de la fonction precedente
+        correct = deplacementJoueur_bis(banquise, joueur, clavier);  //On re-stocke la valeur de la fonction precedente
     }
 
-    joueur->score -= 10;
-    return 0;
+    if (correct == -2)
+    {
+        return 4;
+    }
+    else
+    {
+        joueur->score -= 10;
+        return 0;
+    }
 }
 
 
 
-//Fonction qui s'occupe de tuer le joueur et de le ramener au point de départ
+//Fonction qui s'occupe de tuer le joueur et de le ramener au point de depart
 void tuerJoueur(T_joueur *joueur, T_banquise *banquise)
 {
     int posx = joueur->position.x, posy = joueur->position.y;  //Enregistre la position du joueur dans 2 varibles
@@ -225,9 +220,29 @@ void tuerJoueur(T_joueur *joueur, T_banquise *banquise)
     printf("est mort !\n");
     Sleep(2000);                                               //Attend 2 secondes pour laisser le temps au joueur de lire le message
 
-    joueur->score -= 150;                                      //Enlève des points au joueur qui meurt
+    joueur->score -= 150;                                      //Enleve des points au joueur qui meurt
     joueur->nbMort += 1;                                       //Ajoute 1 au nombre de mort du joueur
 
     ajouteCaseGlace(banquise, posx, posy);                     //Ajoute une case GLACE sur la position où le joueur est mort
-    spawnJoueur(banquise, joueur);                             //Fait réapparaitre le joueur sur sa case de départ
+    departJoueur(banquise, joueur);                            //Fait reapparaitre le joueur sur sa case de depart
+}
+
+
+
+//Cherche un joueur en fonction d'une position en paramettre
+T_joueur *joueurSelonPoisition(T_joueur **joueurs, int posX, int posY, int nbJoueurs)
+{
+    T_joueur *joueur;
+    int i;
+
+    for(i = 0; i < nbJoueurs; i++)                                            //Regarde chaque joueur du tableau
+    {
+        if (posX == joueurs[i]->position.x && posY == joueurs[i]->position.y) //Condition qui regarde si le position en paramettre correspond à celle du joueur
+        {
+            joueur = joueurs[i];                                              //Si la condition est vrai, retourne le joueur
+            break;
+        }
+    }
+
+    return joueur;
 }
