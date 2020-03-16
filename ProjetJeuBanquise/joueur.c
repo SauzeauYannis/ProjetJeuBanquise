@@ -189,17 +189,21 @@ int deplacementJoueur(T_banquise *banquise, T_joueur *joueur)
 
     int correct = deplacementJoueur_bis(banquise, joueur, clavier);            //Stocke la valeur de la fonction precedente
 
-    if (correct == -2)
-        return 4;
-
     while (correct == -1)                                                         //Si la valeur est une valeur d'echec
     {
         clavier = saisieDeplacement(joueur);                                      //On re-recupere la bonne touche saisie par le joueur
         correct = deplacementJoueur_bis(banquise, joueur, clavier);  //On re-stocke la valeur de la fonction precedente
     }
 
-    joueur->score -= 10;
-    return 0;
+    if (correct == -2)
+    {
+        return 4;
+    }
+    else
+    {
+        joueur->score -= 10;
+        return 0;
+    }
 }
 
 

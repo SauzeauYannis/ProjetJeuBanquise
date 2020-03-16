@@ -65,7 +65,7 @@ int deplacementGlacon(T_glacon *glacon, T_banquise *banquise, T_joueur **joueurs
 
     int posx = glacon->position.x, posy = glacon->position.y,          //Position du glacon avant son deplacement
         x = posx + glacon->vecteur.dx, y = posy + glacon->vecteur.dy,  //Position vers laquelle le glacon se deplace
-        taille = banquise->tailleN,                                     //Recupere la taille de la banquise
+        taille = banquise->tailleN,                                    //Recupere la taille de la banquise
         caseValeur;                                                    //Variable pour prendre la valeur de la case
 
     ajouteCaseGlace(banquise, posx, posy);                             //Remplace le glacon par de la glace
