@@ -1,28 +1,25 @@
 #include "jeux.h"
 
 
-
 int main()
 {
-    srand(time(NULL));                               //Pour faire de l'aleatoire
+    srand(time(NULL));                                                              //Pour faire de l'aleatoire
 
-    int stop;                                        //Varibale pour stoper le jeu
+    int stop;
 
-    afficheMenu();                                   //Affiche le menu du jeu
+    afficheMenu();                                     //Affiche le menu du jeu
 
-    while(stop == 0)                                 //Boucle tant que le jeu n'est pas stope
+    while(stop == 0)
     {
-        stop = 0;                                    //Permet d'eviter un bug lorsqu'on relance une partie et qu'elle se finie
+        stop = 0;                                      //Permet d'eviter un bug lorsqu'on relance une partie et qu'elle se finie
+        system("cls");
+        T_jeu *jeuN1 = initJeux(1,15);                 //Creer le niveau
 
-        system("cls");                               //Nettoie la console
+        joueNiveau(jeuN1);                             //Joue le niveau selectionne
 
-        T_jeu *jeuN1 = initJeux(1, 15, 2, 5, 5);     //Creer le niveau
+        free(jeuN1);                                   //Libere l'espace prit par le niveau 1
 
-        joueNiveau(jeuN1);                           //Joue le niveau selectionne
-
-        free(jeuN1);                                 //Libere l'espace prit par le niveau 1
-
-        stop = rejouer();                            //Regarde si l'on doit stoper le jeu
+        stop = rejouer();
     }
 
     return 0;

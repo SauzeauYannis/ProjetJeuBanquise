@@ -1,15 +1,5 @@
 /***** Structures *****/
 
-
-//Enumeration des etat d'un joueur
-typedef enum
-{
-    ENCOURS,
-    GAGNANT,
-    PERDANT
-} T_etat;
-
-
 //Definition du type joueur
 typedef struct
 {
@@ -17,10 +7,10 @@ typedef struct
     T_couleur couleur;  //Couleur du joueur
     int identifiant;    //Entier qui identifie le joueur
     T_point position;   //Position du joueur dans la banquise
-    T_vecteur vecteur;  //Deplacement du joueur sur la banquise
+    T_vecteur vecteur;  //Deplacement du joueur sur la banquise (Ne sert à rien à  rien pour le moment)
     int score;          //Score du joueur
-    T_etat etat;        //Etat du joueur : Gagnant - Perdant
-    int nbMort;         //Nombre de mort du joueur
+    int etat;           //Etat du joueur : Gagnant - Perdant
+    int nbMort;
 } T_joueur;
 
 
@@ -55,9 +45,9 @@ int deplacementJoueur_bis(T_banquise *banquise, T_joueur *joueur, char deplaceme
 int deplacementJoueur(T_banquise *banquise, T_joueur *joueur);
 
 
-//Recupere le joueur selon une position
-T_joueur *joueurSelonPosition(T_joueur **joueurs, int posX, int posY, int nbJoueurs);
-
-
 //Fonction qui s'occupe de tuer le joueur et de le ramener au point de depart
 void tuerJoueur(T_joueur *joueur, T_banquise *banquise);
+
+
+//
+T_joueur *joueurSelonPoisition(T_joueur **joueurs, int posX, int posY, int nbJoueurs);

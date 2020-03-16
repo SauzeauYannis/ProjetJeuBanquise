@@ -2,46 +2,9 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Release" />
-<<<<<<< HEAD
 	<File name="jeux.c" open="1" top="1" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="4694" topLine="96" />
-=======
-<<<<<<< HEAD
-	<File name="jeux.c" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="18603" topLine="0" />
-=======
-<<<<<<< HEAD
-	<File name="glacon.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3167" topLine="72" />
-=======
-	<File name="banquise.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="10000" topLine="162" />
->>>>>>> 2d19166648a156ba8a5ced9fc6624d72e4f6c6c7
->>>>>>> 008026f4e8fc5fd39614d28d98f0cabae637b4c8
-		</Cursor>
-	</File>
-	<File name="glacon.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="267" topLine="0" />
-		</Cursor>
-	</File>
-<<<<<<< HEAD
-	<File name="banquise.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-=======
-<<<<<<< HEAD
-	<File name="banquise.c" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="101" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="glacon.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="857" topLine="0" />
->>>>>>> 7cb54bfbf7c2ebec003c07977a92e8fc6a27431a
 		</Cursor>
 		<Folding>
 			<Collapse line="4" />
@@ -51,7 +14,6 @@
 	</File>
 	<File name="jeux.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-<<<<<<< HEAD
 			<Cursor1 position="2796" topLine="90" />
 		</Cursor>
 	</File>
@@ -63,94 +25,31 @@
 	<File name="joueur.c" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="11415" topLine="210" />
-=======
-			<Cursor1 position="6190" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="joueur.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="517" topLine="0" />
-=======
+			<Cursor1 position="1594" topLine="13" />
+		</Cursor>
+	</File>
+	<File name="banquise.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="10000" topLine="182" />
+		</Cursor>
+	</File>
 	<File name="glacon.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
->>>>>>> 008026f4e8fc5fd39614d28d98f0cabae637b4c8
+		<Cursor>
+			<Cursor1 position="4688" topLine="74" />
+		</Cursor>
+	</File>
+	<File name="glacon.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="673" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="banquise.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="651" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="jeux.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2182" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="joueur.c" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="12164" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="banquise.c" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-<<<<<<< HEAD
-			<Cursor1 position="10000" topLine="0" />
->>>>>>> 7cb54bfbf7c2ebec003c07977a92e8fc6a27431a
-		</Cursor>
-	</File>
-	<File name="joueur.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1465" topLine="0" />
-=======
-			<Cursor1 position="1681" topLine="42" />
->>>>>>> 2d19166648a156ba8a5ced9fc6624d72e4f6c6c7
-		</Cursor>
-	</File>
-<<<<<<< HEAD
-	<File name="banquise.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="10000" topLine="182" />
-=======
-	<File name="banquise.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-<<<<<<< HEAD
-			<Cursor1 position="1567" topLine="0" />
->>>>>>> 7cb54bfbf7c2ebec003c07977a92e8fc6a27431a
-		</Cursor>
-	</File>
-	<File name="glacon.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-<<<<<<< HEAD
-			<Cursor1 position="4688" topLine="74" />
-=======
-			<Cursor1 position="80" topLine="0" />
->>>>>>> 7cb54bfbf7c2ebec003c07977a92e8fc6a27431a
-		</Cursor>
-	</File>
-	<File name="main.c" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-<<<<<<< HEAD
-			<Cursor1 position="673" topLine="0" />
-=======
-			<Cursor1 position="59" topLine="0" />
-=======
-			<Cursor1 position="282" topLine="0" />
->>>>>>> 008026f4e8fc5fd39614d28d98f0cabae637b4c8
->>>>>>> 7cb54bfbf7c2ebec003c07977a92e8fc6a27431a
-		</Cursor>
-	</File>
-	<File name="glacon.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4586" topLine="0" />
-		</Cursor>
-	</File>
-<<<<<<< HEAD
-=======
-	<File name="main.c" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-<<<<<<< HEAD
-			<Cursor1 position="943" topLine="0" />
-=======
-			<Cursor1 position="4375" topLine="112" />
->>>>>>> 2d19166648a156ba8a5ced9fc6624d72e4f6c6c7
->>>>>>> 008026f4e8fc5fd39614d28d98f0cabae637b4c8
-		</Cursor>
-	</File>
->>>>>>> 7cb54bfbf7c2ebec003c07977a92e8fc6a27431a
 </CodeBlocks_layout_file>
