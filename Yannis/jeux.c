@@ -221,7 +221,7 @@ void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu)
 
     while(stop == 0)                                                                                                                                //Tant qu'on decide de continuer
     {
-        verifDep = deplacementGlacon(glacon, jeu->banquise, jeu->joueurs, jeu->nombreJoueur);                                                       //Effectue le deplacement et stocke le resultat dans une variable
+        verifDep = verifieDeplacementGlacon(glacon, jeu->banquise, jeu->joueurs, jeu->nombreJoueur);                                                       //Effectue le deplacement et stocke le resultat dans une variable
         Sleep(200);                                                                                                                                 //Attend 0,2s pour que le joueur voit le glacon se deplacer
         Gdx = glacon->vecteur.dx, Gdy = glacon->vecteur.dy;                                                                                         //Recupere les nouveaux vecteurs du glacon
 

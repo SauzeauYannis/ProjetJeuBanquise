@@ -136,6 +136,26 @@ void ajouteGlacons(T_jeu *jeu)
 }
 
 
+//Ajoute des ressorts dans un tableau de ressort
+void ajouteRessorts(T_jeu *jeu)
+{
+    printf("oui\n");
+    int nbRessorts = (rand() % 4)+1;
+printf("oui\n");
+    jeu->ressorts = (T_ressort *)realloc(jeu->ressorts, nbRessorts * sizeof(T_ressort));
+printf("oui\n");
+    for(int i = 0; i<nbRessorts; i++)
+    {printf("oui\n");
+        T_point ressort = caseGlaceAleatoire(jeu->banquise, 1);
+printf("oui\n");
+        jeu->ressorts[i] = initRessort(ressort.x, ressort.y);
+printf("oui\n");
+        enleveCaseGlace(jeu->banquise, jeu->ressorts[i].position.x, jeu->ressorts[i].position.y, RESSORT);
+    }
+    printf("oui\n");
+}
+
+
 
 //Retourne un pointeur de type jeu en fonction du niveau et de la taille de la banquise
 T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int chanceFonte)
@@ -154,6 +174,8 @@ T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int c
     remplitBanquise(jeu->banquise);                    //Remplit la banquise
     ajouteJoueurs(jeu);                                //Remplit le tableau de joueurs
     ajouteGlacons(jeu);                                //Remplit le tableau de glacons
+    printf("oui\n");
+    ajouteRessorts(jeu);
 
     return jeu;                                        //Retourne le pointeur de type jeu
 }
@@ -221,7 +243,7 @@ void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu)
 
     while(stop == 0)                                                                                                                                //Tant qu'on decide de continuer
     {
-        verifDep = deplacementGlacon(glacon, jeu->banquise, jeu->joueurs, jeu->nombreJoueur);                                                       //Effectue le deplacement et stocke le resultat dans une variable
+        verifDep = verifieDeplacementGlacon(glacon, jeu->banquise, jeu->joueurs, jeu->nombreJoueur);                                                       //Effectue le deplacement et stocke le resultat dans une variable
         Sleep(200);                                                                                                                                 //Attend 0,2s pour que le joueur voit le glacon se deplacer
         Gdx = glacon->vecteur.dx, Gdy = glacon->vecteur.dy;                                                                                         //Recupere les nouveaux vecteurs du glacon
 

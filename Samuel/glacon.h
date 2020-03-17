@@ -35,7 +35,7 @@ T_glacon *glaconSelonPosition(T_glacon **glacons, int posX, int posY, int nbGlac
 
 
 //Fonction qui se charge de deplacer le glacon en paramettre
-int deplacementGlacon(T_glacon *glacon, T_banquise *banquise, T_joueur **joueurs, int nbJoueurs);
+int verifieDeplacementGlacon(T_glacon *glacon, T_banquise *banquise, T_joueur **joueurs, int nbJoueurs);
 
 
 //

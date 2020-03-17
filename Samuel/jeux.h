@@ -16,6 +16,8 @@ typedef enum
     DEPART,
     ARRIVE,
     GLACON,
+    ROCHER,
+    RESSORT,
     EAU
 } T_case;
 
@@ -55,6 +57,8 @@ typedef struct
 #include "joueur.h"
 #include "glacon.h"
 
+#include "ressort.h"
+
 
 //Definition du type jeu
 typedef struct
@@ -62,6 +66,7 @@ typedef struct
     T_banquise *banquise; //Pointeur sur la banquise
     T_joueur **joueurs;   //Tableau de pointeurs de joueurs
     T_glacon **glacons;   //Tableau de pointeurs de glacons
+    T_ressort *ressorts;  //Tableau de ressorts
     int nombreJoueur;     //Nombre de joueur present sur le jeu
     int nombreGlacon;     //Nombre de glacon present sur le jeu
     int nombreTour;       //Nombre de tour actuel du jeu
@@ -86,6 +91,10 @@ void ajouteJoueurs(T_jeu *jeu);
 
 //Ajoute des glacons sur la banquise
 void ajouteGlacons(T_jeu *jeu);
+
+
+//Ajoute des ressorts dans un tableau de ressort
+void ajouteRessorts(T_jeu *jeu);
 
 
 //Initialise le jeu
