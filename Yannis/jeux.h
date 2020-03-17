@@ -16,7 +16,9 @@ typedef enum
     DEPART,
     ARRIVE,
     GLACON,
-    EAU
+    EAU,
+    ROCHER,
+    RESSORT,
 } T_case;
 
 
@@ -31,6 +33,7 @@ typedef enum
     ROSE,
     GRIS,
     BLEUFONCE,
+    NOIR,
     BLANC
 } T_couleur;
 
@@ -54,6 +57,9 @@ typedef struct
 #include "banquise.h"
 #include "joueur.h"
 #include "glacon.h"
+#include "rocher.h"
+
+#include "piege.h"
 
 
 //Definition du type jeu
@@ -62,10 +68,13 @@ typedef struct
     T_banquise *banquise; //Pointeur sur la banquise
     T_joueur **joueurs;   //Tableau de pointeurs de joueurs
     T_glacon **glacons;   //Tableau de pointeurs de glacons
+    T_rocher *rochers;
     int nombreJoueur;     //Nombre de joueur present sur le jeu
     int nombreGlacon;     //Nombre de glacon present sur le jeu
+    int nombreRochers;
     int nombreTour;       //Nombre de tour actuel du jeu
     int rechauffement;    //Probabilite de fonte de la banquise comme du glacon
+    int probPiege;
     int IdJeu;            //Identifiant de la partie en cours
 } T_jeu;
 
@@ -88,8 +97,12 @@ void ajouteJoueurs(T_jeu *jeu);
 void ajouteGlacons(T_jeu *jeu);
 
 
+//Ajoute des rochers sur la banquise
+void ajouteRochers(T_jeu *jeu);
+
+
 //Initialise le jeu
-T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int chanceFonte);
+T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int nombreRochers, int chanceFonte, int chancePiege);
 
 
 //Affiche le jeu

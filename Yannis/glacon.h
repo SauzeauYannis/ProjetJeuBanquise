@@ -1,21 +1,12 @@
 /***** Structures *****/
 
 
-/*
-typedef enum
-{
-    PRESENT,
-    FONDU
-} T_etatGlacon;*/
-
-
 //Definition du type glacon
 typedef struct
 {
     T_point position;        //Position du glacon
     T_vecteur vecteur;       //Vecteur du glacon
     int pourcentage_fondre;  //Entier de probabilite de fonte du glacon
-    //T_etatGlacon etat;       //
 } T_glacon;
 
 
