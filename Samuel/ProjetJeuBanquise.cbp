@@ -41,10 +41,18 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="piege.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="piege.h" />
 		<Unit filename="ressort.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="ressort.h" />
+		<Unit filename="rocher.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="rocher.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

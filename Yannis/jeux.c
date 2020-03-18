@@ -84,6 +84,9 @@ void changeCouleurTexte(T_couleur couleur)
     case NOIR :
         SetConsoleTextAttribute(console, 0);
         break;
+    case MARRON :
+        SetConsoleTextAttribute(console, 4);
+        break;
     default :
         SetConsoleTextAttribute(console, 15);
     }
@@ -161,20 +164,40 @@ void ajouteRochers(T_jeu *jeu)
     }
 }
 
+void ajouteRessorts(T_jeu *jeu)
+{
+    int nbRessorts = jeu->nombreRessorts;
+
+    jeu->ressorts = (T_ressort *)realloc(jeu->ressorts, nbRessorts * sizeof(T_ressort));
+
+    int i;
+
+    for (i = 0; i < nbRessorts; i++)
+    {
+        T_point positionRessort = caseGlaceAleatoire(jeu->banquise, 1);
+
+        jeu->ressorts[i] = initRessort(positionRessort);
+
+        enleveCaseGlace(jeu->banquise, jeu->ressorts[i].position.x, jeu->ressorts[i].position.y, RESSORT);
+    }
+}
+
 
 
 //Retourne un pointeur de type jeu en fonction du niveau et de la taille de la banquise
-T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int nombreRochers, int chanceFonte, int chancePiege)
+T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int nombreRochers, int nombreRessorts, int chanceFonte, int chancePiege)
 {
     T_jeu *jeu = (T_jeu *)malloc(sizeof(T_jeu));       //Aloue de l'espace memoire a un pointeur de type jeu
 
     jeu->banquise = initBanquise(tailleN, tailleEau);  //Initialise la banquise dans le jeu
     jeu->joueurs = NULL;                               //Initialise le tableau de joueurs
     jeu->glacons = NULL;                               //Initialise le tableau de glacons
-    jeu->rochers = NULL;
+    jeu->rochers = NULL;                               //Initialise le tableau de rochers
+    jeu->ressorts = NULL;                              //Initialise le tableau de ressorts
     jeu->nombreJoueur = 0;                             //Initialise le nombre de joueurs
     jeu->nombreGlacon = nombreGlacons;                 //Initialise le nombre de glacons
     jeu->nombreRochers = nombreRochers;                //Initialise le nombre de rochers
+    jeu->nombreRessorts = nombreRessorts;              //Initialise le nombre de ressorts
     jeu->nombreTour = 0;                               //Initialise le nombre de tour
     jeu->rechauffement = chanceFonte;                  //Initialise la probabilite de chance de fonte
     jeu->probPiege = chancePiege;                      //Initialise la probabilite de chance d'etre piege
@@ -183,7 +206,8 @@ T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int n
     remplitBanquise(jeu->banquise);                    //Remplit la banquise
     ajouteJoueurs(jeu);                                //Remplit le tableau de joueurs
     ajouteGlacons(jeu);                                //Remplit le tableau de glacons
-    ajouteRochers(jeu);
+    ajouteRochers(jeu);                                //Remplit le tableau de rochers
+    ajouteRessorts(jeu);                               //Remplit le tableau de ressorts
 
     return jeu;                                        //Retourne le pointeur de type jeu
 }
@@ -229,6 +253,9 @@ void afficheJeu(T_jeu *jeu)
                 break;
             case ROCHER :
                 changeCouleurTexte(GRIS);                                                        //Change la couleur en gris pout le rocher
+                break;
+            case RESSORT :
+                changeCouleurTexte(MARRON);                                                      //Change la couleur en marron pour le ressort
                 break;
             default :
                 changeCouleurTexte(BLANC);                                                       //Change la couleur en blanc sinon
@@ -335,8 +362,10 @@ int tourJoueur(T_jeu *jeu, int numJoueur)
 
     if (joueurEstPiege(joueur, jeu->probPiege) == PIEGE)
     {
+        system("cls");
+        afficheJeu(jeu);
         changeCouleurTexte(joueur->couleur);
-        printf("\n%s ", joueur->nom);
+        printf("%s ", joueur->nom);
         changeCouleurTexte(BLANC);
         printf("est tombe dans un piege, il ne jouera pas a son prochain tour");
         Sleep(2000);

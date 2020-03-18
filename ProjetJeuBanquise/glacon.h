@@ -1,21 +1,12 @@
 /***** Structures *****/
 
 
-/*
-typedef enum
-{
-    PRESENT,
-    FONDU
-} T_etatGlacon;*/
-
-
 //Definition du type glacon
 typedef struct
 {
     T_point position;        //Position du glacon
     T_vecteur vecteur;       //Vecteur du glacon
     int pourcentage_fondre;  //Entier de probabilite de fonte du glacon
-    //T_etatGlacon etat;       //
 } T_glacon;
 
 
@@ -35,7 +26,7 @@ T_glacon *glaconSelonPosition(T_glacon **glacons, int posX, int posY, int nbGlac
 
 
 //Fonction qui se charge de deplacer le glacon en paramettre
-int deplacementGlacon(T_glacon *glacon, T_banquise *banquise, T_joueur **joueurs, int nbJoueurs);
+int verifieDeplacementGlacon(T_glacon *glacon, T_banquise *banquise, T_joueur **joueurs, int nbJoueurs);
 
 
 //

@@ -5,6 +5,7 @@
 typedef enum
 {
     ENCOURS,
+    PIEGE,
     GAGNANT,
     PERDANT
 } T_etat;
