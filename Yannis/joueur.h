@@ -36,6 +36,14 @@ T_couleur choixCouleur();
 T_joueur *initJoueur(int numeroJoueur);
 
 
+//Demande a l'utilisateur le nombre de joueurs
+int demandeNombreJoueurs();
+
+
+//Initialise un tableau de joueurs
+T_joueur **initTabJoueurs(T_banquise *banquise, int nombreJoueurs);
+
+
 //Fait apparaitre le joueur a sa case de depart
 void departJoueur(T_banquise *banquise, T_joueur *joueur);
 

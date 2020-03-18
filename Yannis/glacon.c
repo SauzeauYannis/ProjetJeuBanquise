@@ -3,23 +3,40 @@
 
 
 //Fonction qui initialise un glacon
-T_glacon *initGlacon(int caseX, int caseY, int chanceFonte)
+T_glacon *initGlacon(T_point position, int chanceFonte)
 {
-    T_point pos;                                              //Creer un point qui sera la position du glacon
     T_vecteur vect;                                           //Creer le vecteur du glacon
     T_glacon *glacon = (T_glacon *)malloc(sizeof(T_glacon));  //Alloue de la memoire pour le glacon
 
-    pos.x = caseX, pos.y = caseY;                             //Initialise la postion du glacon via les parametres
-    vect.dx = vect.dy = 0;                                    //Initialise le vecteur à 0
+    vect.dx = vect.dy = 0;                                    //Initialise les vecteurs a 0
 
-    glacon->position = pos;                                   //Initialise la position
+    glacon->position = position;                              //Initialise la position
     glacon->vecteur = vect;                                   //Initialise le vecteur
     glacon->pourcentage_fondre = chanceFonte;                 //Initialise le pourcentage de fonte
-    //glacon->estFondu = PRESENT;
 
     return glacon;                                            //Retourne le glacon
 }
 
+
+
+//
+T_glacon **initTabGlacons(T_banquise *banquise, int nombreGlacons, int rechauffement)
+{
+    T_glacon **glacons = (T_glacon **)malloc(nombreGlacons * sizeof(T_glacon *));           //Aloue de la memoire pour le tableau de glacons
+
+    int i;                                                                                  //Variable pour la boucle suivante
+
+    for (i = 0; i < nombreGlacons; i++)                                                     //Boucle qui parcourt le tableau de glacons
+    {
+        T_point positionGlacon = caseGlaceAleatoire(banquise, 1);                           //Initialise une position aleatoire pour le glacon i
+
+        glacons[i] = initGlacon(positionGlacon, rechauffement);                        //Initialise le glacon i
+
+        enleveCaseGlace(banquise, glacons[i]->position.x, glacons[i]->position.y, GLACON);  //Met le glacon i a la place d'une glace
+    }
+
+    return glacons;
+}
 
 
 //Fonction qui verifie que le vecteur du glacon est valide : HAUT BAS GAUCHE DROITE
@@ -118,9 +135,7 @@ int verifieDeplacementGlacon(T_glacon *glacon, T_banquise *banquise, T_joueur **
 //Fonction qui regarde si le glaçon va fondre
 int verifFonteGlacon(T_glacon *glacon)
 {
-    int chanceFonteGlacon = glacon->pourcentage_fondre;  //Récupère la valeur du pourcentage de fonte du glaçon
-
-    if ((rand() % chanceFonteGlacon) == 0)                 //Condition qui verifie si le glaçon va fondre ou non
+    if ((rand() % glacon->pourcentage_fondre) == 0)                 //Condition qui verifie si le glaçon va fondre ou non
     {
         return 1;                                        //Retourne un entier qui valide la fonte du glaçon
     }
