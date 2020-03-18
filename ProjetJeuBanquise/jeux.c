@@ -94,28 +94,122 @@ void changeCouleurTexte(T_couleur couleur)
 
 
 
+//Ajoute entre 1 et 4 joueurs dans un tableau de joueurs
+void ajouteJoueurs(T_jeu *jeu)
+{
+    int nbJoueurs = 0;                                                                  //Variable pour le nombres de joueurs
+
+    while (nbJoueurs < 1 || nbJoueurs > 4)                                              //Verifie que l'utilisateur rentre un chiffre entre 1 et 4
+    {
+        printf("Nombre de joueurs (entre 1 et 4) : ");                                  //Demande de rentrer un chiffre
+        scanf("%d", &nbJoueurs);                                                        //Recupere le chiffre rentre
+        system("cls");                                                                  //Nettoie la console
+    }
+
+    jeu->joueurs = (T_joueur **)realloc(jeu->joueurs, nbJoueurs * sizeof(T_joueur *));  //Alloue de la memoire pour le tableau de joueurs
+
+    int i;                                                                              //Declare un entier pour la boucle suivante
+
+    for (i = 0; i < nbJoueurs; i++)                                                     //Boucle qui partcourt le nombres de joueurs
+    {
+
+        jeu->joueurs[i] = initJoueur(i);                                                //Ajoute le joueur numero i
+        jeu->nombreJoueur++;                                                            //Incremente le nombre de joueurs
+
+        departJoueur(jeu->banquise, jeu->joueurs[i]);                                   //Met le joueur a sa case depart
+
+        system("cls");                                                                  //Nettoie la console
+    }
+}
+
+
+
+//Ajoute les glacons dans un tableau de glacons
+void ajouteGlacons(T_jeu *jeu)
+{
+    int nbGlacons = jeu->nombreGlacon;                                                                     //Recupere le nombre de glacon present dans le jeu
+
+    jeu->glacons = (T_glacon **)realloc(jeu->glacons, nbGlacons * sizeof(T_glacon *));                     //Aloue de la memoire pour le tableau de glacons
+
+    int i;
+
+    for (i = 0; i < nbGlacons; i++)                                                                        //Boucle qui parcourt le tableau de glacons
+    {
+        T_point glacon = caseGlaceAleatoire(jeu->banquise, 1);                                             //Initialise une position aleatoire pour le glacon i
+
+        jeu->glacons[i] = (T_glacon *)initGlacon(glacon.x, glacon.y, jeu->rechauffement);                  //Initialise le glacon i
+
+        enleveCaseGlace(jeu->banquise, jeu->glacons[i]->position.x, jeu->glacons[i]->position.y, GLACON);  //Met le glacon i a la place d'une glace
+    }
+}
+
+
+
+//
+void ajouteRochers(T_jeu *jeu)
+{
+    int nbRochers = jeu->nombreRochers;
+
+    jeu->rochers = (T_rocher *)realloc(jeu->rochers, nbRochers * sizeof(T_rocher));
+
+    int i;
+
+    for (i = 0; i < nbRochers; i++)
+    {
+        T_point positionRocher = caseGlaceAleatoire(jeu->banquise, 1);
+
+        jeu->rochers[i] = initRocher(positionRocher);
+
+        enleveCaseGlace(jeu->banquise, jeu->rochers[i].position.x, jeu->rochers[i].position.y, ROCHER);
+    }
+}
+
+void ajouteRessorts(T_jeu *jeu)
+{
+    int nbRessorts = jeu->nombreRessorts;
+
+    jeu->ressorts = (T_ressort *)realloc(jeu->ressorts, nbRessorts * sizeof(T_ressort));
+
+    int i;
+
+    for (i = 0; i < nbRessorts; i++)
+    {
+        T_point positionRessort = caseGlaceAleatoire(jeu->banquise, 1);
+
+        jeu->ressorts[i] = initRessort(positionRessort);
+
+        enleveCaseGlace(jeu->banquise, jeu->ressorts[i].position.x, jeu->ressorts[i].position.y, RESSORT);
+    }
+}
+
+
+
 //Retourne un pointeur de type jeu en fonction du niveau et de la taille de la banquise
 T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int nombreRochers, int nombreRessorts, int chanceFonte, int chancePiege)
 {
-    T_jeu *jeu = (T_jeu *)malloc(sizeof(T_jeu));                               //Aloue de l'espace memoire a un pointeur de type jeu
+    T_jeu *jeu = (T_jeu *)malloc(sizeof(T_jeu));       //Aloue de l'espace memoire a un pointeur de type jeu
 
-    int nombreJoueurs = demandeNombreJoueurs();                                //Recupere le nombre de joueurs saisi par l'utilisateur
+    jeu->banquise = initBanquise(tailleN, tailleEau);  //Initialise la banquise dans le jeu
+    jeu->joueurs = NULL;                               //Initialise le tableau de joueurs
+    jeu->glacons = NULL;                               //Initialise le tableau de glacons
+    jeu->rochers = NULL;                               //Initialise le tableau de rochers
+    jeu->ressorts = NULL;                              //Initialise le tableau de ressorts
+    jeu->nombreJoueur = 0;                             //Initialise le nombre de joueurs
+    jeu->nombreGlacon = nombreGlacons;                 //Initialise le nombre de glacons
+    jeu->nombreRochers = nombreRochers;                //Initialise le nombre de rochers
+    jeu->nombreRessorts = nombreRessorts;              //Initialise le nombre de ressorts
+    jeu->nombreTour = 0;                               //Initialise le nombre de tour
+    jeu->rechauffement = chanceFonte;                  //Initialise la probabilite de chance de fonte
+    jeu->probPiege = chancePiege;                      //Initialise la probabilite de chance d'etre piege
+    jeu->IdJeu = niveau;                               //Initialise le niveau
 
-    jeu->banquise = initBanquise(tailleN, tailleEau);                          //Initialise la banquise dans le jeu
-    jeu->joueurs = initTabJoueurs(jeu->banquise, nombreJoueurs);               //Initialise le tableau de joueurs
-    jeu->glacons = initTabGlacons(jeu->banquise, nombreGlacons, chanceFonte);  //Initialise le tableau de glacons
-    jeu->rochers = initTabRochers(jeu->banquise, nombreRochers);               //Initialise le tableau de rochers
-    jeu->ressorts = initTabRessorts(jeu->banquise, nombreRessorts);            //Initialise le tableau de ressorts
-    jeu->nombreJoueurs = nombreJoueurs;                                        //Initialise le nombre de joueurs
-    jeu->nombreGlacons = nombreGlacons;                                        //Initialise le nombre de glacons
-    jeu->nombreRochers = nombreRochers;                                        //Initialise le nombre de rochers
-    jeu->nombreRessorts = nombreRessorts;                                      //Initialise le nombre de ressorts
-    jeu->nombreTour = 0;                                                       //Initialise le nombre de tour
-    jeu->rechauffement = chanceFonte;                                          //Initialise la probabilite de chance de fonte
-    jeu->probPiege = chancePiege;                                              //Initialise la probabilite de chance d'etre piege
-    jeu->IdJeu = niveau;                                                       //Initialise le niveau
+    remplitBanquise(jeu->banquise);                    //Remplit la banquise
+    ajouteJoueurs(jeu);                                //Remplit le tableau de joueurs
+    ajouteGlacons(jeu);                                //Remplit le tableau de glacons
+    ajouteRochers(jeu);                                //Remplit le tableau de rochers
+    ajouteRessorts(jeu);                               //Remplit le tableau de ressorts
 
-    return jeu;                                                                //Retourne le pointeur de type jeu
+    return jeu;                                        //Retourne le pointeur de type jeu
 }
 
 
@@ -140,7 +234,7 @@ void afficheJeu(T_jeu *jeu)
             {
             case JOUEUR :
                 {
-                T_joueur *joueur = joueurSelonPosition(jeu->joueurs, i, j, jeu->nombreJoueurs);  //Recupere le joueur a la position parcouru par la boucle
+                T_joueur *joueur = joueurSelonPosition(jeu->joueurs, i, j, jeu->nombreJoueur);   //Recupere le joueur a la position parcouru par la boucle
 
                 changeCouleurTexte(joueur->couleur);                                             //Change la couleur selon celle du joueur
                 break;
@@ -187,7 +281,7 @@ void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu)
 
     while(stop == 0)                                                                                                                                //Tant qu'on decide de continuer
     {
-        verifDep = verifieDeplacementGlacon(glacon, jeu->banquise, jeu->joueurs, jeu->nombreJoueurs);                                                       //Effectue le deplacement et stocke le resultat dans une variable
+        verifDep = verifieDeplacementGlacon(glacon, jeu->banquise, jeu->joueurs, jeu->nombreJoueur);                                                       //Effectue le deplacement et stocke le resultat dans une variable
         Sleep(200);                                                                                                                                 //Attend 0,2s pour que le joueur voit le glacon se deplacer
         Gdx = glacon->vecteur.dx, Gdy = glacon->vecteur.dy;                                                                                         //Recupere les nouveaux vecteurs du glacon
 
@@ -200,7 +294,7 @@ void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu)
         {
         case 1 :
         {
-            T_glacon *nouveauGlacon = glaconSelonPosition(jeu->glacons, (glacon->position.x + Gdx), (glacon->position.y + Gdy), jeu->nombreGlacons); //Initialise un nouveau glacon qui correspond au glacon touche par le glacon en mouvement
+            T_glacon *nouveauGlacon = glaconSelonPosition(jeu->glacons, (glacon->position.x + Gdx), (glacon->position.y + Gdy), jeu->nombreGlacon); //Initialise un nouveau glacon qui correspond au glacon touche par le glacon en mouvement
 
             glacon->vecteur.dx = glacon->vecteur.dy = 0;                                                                                            //Arrete le glacon qui a touche le nouveau glacon
             enleveCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y, GLACON);                                                         //Met le glacon a sa nouvelle position
@@ -209,6 +303,7 @@ void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu)
         }
         case 2 :
             ajouteCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y);                                                                 //Transforme le glacon tombe dans l'eau en glace
+            free(glacon);                                                                                                                           //Libere l'espace memoire pris par le glacon transforme en glace
             break;
         default :
             enleveCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y, GLACON);                                                         //Met le glacon a sa nouvelle position
@@ -222,14 +317,14 @@ void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu)
 //Fonction qui fait fondre ou non un glaçon à chaque tour
 void fonteGlacon(T_jeu *jeu)
 {
-    if (jeu->nombreGlacons != 0)
+    if (jeu->nombreGlacon != 0)
     {
-        T_glacon *glacon = jeu->glacons[jeu->nombreGlacons - 1];
+        T_glacon *glacon = jeu->glacons[jeu->nombreGlacon - 1];
 
         if(verifFonteGlacon(glacon) == 1)
         {
-            ajouteCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y);
-            jeu->nombreGlacons -= 1;
+            enleveCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y, GLACE);
+            jeu->nombreGlacon -= 1;
             free(glacon);
         }
     }
@@ -263,22 +358,22 @@ int tourJoueur(T_jeu *jeu, int numJoueur)
         verifDep = deplacementJoueur(jeu->banquise, joueur);                                     //Effectue le deplacement du joueur sur la banquise
         caseValeur = matrice[joueur->position.x][joueur->position.y];                            //Regarde la valeur de la case ou le joueur est
         enleveCaseGlace(jeu->banquise, joueur->position.x, joueur->position.y, JOUEUR);          //Remplace la case glace ou le joueur est alle
+    }
 
-        if (joueurEstPiege(joueur, jeu->probPiege) == PIEGE)
-        {
-            system("cls");
-            afficheJeu(jeu);
-            changeCouleurTexte(joueur->couleur);
-            printf("%s ", joueur->nom);
-            changeCouleurTexte(BLANC);
-            printf("est tombe dans un piege, il ne jouera pas a son prochain tour");
-            Sleep(2000);
-        }
+    if (joueurEstPiege(joueur, jeu->probPiege) == PIEGE)
+    {
+        system("cls");
+        afficheJeu(jeu);
+        changeCouleurTexte(joueur->couleur);
+        printf("%s ", joueur->nom);
+        changeCouleurTexte(BLANC);
+        printf("est tombe dans un piege, il ne jouera pas a son prochain tour");
+        Sleep(2000);
     }
 
     if(verifDep == GLACON)                                                                   //Verifie si le joueur touche un glacon
     {
-        for(j = 0; j < jeu->nombreGlacons; j++)                                               //Parcourt le tableaux de glacons
+        for(j = 0; j < jeu->nombreGlacon; j++)                                               //Parcourt le tableaux de glacons
         {
             if((joueur->position.x + joueur->vecteur.dx) == jeu->glacons[j]->position.x
                && (joueur->position.y + joueur->vecteur.dy) == jeu->glacons[j]->position.y)  //Condition qui regarde quel glacon a touche le joueur en parametre
@@ -322,7 +417,7 @@ void afficheScore(T_jeu *jeu)
 {
     int i;                                                   //Variable pour la boucle suivante
 
-    for(i = 0; i < jeu->nombreJoueurs; i++)                  //Boucle qui parcourt le tableau de joueurs
+    for(i = 0; i < jeu->nombreJoueur; i++)                   //Boucle qui parcourt le tableau de joueurs
     {
         Sleep(2000);                                         //Attend 2 secondes
         system("cls");                                       //Efface le terminal
@@ -358,7 +453,7 @@ void joueNiveau(T_jeu *jeu)
 
     while(finPartie == 0)                                      //Boucle tant que la partie n'est pas finie, c'est a dire tant qu'un joueur n'a pas atteint la case d'arrive
     {
-        for(i = 0; i < jeu->nombreJoueurs; i++)                 //Boucle for qui permet à chaque joueur de jouer pour un tour
+        for(i = 0; i < jeu->nombreJoueur; i++)                 //Boucle for qui permet à chaque joueur de jouer pour un tour
         {
             caseVal = tourJoueur(jeu, i);                      //Tour du joueur i
             finPartie = victoire(jeu, caseVal, i);             //Donne un entier si la partie est gagnee, ou si elle continue

@@ -71,13 +71,13 @@ typedef struct
     T_glacon **glacons;   //Tableau de pointeurs de glacons
     T_rocher *rochers;    //Tableau de rochers
     T_ressort *ressorts;  //Tableau de ressort
-    int nombreJoueurs;    //Nombre de joueurs present sur le jeu
-    int nombreGlacons;    //Nombre de glacons present sur le jeu
+    int nombreJoueur;     //Nombre de joueurs present sur le jeu
+    int nombreGlacon;     //Nombre de glacons present sur le jeu
     int nombreRochers;    //Nombre de rochers present sur le jeu
     int nombreRessorts;   //Nombre de ressorts present sur le jeu
     int nombreTour;       //Nombre de tour actuel du jeu
     int rechauffement;    //Probabilite de fonte de la banquise comme du glacon
-    int probPiege;        //Probabilite de tomber dans un piege
+    int probPiege;
     int IdJeu;            //Identifiant de la partie en cours
 } T_jeu;
 
@@ -90,6 +90,22 @@ void afficheMenu();
 
 //Change la couleur du texte
 void changeCouleurTexte(T_couleur couleur);
+
+
+//Ajoute des joueurs sur la banquise
+void ajouteJoueurs(T_jeu *jeu);
+
+
+//Ajoute des glacons sur la banquise
+void ajouteGlacons(T_jeu *jeu);
+
+
+//Ajoute des rochers sur la banquise
+void ajouteRochers(T_jeu *jeu);
+
+
+//Ajoute des ressorts sur la banquise
+void ajouteRessorts(T_jeu *jeu);
 
 
 //Initialise le jeu

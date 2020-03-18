@@ -11,9 +11,5 @@ typedef struct
 /***** Fonctions *****/
 
 
-//Initialise un rocher
+//Fonction qui initialise un glacon
 T_rocher initRocher(T_point position);
-
-
-//Initialise un tableau de rocher
-T_rocher *initTabRochers(T_banquise *banquise, int nombreRochers);

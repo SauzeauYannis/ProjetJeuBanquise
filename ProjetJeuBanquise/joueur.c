@@ -50,44 +50,6 @@ T_joueur *initJoueur(int numeroJoueur)
 
 
 
-//Retourne le nombre de joueurs selon le choix de l'utilisateur
-int demandeNombreJoueurs()
-{
-    int nbJoueurs = 0;                                   //Variable pour le nombres de joueurs
-
-    while (nbJoueurs < 1 || nbJoueurs > 4)               //Verifie que l'utilisateur rentre un chiffre entre 1 et 4
-    {
-        printf("Nombre de joueurs (entre 1 et 4) : ");   //Demande de rentrer un chiffre entre 1 et 4
-        scanf("%d", &nbJoueurs);                         //Recupere le chiffre rentre
-        system("cls");                                   //Nettoie la console
-    }
-
-    return nbJoueurs;                                    //Retourne le nombre de joueurs
-}
-
-
-
-//Retourne un tableau de joueurs selon le nombre de joueurs en parametre
-T_joueur **initTabJoueurs(T_banquise *banquise, int nombreJoueurs)
-{
-    T_joueur **joueurs = (T_joueur **)malloc(nombreJoueurs * sizeof(T_joueur *));  //Alloue de la memoire pour le tableau de joueurs
-
-    int i;                                                                              //Declare un entier pour la boucle suivante
-
-    for (i = 0; i < nombreJoueurs; i++)                                                     //Boucle qui partcourt le nombres de joueurs
-    {
-        joueurs[i] = initJoueur(i);                                                //Ajoute le joueur numero i
-
-        departJoueur(banquise, joueurs[i]);                                   //Met le joueur a sa case depart
-
-        system("cls");                                                                  //Nettoie la console
-    }
-
-    return joueurs;
-}
-
-
-
 //Fait apparaitre le joueur sur sa case de depart
 void departJoueur(T_banquise *banquise, T_joueur *joueur)
 {
@@ -163,11 +125,15 @@ int verifieDeplacement(T_banquise *banquise, T_joueur *joueur, int caseX, int ca
         return -1;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
         break;
     case DEPART:
-        printf("\nDeplacement impossible : le joueur ne peut pas aller au depart\n");    //Previens le joueur dans ce cas la
+        printf("\nDeplacement impossible : le joueur ne peut pas aller sur le spawn\n"); //Previens le joueur dans ce cas la
         return -1;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
         break;
     case ROCHER:
         printf("\nDeplacement impossible : le joueur ne peut pas aller sur un rocher\n"); //Previens le joueur dans ce cas la
+        return -1;                                                                        //Retourne une valeur d'echec pour prevenir la fonction suivante
+        break;
+    case RESSORT:
+        printf("\nDeplacement impossible : le joueur ne peut pas interagir avec un ressort\n"); //Previens le joueur dans ce cas la
         return -1;                                                                        //Retourne une valeur d'echec pour prevenir la fonction suivante
         break;
     case GLACON:

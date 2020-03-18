@@ -22,6 +22,8 @@ T_piege caseEstPiege(T_joueur *joueur, int chancePiege)
 //
 T_etat joueurEstPiege(T_joueur *joueur, int chancePiege)
 {
+    T_etat etatJoueur = joueur->etat;
+
     if (caseEstPiege(joueur, chancePiege) == CASE_PIEGE)
     {
         joueur->etat = PIEGE;
