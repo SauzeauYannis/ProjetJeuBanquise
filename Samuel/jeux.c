@@ -81,6 +81,12 @@ void changeCouleurTexte(T_couleur couleur)
     case BLEUFONCE :
         SetConsoleTextAttribute(console, 1);
         break;
+    case NOIR :
+        SetConsoleTextAttribute(console, 0);
+        break;
+    case MARRON :
+        SetConsoleTextAttribute(console, 4);
+        break;
     default :
         SetConsoleTextAttribute(console, 15);
     }
@@ -123,9 +129,11 @@ void ajouteGlacons(T_jeu *jeu)
 {
     int nbGlacons = jeu->nombreGlacon;                                                                     //Recupere le nombre de glacon present dans le jeu
 
-    jeu->glacons = (T_glacon **)realloc(jeu->glacons,jeu->nombreGlacon * sizeof(T_glacon *));              //Aloue de la memoire pour le tableau de glacons
+    jeu->glacons = (T_glacon **)realloc(jeu->glacons, nbGlacons * sizeof(T_glacon *));                     //Aloue de la memoire pour le tableau de glacons
 
-    for(int i = 0; i < nbGlacons; i++)                                                                     //Boucle qui parcourt le tableau de glacons
+    int i;
+
+    for (i = 0; i < nbGlacons; i++)                                                                        //Boucle qui parcourt le tableau de glacons
     {
         T_point glacon = caseGlaceAleatoire(jeu->banquise, 1);                                             //Initialise une position aleatoire pour le glacon i
 
@@ -136,46 +144,70 @@ void ajouteGlacons(T_jeu *jeu)
 }
 
 
-//Ajoute des ressorts dans un tableau de ressort
+
+//
+void ajouteRochers(T_jeu *jeu)
+{
+    int nbRochers = jeu->nombreRochers;
+
+    jeu->rochers = (T_rocher *)realloc(jeu->rochers, nbRochers * sizeof(T_rocher));
+
+    int i;
+
+    for (i = 0; i < nbRochers; i++)
+    {
+        T_point positionRocher = caseGlaceAleatoire(jeu->banquise, 1);
+
+        jeu->rochers[i] = initRocher(positionRocher);
+
+        enleveCaseGlace(jeu->banquise, jeu->rochers[i].position.x, jeu->rochers[i].position.y, ROCHER);
+    }
+}
+
 void ajouteRessorts(T_jeu *jeu)
 {
-    printf("oui\n");
-    int nbRessorts = (rand() % 4)+1;
-printf("oui\n");
+    int nbRessorts = jeu->nombreRessorts;
+
     jeu->ressorts = (T_ressort *)realloc(jeu->ressorts, nbRessorts * sizeof(T_ressort));
-printf("oui\n");
-    for(int i = 0; i<nbRessorts; i++)
-    {printf("oui\n");
-        T_point ressort = caseGlaceAleatoire(jeu->banquise, 1);
-printf("oui\n");
-        jeu->ressorts[i] = initRessort(ressort.x, ressort.y);
-printf("oui\n");
+
+    int i;
+
+    for (i = 0; i < nbRessorts; i++)
+    {
+        T_point positionRessort = caseGlaceAleatoire(jeu->banquise, 1);
+
+        jeu->ressorts[i] = initRessort(positionRessort);
+
         enleveCaseGlace(jeu->banquise, jeu->ressorts[i].position.x, jeu->ressorts[i].position.y, RESSORT);
     }
-    printf("oui\n");
 }
 
 
 
 //Retourne un pointeur de type jeu en fonction du niveau et de la taille de la banquise
-T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int chanceFonte)
+T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int nombreRochers, int nombreRessorts, int chanceFonte, int chancePiege)
 {
     T_jeu *jeu = (T_jeu *)malloc(sizeof(T_jeu));       //Aloue de l'espace memoire a un pointeur de type jeu
 
     jeu->banquise = initBanquise(tailleN, tailleEau);  //Initialise la banquise dans le jeu
     jeu->joueurs = NULL;                               //Initialise le tableau de joueurs
     jeu->glacons = NULL;                               //Initialise le tableau de glacons
+    jeu->rochers = NULL;                               //Initialise le tableau de rochers
+    jeu->ressorts = NULL;                              //Initialise le tableau de ressorts
     jeu->nombreJoueur = 0;                             //Initialise le nombre de joueurs
     jeu->nombreGlacon = nombreGlacons;                 //Initialise le nombre de glacons
+    jeu->nombreRochers = nombreRochers;                //Initialise le nombre de rochers
+    jeu->nombreRessorts = nombreRessorts;              //Initialise le nombre de ressorts
     jeu->nombreTour = 0;                               //Initialise le nombre de tour
     jeu->rechauffement = chanceFonte;                  //Initialise la probabilite de chance de fonte
+    jeu->probPiege = chancePiege;                      //Initialise la probabilite de chance d'etre piege
     jeu->IdJeu = niveau;                               //Initialise le niveau
 
     remplitBanquise(jeu->banquise);                    //Remplit la banquise
     ajouteJoueurs(jeu);                                //Remplit le tableau de joueurs
     ajouteGlacons(jeu);                                //Remplit le tableau de glacons
-    printf("oui\n");
-    ajouteRessorts(jeu);
+    ajouteRochers(jeu);                                //Remplit le tableau de rochers
+    ajouteRessorts(jeu);                               //Remplit le tableau de ressorts
 
     return jeu;                                        //Retourne le pointeur de type jeu
 }
@@ -208,7 +240,7 @@ void afficheJeu(T_jeu *jeu)
                 break;
                 }
             case DEPART :
-                changeCouleurTexte(GRIS);                                                        //Change la couleur en gris pour le depart
+                changeCouleurTexte(NOIR);                                                        //Change la couleur en noir pour le depart
                 break;
             case ARRIVE :
                 changeCouleurTexte(ROSE);                                                        //Change la couleur en rose pour l'arrive
@@ -218,6 +250,12 @@ void afficheJeu(T_jeu *jeu)
                 break;
             case EAU :
                 changeCouleurTexte(TURQUOISE);                                                   //Change la couleur en turquoise pour l'eau
+                break;
+            case ROCHER :
+                changeCouleurTexte(GRIS);                                                        //Change la couleur en gris pout le rocher
+                break;
+            case RESSORT :
+                changeCouleurTexte(MARRON);                                                      //Change la couleur en marron pour le ressort
                 break;
             default :
                 changeCouleurTexte(BLANC);                                                       //Change la couleur en blanc sinon
@@ -304,10 +342,34 @@ int tourJoueur(T_jeu *jeu, int numJoueur)
         j;                                                                                   //
 
     afficheJeu(jeu);                                                                         //Affiche la banquise dans le terminal
-    ajouteCaseGlace(jeu->banquise, joueur->position.x, joueur->position.y);                  //Met une glace sur la case que le joueur va quitter
-    verifDep = deplacementJoueur(jeu->banquise, joueur);                                     //Effectue le deplacement du joueur sur la banquise
-    caseValeur = matrice[joueur->position.x][joueur->position.y];                            //Regarde la valeur de la case ou le joueur est
-    enleveCaseGlace(jeu->banquise, joueur->position.x, joueur->position.y, JOUEUR);          //Remplace la case glace ou le joueur est alle
+
+    if (joueur->etat == PIEGE)
+    {
+        changeCouleurTexte(joueur->couleur);
+        printf("%s ", joueur->nom);
+        changeCouleurTexte(BLANC);
+        printf("vous passez votre tour");
+        Sleep(2000);
+        joueur->etat = ENCOURS;
+    }
+    else
+    {
+        ajouteCaseGlace(jeu->banquise, joueur->position.x, joueur->position.y);                  //Met une glace sur la case que le joueur va quitter
+        verifDep = deplacementJoueur(jeu->banquise, joueur);                                     //Effectue le deplacement du joueur sur la banquise
+        caseValeur = matrice[joueur->position.x][joueur->position.y];                            //Regarde la valeur de la case ou le joueur est
+        enleveCaseGlace(jeu->banquise, joueur->position.x, joueur->position.y, JOUEUR);          //Remplace la case glace ou le joueur est alle
+    }
+
+    if (joueurEstPiege(joueur, jeu->probPiege) == PIEGE)
+    {
+        system("cls");
+        afficheJeu(jeu);
+        changeCouleurTexte(joueur->couleur);
+        printf("%s ", joueur->nom);
+        changeCouleurTexte(BLANC);
+        printf("est tombe dans un piege, il ne jouera pas a son prochain tour");
+        Sleep(2000);
+    }
 
     if(verifDep == GLACON)                                                                   //Verifie si le joueur touche un glacon
     {
@@ -355,11 +417,10 @@ void afficheScore(T_jeu *jeu)
 {
     int i;                                                   //Variable pour la boucle suivante
 
-    system("cls");                                           //Efface le terminal
-    printf("Score de la partie : \n\n");                     //Affiche le score
-
     for(i = 0; i < jeu->nombreJoueur; i++)                   //Boucle qui parcourt le tableau de joueurs
     {
+        Sleep(2000);                                         //Attend 2 secondes
+        system("cls");                                       //Efface le terminal
         printf("->Joueur %d\n", (i + 1));                    //Affiche infos sur le joueur quand la partie est finie
         printf("    Nom : ");
         changeCouleurTexte(jeu->joueurs[i]->couleur);

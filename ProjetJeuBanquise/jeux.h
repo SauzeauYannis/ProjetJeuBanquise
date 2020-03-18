@@ -16,7 +16,9 @@ typedef enum
     DEPART,
     ARRIVE,
     GLACON,
-    EAU
+    EAU,
+    ROCHER,
+    RESSORT,
 } T_case;
 
 
@@ -31,6 +33,8 @@ typedef enum
     ROSE,
     GRIS,
     BLEUFONCE,
+    NOIR,
+    MARRON,
     BLANC
 } T_couleur;
 
@@ -54,6 +58,9 @@ typedef struct
 #include "banquise.h"
 #include "joueur.h"
 #include "glacon.h"
+#include "rocher.h"
+#include "ressort.h"
+#include "piege.h"
 
 
 //Definition du type jeu
@@ -62,10 +69,15 @@ typedef struct
     T_banquise *banquise; //Pointeur sur la banquise
     T_joueur **joueurs;   //Tableau de pointeurs de joueurs
     T_glacon **glacons;   //Tableau de pointeurs de glacons
-    int nombreJoueur;     //Nombre de joueur present sur le jeu
-    int nombreGlacon;     //Nombre de glacon present sur le jeu
+    T_rocher *rochers;    //Tableau de rochers
+    T_ressort *ressorts;  //Tableau de ressort
+    int nombreJoueur;     //Nombre de joueurs present sur le jeu
+    int nombreGlacon;     //Nombre de glacons present sur le jeu
+    int nombreRochers;    //Nombre de rochers present sur le jeu
+    int nombreRessorts;   //Nombre de ressorts present sur le jeu
     int nombreTour;       //Nombre de tour actuel du jeu
     int rechauffement;    //Probabilite de fonte de la banquise comme du glacon
+    int probPiege;
     int IdJeu;            //Identifiant de la partie en cours
 } T_jeu;
 
@@ -88,8 +100,16 @@ void ajouteJoueurs(T_jeu *jeu);
 void ajouteGlacons(T_jeu *jeu);
 
 
+//Ajoute des rochers sur la banquise
+void ajouteRochers(T_jeu *jeu);
+
+
+//Ajoute des ressorts sur la banquise
+void ajouteRessorts(T_jeu *jeu);
+
+
 //Initialise le jeu
-T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int chanceFonte);
+T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int nombreRochers, int nombreRessorts, int chanceFonte, int chancePiege);
 
 
 //Affiche le jeu
@@ -100,7 +120,7 @@ void afficheJeu(T_jeu *jeu);
 void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu);
 
 
-//
+//S'occupe de la fonte d'un glacon
 void fonteGlacon(T_jeu *jeu);
 
 
