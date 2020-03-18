@@ -40,24 +40,6 @@ T_glace *initTabGlaces(int taille)
 
 
 
-//Retourne un pointeur de type banquise initialise avec une taille en parametre
-T_banquise *initBanquise(int tailleMatrice, int tailleEau)
-{
-    T_banquise *banquise = (T_banquise *)malloc(sizeof(T_banquise));     //Alloue de la memoire pour retourner un pointeur de type banquise
-
-    banquise->matrice = initMatrice(tailleMatrice);                      //Initialise la matrice qui represente la banquise
-    banquise->tailleN = tailleMatrice;                                   //Initialise la taille de la matrice selon les parametres de la fonction
-    banquise->tailleEau = tailleEau;                                     //Initialise la taille de l'eau selon les parametres de la fonction
-    banquise->depart.x = banquise->depart.y =
-    banquise->arrive.x = banquise->arrive.y = 0;                         //Initialise les cases d'arrivee et de depart
-    banquise->tabGlaces = initTabGlaces(tailleMatrice * tailleMatrice);  //Initialise le tableau de glaces
-    banquise->nombreGlaces = 0;                                          //Initialise le nombre de glaces a 0
-
-    return banquise;                                                     //Retourne le pointeur de type banquise
-}
-
-
-
 //Change une case de la banquise selon la valeur indiquee a l'emplacement donne
 void modifieCaseBanquise(T_banquise *banquise, int caseX, int caseY, T_case valeur)
 {
@@ -155,6 +137,26 @@ void remplitBanquise(T_banquise *banquise)
     }
 
     ajouteDepartArrive(banquise);                         //Ajoute la case d'arrivee et la case de depart
+}
+
+
+
+//Retourne un pointeur de type banquise initialise avec une taille en parametre
+T_banquise *initBanquise(int tailleMatrice, int tailleEau)
+{
+    T_banquise *banquise = (T_banquise *)malloc(sizeof(T_banquise));     //Alloue de la memoire pour retourner un pointeur de type banquise
+
+    banquise->matrice = initMatrice(tailleMatrice);                      //Initialise la matrice qui represente la banquise
+    banquise->tailleN = tailleMatrice;                                   //Initialise la taille de la matrice selon les parametres de la fonction
+    banquise->tailleEau = tailleEau;                                     //Initialise la taille de l'eau selon les parametres de la fonction
+    banquise->depart.x = banquise->depart.y =
+    banquise->arrive.x = banquise->arrive.y = 0;                         //Initialise les cases d'arrivee et de depart
+    banquise->tabGlaces = initTabGlaces(tailleMatrice * tailleMatrice);  //Initialise le tableau de glaces
+    banquise->nombreGlaces = 0;                                          //Initialise le nombre de glaces a 0
+
+    remplitBanquise(banquise);
+
+    return banquise;                                                     //Retourne le pointeur de type banquise
 }
 
 

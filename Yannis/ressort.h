@@ -13,3 +13,7 @@ typedef struct
 
 //Fonction qui initialise un ressort
 T_ressort initRessort(T_point position);
+
+
+//Initialise un tableau de ressort
+T_ressort *initTabRessorts(T_banquise *banquise, int nombreRessorts);
