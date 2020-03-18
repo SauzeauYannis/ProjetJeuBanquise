@@ -24,34 +24,32 @@
 	"joueur.h"
 	"glacon.h"
 
-1583244032 source:c:\users\sams8\desktop\projet_banquise\samuel\joueur.c
-	<stdio.h>
-	<stdlib.h>
+1584551631 source:c:\users\sams8\desktop\projet_banquise\samuel\joueur.c
 	"jeux.h"
 
-1582280144 c:\users\sams8\desktop\projet_banquise\samuel\banquise.h
+1584379300 c:\users\sams8\desktop\projet_banquise\samuel\banquise.h
 
-1582493986 c:\users\sams8\desktop\projet_banquise\samuel\joueur.h
+1584551631 c:\users\sams8\desktop\projet_banquise\samuel\joueur.h
 
-1583000829 c:\users\sams8\desktop\projet_banquise\samuel\jeux.h
-	"banquise.h"
-	"joueur.h"
-	"glacon.h"
-
-1583244575 source:c:\users\sams8\desktop\projet_banquise\samuel\main.c
-	<stdio.h>
-	<stdlib.h>
-	"jeux.h"
-
-1582280144 source:c:\users\sams8\desktop\projet_banquise\samuel\banquise.c
-	<stdio.h>
-	<stdlib.h>
-	"jeux.h"
-
-1583243836 source:c:\users\sams8\desktop\projet_banquise\samuel\jeux.c
+1584551631 c:\users\sams8\desktop\projet_banquise\samuel\jeux.h
 	<stdio.h>
 	<stdlib.h>
 	<windows.h>
+	<time.h>
+	"banquise.h"
+	"joueur.h"
+	"glacon.h"
+	"rocher.h"
+	"ressort.h"
+	"piege.h"
+
+1584551631 source:c:\users\sams8\desktop\projet_banquise\samuel\main.c
+	"jeux.h"
+
+1584379300 source:c:\users\sams8\desktop\projet_banquise\samuel\banquise.c
+	"jeux.h"
+
+1584551631 source:c:\users\sams8\desktop\projet_banquise\samuel\jeux.c
 	"jeux.h"
 
 1582132523 source:d:\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\banquise.c
@@ -178,11 +176,9 @@
 	<stdlib.h>
 	"jeux.h"
 
-1583242965 c:\users\sams8\desktop\projet_banquise\samuel\glacon.h
+1584551631 c:\users\sams8\desktop\projet_banquise\samuel\glacon.h
 
-1583244136 source:c:\users\sams8\desktop\projet_banquise\samuel\glacon.c
-	<stdio.h>
-	<stdlib.h>
+1584551631 source:c:\users\sams8\desktop\projet_banquise\samuel\glacon.c
 	"jeux.h"
 
 1583599925 c:\users\sauze\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\glacon.h
@@ -288,5 +284,20 @@
 1584539925 c:\users\sauze\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\yannis\ressort.h
 
 1584540554 source:c:\users\sauze\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\yannis\ressort.c
+	"jeux.h"
+
+1584551631 c:\users\sams8\desktop\projet_banquise\samuel\rocher.h
+
+1584551631 c:\users\sams8\desktop\projet_banquise\samuel\ressort.h
+
+1584551631 c:\users\sams8\desktop\projet_banquise\samuel\piege.h
+
+1584551631 source:c:\users\sams8\desktop\projet_banquise\samuel\piege.c
+	"jeux.h"
+
+1584551631 source:c:\users\sams8\desktop\projet_banquise\samuel\ressort.c
+	"jeux.h"
+
+1584551631 source:c:\users\sams8\desktop\projet_banquise\samuel\rocher.c
 	"jeux.h"
 

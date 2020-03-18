@@ -119,33 +119,32 @@
 	<stdlib.h>
 	"jeux.h"
 
-1582280144 source:c:\users\sams8\desktop\projet_banquise\projetjeubanquise\banquise.c
-	<stdio.h>
-	<stdlib.h>
+1584379300 source:c:\users\sams8\desktop\projet_banquise\projetjeubanquise\banquise.c
 	"jeux.h"
 
-1582283191 c:\users\sams8\desktop\projet_banquise\projetjeubanquise\jeux.h
-	"banquise.h"
-	"joueur.h"
-
-1582280144 c:\users\sams8\desktop\projet_banquise\projetjeubanquise\banquise.h
-
-1582282273 c:\users\sams8\desktop\projet_banquise\projetjeubanquise\joueur.h
-
-1582276809 source:c:\users\sams8\desktop\projet_banquise\projetjeubanquise\jeux.c
+1584551631 c:\users\sams8\desktop\projet_banquise\projetjeubanquise\jeux.h
 	<stdio.h>
 	<stdlib.h>
 	<windows.h>
+	<time.h>
+	"banquise.h"
+	"joueur.h"
+	"glacon.h"
+	"rocher.h"
+	"ressort.h"
+	"piege.h"
+
+1584379300 c:\users\sams8\desktop\projet_banquise\projetjeubanquise\banquise.h
+
+1584551631 c:\users\sams8\desktop\projet_banquise\projetjeubanquise\joueur.h
+
+1584551631 source:c:\users\sams8\desktop\projet_banquise\projetjeubanquise\jeux.c
 	"jeux.h"
 
-1582282344 source:c:\users\sams8\desktop\projet_banquise\projetjeubanquise\joueur.c
-	<stdio.h>
-	<stdlib.h>
+1584552582 source:c:\users\sams8\desktop\projet_banquise\projetjeubanquise\joueur.c
 	"jeux.h"
 
-1582275496 source:c:\users\sams8\desktop\projet_banquise\projetjeubanquise\main.c
-	<stdio.h>
-	<stdlib.h>
+1584551631 source:c:\users\sams8\desktop\projet_banquise\projetjeubanquise\main.c
 	"jeux.h"
 
 1582307127 source:c:\users\sauze\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\samuel\banquise.c
@@ -288,5 +287,25 @@
 1584539925 c:\users\sauze\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\yannis\ressort.h
 
 1584540554 source:c:\users\sauze\onedrive - université de poitiers\documents\2019-2020_l2_im_s4\programmation en c\projetjeubanquise-git\yannis\ressort.c
+	"jeux.h"
+
+1584551631 c:\users\sams8\desktop\projet_banquise\projetjeubanquise\glacon.h
+
+1584551631 c:\users\sams8\desktop\projet_banquise\projetjeubanquise\rocher.h
+
+1584551631 c:\users\sams8\desktop\projet_banquise\projetjeubanquise\ressort.h
+
+1584551631 c:\users\sams8\desktop\projet_banquise\projetjeubanquise\piege.h
+
+1584551631 source:c:\users\sams8\desktop\projet_banquise\projetjeubanquise\glacon.c
+	"jeux.h"
+
+1584551631 source:c:\users\sams8\desktop\projet_banquise\projetjeubanquise\piege.c
+	"jeux.h"
+
+1584551631 source:c:\users\sams8\desktop\projet_banquise\projetjeubanquise\ressort.c
+	"jeux.h"
+
+1584551631 source:c:\users\sams8\desktop\projet_banquise\projetjeubanquise\rocher.c
 	"jeux.h"
 
