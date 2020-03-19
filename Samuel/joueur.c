@@ -37,7 +37,7 @@ T_joueur *initJoueur(int numeroJoueur)
     printf("Veuillez choisir un nom pour le joueur numero %d : ", numeroJoueur + 1); //Demande le nom au joueur
     scanf("%s", joueur->nom);                                                        //Initialise le nom du joueur
 
-    joueur->couleur = choixCouleur();                                                  //Initialise la couleur du joueur
+    joueur->couleur = choixCouleur();                                                //Initialise la couleur de joueur
     joueur->identifiant = numeroJoueur;                                              //Initialise l'identifiant du joueur
     joueur->position.x = joueur->position.y = 0;                                     //Initialise la position du joueur
     joueur->vecteur.dx = joueur->vecteur.dy = 0;                                     //Initialise le veteur deplacement du joueur
@@ -46,6 +46,44 @@ T_joueur *initJoueur(int numeroJoueur)
     joueur->nbMort = 0;                                                              //Initialise le nombre de mort
 
     return joueur;                                                                   //Retourne un pointeur de type joueur
+}
+
+
+
+//Retourne le nombre de joueurs selon le choix de l'utilisateur
+int demandeNombreJoueurs()
+{
+    int nbJoueurs = 0;                                   //Variable pour le nombres de joueurs
+
+    while (nbJoueurs < 1 || nbJoueurs > 4)               //Verifie que l'utilisateur rentre un chiffre entre 1 et 4
+    {
+        printf("Nombre de joueurs (entre 1 et 4) : ");   //Demande de rentrer un chiffre entre 1 et 4
+        scanf("%d", &nbJoueurs);                         //Recupere le chiffre rentre
+        system("cls");                                   //Nettoie la console
+    }
+
+    return nbJoueurs;                                    //Retourne le nombre de joueurs
+}
+
+
+
+//Retourne un tableau de joueurs selon le nombre de joueurs en parametre
+T_joueur **initTabJoueurs(T_banquise *banquise, int nombreJoueurs)
+{
+    T_joueur **joueurs = (T_joueur **)malloc(nombreJoueurs * sizeof(T_joueur *));  //Alloue de la memoire pour le tableau de joueurs
+
+    int i;                                                                              //Declare un entier pour la boucle suivante
+
+    for (i = 0; i < nombreJoueurs; i++)                                                     //Boucle qui partcourt le nombres de joueurs
+    {
+        joueurs[i] = initJoueur(i);                                                //Ajoute le joueur numero i
+
+        departJoueur(banquise, joueurs[i]);                                   //Met le joueur a sa case depart
+
+        system("cls");                                                                  //Nettoie la console
+    }
+
+    return joueurs;
 }
 
 
@@ -89,7 +127,7 @@ char saisieDeplacement(T_joueur *joueur)
 
     changeCouleurTexte(joueur->couleur);                                                     //Change la couleur selon la couleur choisi par le joueur
     printf("%s", joueur->nom);                                                               //Affiche le nom du joueur choisi
-    changeCouleurTexte(DEFAULT);                                                               //Remet la couleur blanche
+    changeCouleurTexte(BLANC);                                                               //Remet la couleur blanche
     printf(" deplacez vous : ");                                                             //Demande au joueur ou il veut se deplacer
     scanf("%c", &clavier);                                                                   //Recupere la touche qui a ete frappe
 
@@ -125,7 +163,7 @@ int verifieDeplacement(T_banquise *banquise, T_joueur *joueur, int caseX, int ca
         return -1;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
         break;
     case DEPART:
-        printf("\nDeplacement impossible : le joueur ne peut pas aller sur le spawn\n"); //Previens le joueur dans ce cas la
+        printf("\nDeplacement impossible : le joueur ne peut pas aller au depart\n");    //Previens le joueur dans ce cas la
         return -1;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
         break;
     case ROCHER:

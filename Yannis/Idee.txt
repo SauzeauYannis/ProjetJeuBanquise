@@ -1,5 +1,7 @@
 ﻿Fichier pour noter les idées sur la suite du jeux :
 
--Créer les autres types objets et leurs fonctions
+-Créer le marteau
+-Fonction qui verifie s'il y a un chemin direct
+-Gestion de 4 niveaux : facile, moyen, difficile, personalise 
 -Corriger les bugs présent dans le fichier "Bug.txt"
 -Corriger les fautes d'orthographes (affichage + commentaires) et mettre les accents

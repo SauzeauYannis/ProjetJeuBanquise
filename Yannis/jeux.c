@@ -51,41 +51,70 @@ void afficheMenu()
 
 
 //Change la couleur du texte selon la type couleur mis en parametre
-void changeCouleurTexte(T_couleur couleur)
+void changeCouleurConsole(T_couleur couleur)
 {
     HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE); //Declare la console windows du jeu
 
     switch (couleur)                                  //Change la couleur du texte de la console selon le type couleur mis en parametre
     {
     case ROUGE:
-        SetConsoleTextAttribute(console, 12);
+        SetConsoleTextAttribute(console, 12*16+12);
         break;
     case VERT :
-        SetConsoleTextAttribute(console, 2);
+        SetConsoleTextAttribute(console, 2*16+2);
         break;
     case BLEU:
-        SetConsoleTextAttribute(console, 9);
+        SetConsoleTextAttribute(console, 9*16+9);
         break;
     case JAUNE :
-        SetConsoleTextAttribute(console, 14);
+        SetConsoleTextAttribute(console, 14*16+14);
         break;
     case TURQUOISE :
-        SetConsoleTextAttribute(console, 11);
+        SetConsoleTextAttribute(console, 11*16+11);
         break;
     case ROSE :
-        SetConsoleTextAttribute(console, 13);
+        SetConsoleTextAttribute(console, 13*16+13);
         break;
     case GRIS :
-        SetConsoleTextAttribute(console, 8);
+        SetConsoleTextAttribute(console, 8*16+8);
         break;
     case BLEUFONCE :
-        SetConsoleTextAttribute(console, 1);
+        SetConsoleTextAttribute(console, 1*16+1);
         break;
     case NOIR :
         SetConsoleTextAttribute(console, 0);
         break;
     case MARRON :
-        SetConsoleTextAttribute(console, 4);
+        SetConsoleTextAttribute(console, 4*16+4);
+        break;
+    case BLANC :
+        SetConsoleTextAttribute(console, 15*16+15);
+        break;
+    default :
+        SetConsoleTextAttribute(console, 15);
+    }
+}
+
+
+
+//Fonction qui retourne un entier en fonction de la couleur du joueur
+void changeCouleurTexte(T_couleur couleur)
+{
+    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE); //Declare la console windows du jeu
+
+    switch (couleur)
+    {
+    case ROUGE :
+        SetConsoleTextAttribute(console, 12);
+        break;
+    case VERT :
+        SetConsoleTextAttribute(console, 2);
+        break;
+    case BLEU :
+        SetConsoleTextAttribute(console, 9);
+        break;
+    case JAUNE :
+        SetConsoleTextAttribute(console, 14);
         break;
     default :
         SetConsoleTextAttribute(console, 15);
@@ -131,7 +160,6 @@ void afficheJeu(T_jeu *jeu)
 
     for (i = 0; i < taille; i++)                                                                 //Boucle qui parcourt les lignes de la matrice
     {
-        printf("| ");                                                                            //Esthetique
         for (j = 0; j < taille; j++)                                                             //Boucle qui parcourt les collones de la matrice
         {
             int pos = jeu->banquise->matrice[i][j];                                              //Declare la position parcouru
@@ -140,38 +168,38 @@ void afficheJeu(T_jeu *jeu)
             {
             case JOUEUR :
                 {
-                T_joueur *joueur = joueurSelonPosition(jeu->joueurs, i, j, jeu->nombreJoueurs);  //Recupere le joueur a la position parcouru par la boucle
+                T_joueur *joueur = joueurSelonPosition(jeu->joueurs, i, j, jeu->nombreJoueurs);   //Recupere le joueur a la position parcouru par la boucle
 
-                changeCouleurTexte(joueur->couleur);                                             //Change la couleur selon celle du joueur
+                changeCouleurConsole(joueur->couleur);                                             //Change la couleur selon celle du joueur
                 break;
                 }
-            case DEPART :
-                changeCouleurTexte(NOIR);                                                        //Change la couleur en noir pour le depart
-                break;
             case ARRIVE :
-                changeCouleurTexte(ROSE);                                                        //Change la couleur en rose pour l'arrive
+                changeCouleurConsole(ROSE);                                                        //Change la couleur en rose pour l'arrive
                 break;
             case GLACON :
-                changeCouleurTexte(BLEUFONCE);                                                   //Change la couleur en bleu-gris pour le glacon
+                changeCouleurConsole(TURQUOISE);                                                   //Change la couleur en bleu-gris pour le glacon
                 break;
             case EAU :
-                changeCouleurTexte(TURQUOISE);                                                   //Change la couleur en turquoise pour l'eau
+                changeCouleurConsole(BLEUFONCE);                                                   //Change la couleur en turquoise pour l'eau
                 break;
             case ROCHER :
-                changeCouleurTexte(GRIS);                                                        //Change la couleur en gris pout le rocher
+                changeCouleurConsole(GRIS);                                                        //Change la couleur en gris pout le rocher
                 break;
             case RESSORT :
-                changeCouleurTexte(MARRON);                                                      //Change la couleur en marron pour le ressort
+                changeCouleurConsole(MARRON);                                                      //Change la couleur en marron pour le ressort
+                break;
+            case GLACE :
+                changeCouleurConsole(BLANC);                                                       //Change la couleur en blanc sinon
                 break;
             default :
-                changeCouleurTexte(BLANC);                                                       //Change la couleur en blanc sinon
+                changeCouleurConsole(NOIR);                                                        //Change la couleur en noir pour le depart
             }
 
-            printf("%d ", pos);                                                                  //Affiche la case
+            printf("%d ", pos);                                                                    //Affiche la case
 
-            changeCouleurTexte(BLANC);                                                           //Re-met la couleur en blanc
+            changeCouleurConsole(DEFAULT);                                                         //Re-met la couleur en blanc
         }
-        printf("|\n");                                                                           //Esthetique
+        printf("\n");                                                                              //Saute une ligne
     }
 }
 

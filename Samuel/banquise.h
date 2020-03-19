@@ -33,10 +33,6 @@ int **initMatrice(int tailleMatrice);
 T_glace *initTabGlaces(int taille);
 
 
-//Initialise le pointeur de type banquise
-T_banquise *initBanquise(int tailleMatrice, int tailleEau);
-
-
 //Modifie une case de la banquise
 void modifieCaseBanquise(T_banquise *banquise, int caseX, int caseY, T_case valeur);
 
@@ -55,6 +51,10 @@ void ajouteDepartArrive(T_banquise *banquise);
 
 //Remplit la banquise avec une valeur donnee
 void remplitBanquise(T_banquise *banquise);
+
+
+//Initialise le pointeur de type banquise
+T_banquise *initBanquise(int tailleMatrice, int tailleEau);
 
 
 //Retourne une case de glace aleatoire

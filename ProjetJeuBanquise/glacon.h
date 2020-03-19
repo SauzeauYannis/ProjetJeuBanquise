@@ -13,8 +13,12 @@ typedef struct
 /***** Fonctions *****/
 
 
-//Fonction qui initialise un glacon
-T_glacon *initGlacon(int caseX, int caseY, int chanceFonte);
+//Initialise un glacon
+T_glacon *initGlacon(T_point position, int chanceFonte);
+
+
+//Initialise un tableau de glacons
+T_glacon **initTabGlacons(T_banquise *banquise, int nombreGlacons, int rechauffement);
 
 
 //Fonction qui verifie que le vecteur du glacon est valide : HAUT BAS GAUCHE DROITE

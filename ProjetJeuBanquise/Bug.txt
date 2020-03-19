@@ -2,10 +2,8 @@
 
 Important :
 
-- Il arrive que le jeu plante pour une raison inconnue
-
 Secondaire :
 
-- Deux joueurs peuvent prendre la même couleur
-- Verifier que le joueur saisie bien un nombre et pas une lettre quand on lui demande (exemple : demande nombre de joueur)
-- Faire en sorte que le joueur ne puissent saisie qu'une lettre quand il veut se déplacer
+-Deux joueurs peuvent prendre la même couleur
+-Verifier que le joueur saisie bien un nombre et pas une lettre quand on lui demande (exemple : demande nombre de joueur)
+-Faire en sorte que le joueur ne puissent saisie qu'une lettre quand il veut se déplacer

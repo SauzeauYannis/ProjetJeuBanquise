@@ -2,8 +2,6 @@
 
 Important :
 
--Quand le glaçon passe sur la case du spanw, celle-ci disparaît
-
 Secondaire :
 
 -Deux joueurs peuvent prendre la même couleur
