@@ -7,21 +7,6 @@
 /***** Structures *****/
 
 
-//Enumeration des cases de la banquise
-typedef enum
-{
-    ERREUR = -1,
-    GLACE,
-    JOUEUR,
-    DEPART,
-    ARRIVE,
-    GLACON,
-    EAU,
-    ROCHER,
-    RESSORT,
-} T_case;
-
-
 //Enumeration de differentes couleur
 typedef enum
 {
@@ -35,9 +20,35 @@ typedef enum
     BLEUFONCE,
     NOIR,
     MARRON,
+    KAKI,
     BLANC,
     DEFAULT
 } T_couleur;
+
+
+//Enumeration d'un booleen
+typedef enum
+{
+    FAUX,
+    VRAI
+} T_booleen;
+
+
+//Enumeration des cases de la banquise
+typedef enum
+{
+    ERREUR = -1,
+    GLACE,
+    JOUEUR,
+    DEPART,
+    ARRIVE,
+    GLACON,
+    EAU,
+    ROCHER,
+    RESSORT,
+    MARTEAU_CENTRE,
+    MARTEAU_TETE
+} T_case;
 
 
 //Definition du type point qui represente la case d'une banquise
@@ -59,9 +70,10 @@ typedef struct
 #include "banquise.h"
 #include "joueur.h"
 #include "glacon.h"
-#include "rocher.h"
-#include "ressort.h"
+#include "marteau.h"
 #include "piege.h"
+#include "ressort.h"
+#include "rocher.h"
 
 
 //Definition du type jeu
@@ -70,12 +82,14 @@ typedef struct
     T_banquise *banquise; //Pointeur sur la banquise
     T_joueur **joueurs;   //Tableau de pointeurs de joueurs
     T_glacon **glacons;   //Tableau de pointeurs de glacons
-    T_rocher *rochers;    //Tableau de rochers
+    T_marteau **marteaux;  //Tableau de marteaux
     T_ressort *ressorts;  //Tableau de ressort
+    T_rocher *rochers;    //Tableau de rochers
     int nombreJoueurs;    //Nombre de joueurs present sur le jeu
     int nombreGlacons;    //Nombre de glacons present sur le jeu
-    int nombreRochers;    //Nombre de rochers present sur le jeu
+    int nombreMarteaux;   //Nombre de marteaux present sur le jeu
     int nombreRessorts;   //Nombre de ressorts present sur le jeu
+    int nombreRochers;    //Nombre de rochers present sur le jeu
     int nombreTour;       //Nombre de tour actuel du jeu
     int rechauffement;    //Probabilite de fonte de la banquise comme du glacon
     int probPiege;        //Probabilite de tomber dans un piege
@@ -98,7 +112,7 @@ void changeCouleurTexte(T_couleur couleur);
 
 
 //Initialise le jeu
-T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int nombreRochers, int nombreRessorts, int chanceFonte, int chancePiege);
+T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int nombreMarteaux, int nombreRessorts, int nombreRochers, int chanceFonte, int chancePiege);
 
 
 //Affiche le jeu
@@ -111,6 +125,10 @@ void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu);
 
 //S'occupe de la fonte d'un glacon
 void fonteGlacon(T_jeu *jeu);
+
+
+//
+void bougeTeteMarteau(T_jeu *jeu, T_marteau *marteau, T_booleen sensHorraire);
 
 
 //S'occupe d'effectuer le tour d'un joueur
