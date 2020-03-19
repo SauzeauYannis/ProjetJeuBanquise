@@ -35,7 +35,8 @@ typedef enum
     BLEUFONCE,
     NOIR,
     MARRON,
-    BLANC
+    BLANC,
+    DEFAULT
 } T_couleur;
 
 
@@ -86,6 +87,10 @@ typedef struct
 
 //Affiche le menu du jeu
 void afficheMenu();
+
+
+//Change la couleur de la console
+void changeCouleurConsole(T_couleur couleur);
 
 
 //Change la couleur du texte

@@ -37,7 +37,7 @@ T_joueur *initJoueur(int numeroJoueur)
     printf("Veuillez choisir un nom pour le joueur numero %d : ", numeroJoueur + 1); //Demande le nom au joueur
     scanf("%s", joueur->nom);                                                        //Initialise le nom du joueur
 
-    joueur->couleur = choixCouleur();                                                //Initialise la couleur de joueur
+    joueur->couleur = choixCouleur();                                                  //Initialise la couleur du joueur
     joueur->identifiant = numeroJoueur;                                              //Initialise l'identifiant du joueur
     joueur->position.x = joueur->position.y = 0;                                     //Initialise la position du joueur
     joueur->vecteur.dx = joueur->vecteur.dy = 0;                                     //Initialise le veteur deplacement du joueur
@@ -89,7 +89,7 @@ char saisieDeplacement(T_joueur *joueur)
 
     changeCouleurTexte(joueur->couleur);                                                     //Change la couleur selon la couleur choisi par le joueur
     printf("%s", joueur->nom);                                                               //Affiche le nom du joueur choisi
-    changeCouleurTexte(BLANC);                                                               //Remet la couleur blanche
+    changeCouleurTexte(DEFAULT);                                                               //Remet la couleur blanche
     printf(" deplacez vous : ");                                                             //Demande au joueur ou il veut se deplacer
     scanf("%c", &clavier);                                                                   //Recupere la touche qui a ete frappe
 
