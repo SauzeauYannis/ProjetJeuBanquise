@@ -126,6 +126,83 @@ void changeCouleurTexte(T_couleur couleur)
 
 
 
+//
+T_booleen verifieChemin(T_jeu *jeu, T_booleen **tabTemp, T_point position, T_deplacement deplacement)
+{
+    int taille = jeu->banquise->tailleN;
+    T_case caseBanquise = jeu->banquise->matrice[position.x][position.y];
+    T_booleen caseTemp = tabTemp[position.x][position.y];
+
+    while (caseBanquise == ARRIVE)
+    {
+        if (position.x < 0
+            || position.x >= taille
+            || position.y < 0
+            || position.y >= taille
+            || caseBanquise == RESSORT
+            || caseBanquise == ROCHER
+            || caseBanquise == MARTEAU_CENTRE
+            || caseTemp == FAUX)
+        {
+            return FAUX;
+        }
+        else
+        {
+            return VRAI;
+        }
+
+        enleveCaseGlace(jeu->banquise, position.x, position.y, VERIF);
+        Sleep(500);
+        afficheJeu(jeu);
+
+        if (verifieChemin(jeu, tabTemp, position, deplacement))
+        {
+            T_point nouvellePos;
+
+            nouvellePos.x = position.x,
+            nouvellePos.y = position.y + 1;
+            verifieChemin(jeu, tabTemp, nouvellePos, DEP_DROITE);
+        }
+        else
+        {
+            T_point nouvellePos;
+            T_deplacement nouveauDep;
+
+            switch (deplacement)
+            {
+            case DEP_DROITE :
+                nouvellePos.x = position.x,
+                nouvellePos.y = position.y - 1;
+                nouveauDep = BAS;
+                tabTemp[position.x][position.y] = FAUX;
+                break;
+            case DEP_BAS :
+                nouvellePos.x = position.x - 1,
+                nouvellePos.y = position.y;
+                nouveauDep = HAUT;
+                tabTemp[position.x][position.y] = FAUX;
+                break;
+            case DEP_HAUT :
+                nouvellePos.x = position.x + 1,
+                nouvellePos.y = position.y;
+                nouveauDep = GAUCHE;
+                tabTemp[position.x][position.y] = FAUX;
+                break;
+            default :
+                nouvellePos.x = position.x + 1,
+                nouvellePos.y = position.y;
+                nouveauDep = BAS;
+                tabTemp[position.x][position.y + 1] = FAUX;
+            }
+
+            verifieChemin(jeu, tabTemp, nouvellePos, nouveauDep);
+
+        }
+    }
+}
+
+
+
 //Retourne un pointeur de type jeu en fonction du niveau et de la taille de la banquise
 T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int nombreMarteaux, int nombreRessorts, int nombreRochers, int chanceFonte, int chancePiege)
 {
@@ -286,12 +363,7 @@ void bougeTeteMarteau(T_jeu *jeu, T_marteau *marteau, T_booleen sensHorraire)
         if (nombreDeplacements == 8)
         {
             marteau->mouvement = FAUX;
-        }/*
-        else if (nombreDeplacements == 1
-                 &&sensHorraire == FAUX)
-        {
-            marteau->tete.etat = HAUT_DROITE;
-        }*/
+        }
         else
         {
             mouvementTete(jeu->banquise, marteau, sensHorraire);
@@ -430,9 +502,21 @@ void afficheScore(T_jeu *jeu)
 void joueNiveau(T_jeu *jeu)
 {
     int caseVal, finPartie = 0,                                //caseVal sert à connaitre la valeur de la case, et finPartie sert à mettre fin à la partie en cours
-        i;                                                     //Variable pour la boucle suivante
+        i, j;                                                     //Variable pour la boucle suivante
 
     jeu->nombreTour = 1;                                       //Initialise le nombre de tour a 1
+
+    T_booleen **tabTemp = initMatrice(jeu->banquise->tailleN);
+
+    for (i = 0; i < jeu->banquise->tailleN; i++)
+    {
+        for (j = 0; j < jeu->banquise->tailleN; j++)
+        {
+            tabTemp[i][j] = VRAI;
+        }
+    }
+
+    verifieChemin(jeu, tabTemp, jeu->banquise->depart, DEP_DROITE);
 
     while(finPartie == 0)                                      //Boucle tant que la partie n'est pas finie, c'est a dire tant qu'un joueur n'a pas atteint la case d'arrive
     {
