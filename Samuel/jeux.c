@@ -87,6 +87,9 @@ void changeCouleurConsole(T_couleur couleur)
     case MARRON :
         SetConsoleTextAttribute(console, 4*16+4);
         break;
+    case KAKI :
+        SetConsoleTextAttribute(console, 6*16+6);
+        break;
     case BLANC :
         SetConsoleTextAttribute(console, 15*16+15);
         break;
@@ -124,7 +127,7 @@ void changeCouleurTexte(T_couleur couleur)
 
 
 //Retourne un pointeur de type jeu en fonction du niveau et de la taille de la banquise
-T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int nombreRochers, int nombreRessorts, int chanceFonte, int chancePiege)
+T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int nombreMarteaux, int nombreRessorts, int nombreRochers, int chanceFonte, int chancePiege)
 {
     T_jeu *jeu = (T_jeu *)malloc(sizeof(T_jeu));                               //Aloue de l'espace memoire a un pointeur de type jeu
 
@@ -133,12 +136,14 @@ T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int n
     jeu->banquise = initBanquise(tailleN, tailleEau);                          //Initialise la banquise dans le jeu
     jeu->joueurs = initTabJoueurs(jeu->banquise, nombreJoueurs);               //Initialise le tableau de joueurs
     jeu->glacons = initTabGlacons(jeu->banquise, nombreGlacons, chanceFonte);  //Initialise le tableau de glacons
-    jeu->rochers = initTabRochers(jeu->banquise, nombreRochers);               //Initialise le tableau de rochers
+    jeu->marteaux = initTabMarteaux(jeu->banquise, nombreMarteaux);            //Initialise le tableau de marteaux
     jeu->ressorts = initTabRessorts(jeu->banquise, nombreRessorts);            //Initialise le tableau de ressorts
+    jeu->rochers = initTabRochers(jeu->banquise, nombreRochers);               //Initialise le tableau de rochers
     jeu->nombreJoueurs = nombreJoueurs;                                        //Initialise le nombre de joueurs
     jeu->nombreGlacons = nombreGlacons;                                        //Initialise le nombre de glacons
-    jeu->nombreRochers = nombreRochers;                                        //Initialise le nombre de rochers
+    jeu->nombreMarteaux = nombreMarteaux;                                      //Initialise le nombre de marteaux
     jeu->nombreRessorts = nombreRessorts;                                      //Initialise le nombre de ressorts
+    jeu->nombreRochers = nombreRochers;                                        //Initialise le nombre de rochers
     jeu->nombreTour = 0;                                                       //Initialise le nombre de tour
     jeu->rechauffement = chanceFonte;                                          //Initialise la probabilite de chance de fonte
     jeu->probPiege = chancePiege;                                              //Initialise la probabilite de chance d'etre piege
@@ -176,20 +181,23 @@ void afficheJeu(T_jeu *jeu)
             case ARRIVE :
                 changeCouleurConsole(ROSE);                                                        //Change la couleur en rose pour l'arrive
                 break;
-            case GLACON :
-                changeCouleurConsole(TURQUOISE);                                                   //Change la couleur en bleu-gris pour le glacon
-                break;
             case EAU :
                 changeCouleurConsole(BLEUFONCE);                                                   //Change la couleur en turquoise pour l'eau
                 break;
-            case ROCHER :
-                changeCouleurConsole(GRIS);                                                        //Change la couleur en gris pout le rocher
+            case GLACON :
+                changeCouleurConsole(TURQUOISE);                                                   //Change la couleur en bleu-gris pour le glacon
+                break;
+            case GLACE :
+                changeCouleurConsole(BLANC);                                                       //Change la couleur en blanc sinon
+                break;
+            case MARTEAU_TETE :
+                changeCouleurConsole(KAKI);
                 break;
             case RESSORT :
                 changeCouleurConsole(MARRON);                                                      //Change la couleur en marron pour le ressort
                 break;
-            case GLACE :
-                changeCouleurConsole(BLANC);                                                       //Change la couleur en blanc sinon
+            case ROCHER :
+                changeCouleurConsole(GRIS);                                                        //Change la couleur en gris pout le rocher
                 break;
             default :
                 changeCouleurConsole(NOIR);                                                        //Change la couleur en noir pour le depart
@@ -230,7 +238,8 @@ void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu)
         {
             T_glacon *nouveauGlacon = glaconSelonPosition(jeu->glacons, (glacon->position.x + Gdx), (glacon->position.y + Gdy), jeu->nombreGlacons); //Initialise un nouveau glacon qui correspond au glacon touche par le glacon en mouvement
 
-            glacon->vecteur.dx = glacon->vecteur.dy = 0;                                                                                            //Arrete le glacon qui a touche le nouveau glacon
+            joueur->vecteur.dx = glacon->vecteur.dx, joueur->vecteur.dy = glacon->vecteur.dy;
+            glacon->vecteur.dx = glacon->vecteur.dy = 0;                                                                                            //Arrete le glacon qui a touche le nouveau gl
             enleveCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y, GLACON);                                                         //Met le glacon a sa nouvelle position
             joueurPousseGlacon(joueur, nouveauGlacon, jeu);                                                                                         //Rappelle la fonction pour faire deplacer le nouveau glacon
             break;
@@ -238,6 +247,7 @@ void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu)
         case 2 :
             ajouteCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y);                                                                 //Transforme le glacon tombe dans l'eau en glace
             break;
+        case 3 :
         default :
             enleveCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y, GLACON);                                                         //Met le glacon a sa nouvelle position
             afficheJeu(jeu);                                                                                                                        //Affiche le jeu
@@ -265,6 +275,33 @@ void fonteGlacon(T_jeu *jeu)
 
 
 
+//
+void bougeTeteMarteau(T_jeu *jeu, T_marteau *marteau, T_booleen sensHorraire)
+{
+    int nombreDeplacements = 0;
+
+    marteau->mouvement = VRAI;
+
+    while (marteau->mouvement == VRAI)
+    {
+        if (nombreDeplacements == 8)
+        {
+            marteau->mouvement = FAUX;
+        }
+        else
+        {
+            mouvementTete(jeu->banquise, marteau, sensHorraire);
+            Sleep(500);
+            afficheJeu(jeu);
+        }
+
+        nombreDeplacements++;
+    }
+}
+
+
+
+
 //Fonction qui s'occupe d'effectuer le tour d'un joueur dont l'identifiant est donne en parametre
 int tourJoueur(T_jeu *jeu, int numJoueur)
 {
@@ -272,7 +309,7 @@ int tourJoueur(T_jeu *jeu, int numJoueur)
     int **matrice = jeu->banquise->matrice,                                                  //Recupere la matrice represantant le jeu
         caseValeur,                                                                          //Variable pour la valeur de la case ou le joueur est allee
         verifDep,                                                                            //Variable pour verifier le deplacement du joueur
-        j;                                                                                   //
+        i;                                                                                   //
 
     afficheJeu(jeu);                                                                         //Affiche la banquise dans le terminal
 
@@ -306,16 +343,23 @@ int tourJoueur(T_jeu *jeu, int numJoueur)
 
     if(verifDep == GLACON)                                                                   //Verifie si le joueur touche un glacon
     {
-        for(j = 0; j < jeu->nombreGlacons; j++)                                               //Parcourt le tableaux de glacons
+        for(i = 0; i < jeu->nombreGlacons; i++)                                               //Parcourt le tableaux de glacons
         {
-            if((joueur->position.x + joueur->vecteur.dx) == jeu->glacons[j]->position.x
-               && (joueur->position.y + joueur->vecteur.dy) == jeu->glacons[j]->position.y)  //Condition qui regarde quel glacon a touche le joueur en parametre
+            if((joueur->position.x + joueur->vecteur.dx) == jeu->glacons[i]->position.x
+               && (joueur->position.y + joueur->vecteur.dy) == jeu->glacons[i]->position.y)  //Condition qui regarde quel glacon a touche le joueur en parametre
             {
-                joueurPousseGlacon(jeu->joueurs[numJoueur], jeu->glacons[j], jeu);           //Effectue le deplacement du glacon
+                joueurPousseGlacon(jeu->joueurs[numJoueur], jeu->glacons[i], jeu);           //Effectue le deplacement du glacon
                 break;                                                                       //Sort de la boucle
             }
         }
     }
+
+   /* for (i = 0; i < jeu->nombreMarteaux; i++)
+    {
+        T_marteau *marteau = jeu->marteaux[i];
+
+        bougeTeteMarteau(jeu, marteau, (i % 2));
+    }*/
 
     return caseValeur;                                                                       //Retourne la valeur de la case
 }
