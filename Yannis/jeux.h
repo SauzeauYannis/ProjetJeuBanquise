@@ -77,16 +77,6 @@ typedef struct
 #include "rocher.h"
 
 
-//
-typedef enum
-{
-    DEP_DROITE,
-    DEP_BAS,
-    DEP_HAUT,
-    DEP_GAUCHE
-} T_deplacement;
-
-
 //Definition du type jeu
 typedef struct
 {

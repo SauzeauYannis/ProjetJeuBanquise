@@ -16,7 +16,7 @@ int main()
 
         system("cls");                                 //Nettoie la console
 
-        T_jeu *jeuN1 = initJeux(1, 30, 3, 50, 3, 10, 30, 5, 100);  //Cree le niveau
+        T_jeu *jeuN1 = initJeux(1, 15, 1, 10, 2, 10, 10, 5, 100);  //Cree le niveau
 
         joueNiveau(jeuN1);                             //Joue le niveau selectionne
 
