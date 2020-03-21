@@ -127,7 +127,7 @@ void changeCouleurTexte(T_couleur couleur)
 
 
 //
-T_booleen verifieChemin(T_jeu *jeu, T_booleen **tab, int caseX, int caseY)
+T_booleen verifieChemin(T_jeu *jeu, T_booleen **tab, int caseX, int caseY, T_booleen affichage)
 {
     int taille = jeu->banquise->tailleN;
 
@@ -145,31 +145,63 @@ T_booleen verifieChemin(T_jeu *jeu, T_booleen **tab, int caseX, int caseY)
         return VRAI;
     }
 
-    if (caseValeur != GLACE
-        && caseValeur != DEPART
+    if ((caseValeur != GLACE
         && caseValeur != JOUEUR
         && caseValeur != MARTEAU_TETE
-        && caseValeur != GLACON
-        || tabValeur != VRAI)
+        && caseValeur != GLACON)
+        || !tabValeur)
     {
         return FAUX;
     }
 
     tab[caseX][caseY] = FAUX;
-    /*jeu->banquise->matrice[caseX][caseY] = DEPART;
-    afficheJeu(jeu);
-    Sleep(10);
-    jeu->banquise->matrice[caseX][caseY] = caseValeur;*/
 
-    if (verifieChemin(jeu, tab, caseX, caseY + 1)
-        ||verifieChemin(jeu, tab, caseX - 1, caseY)
-        || verifieChemin(jeu, tab, caseX + 1, caseY)
-        || verifieChemin(jeu, tab, caseX, caseY - 1))
+    if (affichage)
+    {
+        jeu->banquise->matrice[caseX][caseY] = DEPART;
+        afficheJeu(jeu);
+        Sleep(20);
+        jeu->banquise->matrice[caseX][caseY] = caseValeur;
+    }
+
+    if (verifieChemin(jeu, tab, caseX, caseY + 1, affichage)
+        ||verifieChemin(jeu, tab, caseX - 1, caseY, affichage)
+        || verifieChemin(jeu, tab, caseX + 1, caseY, affichage)
+        || verifieChemin(jeu, tab, caseX, caseY - 1, affichage))
     {
         return VRAI;
     }
 
     return FAUX;
+}
+
+
+
+//
+T_booleen verifieCheminJoueurs(T_jeu *jeu, T_booleen **tab, T_booleen affichage)
+{
+    T_booleen cheminExiste;
+    int i, j, k;
+
+    for (i = 0; i < jeu->nombreJoueurs; i++)
+    {
+        for (j = 0; j < jeu->banquise->tailleN; j++)
+        {
+            for (k = 0; k < jeu->banquise->tailleN; k++)
+            {
+                tab[j][k] = VRAI;
+            }
+        }
+        if (!verifieChemin(jeu, tab, jeu->joueurs[i]->position.x, jeu->joueurs[i]->position.y, affichage))
+        {
+            cheminExiste = FAUX;
+            break;
+        }
+
+        cheminExiste = VRAI;
+    }
+
+    return cheminExiste;
 }
 
 
@@ -198,6 +230,24 @@ T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int n
     jeu->IdJeu = niveau;                                                       //Initialise le niveau
 
     return jeu;                                                                //Retourne le pointeur de type jeu
+}
+
+
+
+//Retourne un pointeur de type jeu en fonction du niveau et de la taille de la banquise
+void reInitJeux(T_jeu *jeu)
+{
+    int i;
+
+    jeu->banquise = initBanquise(jeu->banquise->tailleN, jeu->banquise->tailleEau);       //Re Initialise la banquise dans le jeu
+    for (i = 0; i < jeu->nombreJoueurs; i++)
+    {
+        departJoueur(jeu->banquise, jeu->joueurs[i]);                    //Met le joueur a sa case depart
+    }
+    jeu->glacons = initTabGlacons(jeu->banquise, jeu->nombreGlacons, jeu->rechauffement); //Re Initialise le tableau de glacons
+    jeu->marteaux = initTabMarteaux(jeu->banquise, jeu->nombreMarteaux);                  //Re Initialise le tableau de marteaux
+    jeu->ressorts = initTabRessorts(jeu->banquise, jeu->nombreRessorts);                  //Re Initialise le tableau de ressorts
+    jeu->rochers = initTabRochers(jeu->banquise, jeu->nombreRochers);                     //Re Initialise le tableau de rochers
 }
 
 
@@ -313,7 +363,10 @@ void fonteGlacon(T_jeu *jeu)
 
         if(verifFonteGlacon(glacon) == 1)
         {
-            ajouteCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y);
+            if (jeu->banquise->matrice[glacon->position.x][glacon->position.y] != GLACE)
+            {
+                ajouteCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y);
+            }
             jeu->nombreGlacons -= 1;
             free(glacon);
         }
@@ -355,27 +408,10 @@ void bougeTeteMarteau(T_jeu *jeu, T_marteau *marteau, T_booleen sensHorraire)
 int tourJoueur(T_jeu *jeu, int numJoueur)
 {
     T_joueur *joueur = jeu->joueurs[numJoueur];                                              //Recupere le joueur dont l'identifiant est donne en parametre
-    T_point depart = jeu->banquise->depart;
     int **matrice = jeu->banquise->matrice;                                                  //Recupere la matrice represantant le jeu
     int caseValeur,                                                                          //Variable pour la valeur de la case ou le joueur est allee
         verifDep,                                                                            //Variable pour verifier le deplacement du joueur
-        i, j,                                                                                //Varibales pour les boucles suivante
-        taille = jeu->banquise->tailleN;
-    T_booleen **tabTemp = (T_booleen **)malloc(taille * sizeof(T_banquise *));
-    for (i = 0; i < taille; i++)
-    {
-        tabTemp[i] = (T_booleen *)malloc(taille * sizeof(T_banquise));
-    }
-
-    for (i = 0; i < taille; i++)
-    {
-        for (j = 0; j < taille; j++)
-        {
-            tabTemp[i][j] = VRAI;
-        }
-    }
-
-    verifieChemin(jeu, tabTemp, depart.x, depart.y);
+        i;                                                                                   //Varibales pour la boucle suivante
 
     afficheJeu(jeu);                                                                         //Affiche la banquise dans le terminal
 
@@ -419,13 +455,6 @@ int tourJoueur(T_jeu *jeu, int numJoueur)
             }
         }
     }
-/*
-    for (i = 0; i < jeu->nombreMarteaux; i++)
-    {
-        T_marteau *marteau = jeu->marteaux[i];
-
-        bougeTeteMarteau(jeu, marteau, (i % 2));
-    }*/
 
     return caseValeur;                                                                       //Retourne la valeur de la case
 }
@@ -490,7 +519,36 @@ void afficheScore(T_jeu *jeu)
 void joueNiveau(T_jeu *jeu)
 {
     int caseVal, finPartie = 0,                                //caseVal sert à connaitre la valeur de la case, et finPartie sert à mettre fin à la partie en cours
-        i;                                                     //Variable pour la boucle suivante
+        i, j,                                                  //Varibales pour les boucles suivante
+        taille = jeu->banquise->tailleN;
+    T_point depart = jeu->banquise->depart;
+
+    T_booleen **tabTemp = (T_booleen **)malloc(taille * sizeof(T_banquise *));
+    for (i = 0; i < taille; i++)
+    {
+        tabTemp[i] = (T_booleen *)malloc(taille * sizeof(T_banquise));
+    }
+
+    for (i = 0; i < taille; i++)
+    {
+        for (j = 0; j < taille; j++)
+        {
+            tabTemp[i][j] = VRAI;
+        }
+    }
+
+    while (!verifieCheminJoueurs(jeu, tabTemp, FAUX))
+    {
+        for (i = 0; i < taille; i++)
+        {
+            for (j = 0; j < taille; j++)
+            {
+                tabTemp[i][j] = VRAI;
+            }
+        }
+        reInitJeux(jeu);
+        depart = jeu->banquise->depart;
+    }
 
     jeu->nombreTour = 1;                                       //Initialise le nombre de tour a 1
 
@@ -516,7 +574,6 @@ void joueNiveau(T_jeu *jeu)
     system("cls");                                             //Netoie la console
     printf("Merci d'avoir joue !\n");                          //Affiche remerciement
 }
-
 
 
 

@@ -2,6 +2,8 @@
 
 Important :
 
+-Jeu crash des fois quand un glacon bouge
+
 Secondaire :
 
 -Deux joueurs peuvent prendre la même couleur

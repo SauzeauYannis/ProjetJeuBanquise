@@ -48,7 +48,6 @@ typedef enum
     RESSORT,
     MARTEAU_CENTRE,
     MARTEAU_TETE,
-    VERIF
 } T_case;
 
 
@@ -112,8 +111,16 @@ void changeCouleurConsole(T_couleur couleur);
 void changeCouleurTexte(T_couleur couleur);
 
 
+//
+T_booleen verifieChemin(T_jeu *jeu, T_booleen **tab, int caseX, int caseY, T_booleen affichage);
+
+
 //Initialise le jeu
 T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int nombreMarteaux, int nombreRessorts, int nombreRochers, int chanceFonte, int chancePiege);
+
+
+//
+void reInitJeux(T_jeu *jeu);
 
 
 //Affiche le jeu
