@@ -55,7 +55,7 @@ T_marteau **initTabMarteaux(T_banquise *banquise, int nombreMarteaux)
 //
 T_marteau *marteauSelonPosition(T_marteau **tabMarteaux, T_point position, int nombreMarteaux)
 {
-    T_marteau *marteau;
+    T_marteau *marteau = tabMarteaux[0];
     int i;
 
     for (i = 0; i < nombreMarteaux; i++)

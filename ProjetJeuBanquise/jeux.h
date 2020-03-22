@@ -47,7 +47,7 @@ typedef enum
     ROCHER,
     RESSORT,
     MARTEAU_CENTRE,
-    MARTEAU_TETE
+    MARTEAU_TETE,
 } T_case;
 
 
@@ -111,12 +111,24 @@ void changeCouleurConsole(T_couleur couleur);
 void changeCouleurTexte(T_couleur couleur);
 
 
+//
+T_booleen verifieChemin(T_jeu *jeu, T_booleen **tab, int caseX, int caseY, T_booleen affichage);
+
+
 //Initialise le jeu
 T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int nombreMarteaux, int nombreRessorts, int nombreRochers, int chanceFonte, int chancePiege);
 
 
+//
+void reInitJeux(T_jeu *jeu);
+
+
 //Affiche le jeu
 void afficheJeu(T_jeu *jeu);
+
+
+//
+char saisieTouche(T_joueur *joueur);
 
 
 //S'occupe du deplacement du glacon apres que celui-ci se soit fait pousser par un joueur

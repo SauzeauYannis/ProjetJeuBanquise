@@ -32,7 +32,7 @@ void afficheMenu()
 
     system("cls");                                      //Nettoie l'ecran
 
-    printf("Controle\n"
+    printf("Touches a utiliser :\n"
            "\n"
            "Pour se deplacer, utiliser les "
            "touches du clavier suivante :\n"
@@ -41,9 +41,15 @@ void afficheMenu()
            "S : bas\n"
            "D : droite\n"
            "\n"
+           "Pour passer son tour, utiliser les "
+           "touches du clavier suivante :\n"
+           "P : passer son tour\n"
+           "\n"
            "Appuyer sur entree pour commencer le jeu"); //Affiche les controles
 
     entree = getchar();                                 //Attend que la touche entree soit pressee
+
+    (void)entree;
 
     system("cls");                                      //Nettoie l'ecran
 }
@@ -311,6 +317,38 @@ void afficheJeu(T_jeu *jeu)
 
 
 
+//Retourne une lettre du clavier qui correspond a un deplacement
+char saisieTouche(T_joueur *joueur)
+{
+    char clavier = getchar();                                                                //Declare un caractere et l'initialise pour eviter un bug que nous comprenons pas
+
+    changeCouleurTexte(joueur->couleur);                                                     //Change la couleur selon la couleur choisi par le joueur
+    printf("%s", joueur->nom);                                                               //Affiche le nom du joueur choisi
+    changeCouleurTexte(BLANC);                                                               //Remet la couleur blanche
+    printf(" deplacez vous : ");                                                             //Demande au joueur ou il veut se deplacer
+    scanf("%c", &clavier);                                                                   //Recupere la touche qui a ete frappe
+
+    while (clavier != 'z'
+           && clavier != 'q'
+           && clavier != 's'
+           && clavier != 'd'
+           && clavier != 'p'
+           && clavier != 'Z'
+           && clavier != 'Q'
+           && clavier != 'S'
+           && clavier != 'D'
+           && clavier != 'P')                                                                //Boucle qui fini quand l'utilisateur a rentree une bonne touche
+    {
+        printf("\r\nTouche incorrect, veuillez saisir une touche"
+               "entre \"z, q, s, d, p\" : ");                                                //Re-demande le deplacement en rappellant les bonnes touches
+        scanf("%c", &clavier);                                                               //Recupere la touche qui a ete frappe
+    }
+
+    return clavier;                                                                          //Retourne la bonne touche
+}
+
+
+
 //S'occupe du deplacement du glacon apres que celui-ci se soit fait pousser par un joueur
 void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu)
 {
@@ -409,13 +447,17 @@ int tourJoueur(T_jeu *jeu, int numJoueur)
 {
     T_joueur *joueur = jeu->joueurs[numJoueur];                                              //Recupere le joueur dont l'identifiant est donne en parametre
     int **matrice = jeu->banquise->matrice;                                                  //Recupere la matrice represantant le jeu
-    int caseValeur,                                                                          //Variable pour la valeur de la case ou le joueur est allee
+    int caseValeur = ERREUR,                                                                 //Variable pour la valeur de la case ou le joueur est allee
         verifDep,                                                                            //Variable pour verifier le deplacement du joueur
         i;                                                                                   //Varibales pour la boucle suivante
 
     afficheJeu(jeu);                                                                         //Affiche la banquise dans le terminal
 
-    if (joueur->etat == PIEGE)
+    char toucheSaise = saisieTouche(joueur);
+
+    if (joueur->etat == PIEGE
+        ||toucheSaise == 'p'
+        ||toucheSaise == 'P')
     {
         changeCouleurTexte(joueur->couleur);
         printf("%s ", joueur->nom);
@@ -426,32 +468,42 @@ int tourJoueur(T_jeu *jeu, int numJoueur)
     }
     else
     {
-        ajouteCaseGlace(jeu->banquise, joueur->position.x, joueur->position.y);                  //Met une glace sur la case que le joueur va quitter
-        verifDep = deplacementJoueur(jeu->banquise, joueur);                                     //Effectue le deplacement du joueur sur la banquise
-        caseValeur = matrice[joueur->position.x][joueur->position.y];                            //Regarde la valeur de la case ou le joueur est
-        enleveCaseGlace(jeu->banquise, joueur->position.x, joueur->position.y, JOUEUR);          //Remplace la case glace ou le joueur est alle
-
-        if (joueurEstPiege(joueur, jeu->probPiege) == PIEGE)
+        switch (toucheSaise)
         {
-            system("cls");
-            afficheJeu(jeu);
-            changeCouleurTexte(joueur->couleur);
-            printf("%s ", joueur->nom);
-            changeCouleurTexte(BLANC);
-            printf("est tombe dans un piege, il ne jouera pas a son prochain tour");
-            Sleep(2000);
-        }
-    }
+        /*case 'p' :
+        case 'P' :
 
-    if(verifDep == GLACON)                                                                   //Verifie si le joueur touche un glacon
-    {
-        for(i = 0; i < jeu->nombreGlacons; i++)                                               //Parcourt le tableaux de glacons
-        {
-            if((joueur->position.x + joueur->vecteur.dx) == jeu->glacons[i]->position.x
-               && (joueur->position.y + joueur->vecteur.dy) == jeu->glacons[i]->position.y)  //Condition qui regarde quel glacon a touche le joueur en parametre
+            break;*/
+        default :
             {
-                joueurPousseGlacon(jeu->joueurs[numJoueur], jeu->glacons[i], jeu);           //Effectue le deplacement du glacon
-                break;                                                                       //Sort de la boucle
+            ajouteCaseGlace(jeu->banquise, joueur->position.x, joueur->position.y);                  //Met une glace sur la case que le joueur va quitter
+            verifDep = deplacementJoueur(jeu->banquise, joueur, toucheSaise);                        //Effectue le deplacement du joueur sur la banquise
+            caseValeur = matrice[joueur->position.x][joueur->position.y];                            //Regarde la valeur de la case ou le joueur est
+            enleveCaseGlace(jeu->banquise, joueur->position.x, joueur->position.y, JOUEUR);          //Remplace la case glace ou le joueur est alle
+
+            if (joueurEstPiege(joueur, jeu->probPiege) == PIEGE)
+            {
+                system("cls");
+                afficheJeu(jeu);
+                changeCouleurTexte(joueur->couleur);
+                printf("%s ", joueur->nom);
+                changeCouleurTexte(BLANC);
+                printf("est tombe dans un piege, il ne jouera pas a son prochain tour");
+                Sleep(2000);
+            }
+
+            if(verifDep == GLACON)                                                                   //Verifie si le joueur touche un glacon
+            {
+                for(i = 0; i < jeu->nombreGlacons; i++)                                               //Parcourt le tableaux de glacons
+                {
+                    if((joueur->position.x + joueur->vecteur.dx) == jeu->glacons[i]->position.x
+                        && (joueur->position.y + joueur->vecteur.dy) == jeu->glacons[i]->position.y)  //Condition qui regarde quel glacon a touche le joueur en parametre
+                    {
+                        joueurPousseGlacon(jeu->joueurs[numJoueur], jeu->glacons[i], jeu);           //Effectue le deplacement du glacon
+                        break;                                                                       //Sort de la boucle
+                    }
+                }
+            }
             }
         }
     }
@@ -521,7 +573,6 @@ void joueNiveau(T_jeu *jeu)
     int caseVal, finPartie = 0,                                //caseVal sert à connaitre la valeur de la case, et finPartie sert à mettre fin à la partie en cours
         i, j,                                                  //Varibales pour les boucles suivante
         taille = jeu->banquise->tailleN;
-    T_point depart = jeu->banquise->depart;
 
     T_booleen **tabTemp = (T_booleen **)malloc(taille * sizeof(T_banquise *));
     for (i = 0; i < taille; i++)
@@ -547,7 +598,6 @@ void joueNiveau(T_jeu *jeu)
             }
         }
         reInitJeux(jeu);
-        depart = jeu->banquise->depart;
     }
 
     jeu->nombreTour = 1;                                       //Initialise le nombre de tour a 1

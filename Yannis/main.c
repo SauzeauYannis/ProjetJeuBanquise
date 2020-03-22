@@ -8,7 +8,7 @@ int main()
 
     int stop;                                          //Varibale pour stoper le jeu
 
-    //afficheMenu();                                   //Affiche le menu du jeu
+    afficheMenu();                                   //Affiche le menu du jeu
 
     while(stop == 0)                                   //Boucle tant que le jeu n'est pas stope
     {

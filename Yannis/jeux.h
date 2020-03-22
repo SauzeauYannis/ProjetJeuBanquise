@@ -127,6 +127,10 @@ void reInitJeux(T_jeu *jeu);
 void afficheJeu(T_jeu *jeu);
 
 
+//
+char saisieTouche(T_joueur *joueur);
+
+
 //S'occupe du deplacement du glacon apres que celui-ci se soit fait pousser par un joueur
 void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu);
 
