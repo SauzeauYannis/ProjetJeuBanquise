@@ -239,7 +239,6 @@ T_booleen verifieChemin(T_jeu *jeu, T_booleen **tab, int caseX, int caseY, T_boo
 
     if ((caseValeur != GLACE
         && caseValeur != JOUEUR
-        && caseValeur != MARTEAU_TETE
         && caseValeur != GLACON)
         || !tabValeur)
     {
@@ -337,12 +336,150 @@ void reInitJeux(T_jeu *jeu)
     jeu->banquise = initBanquise(jeu->banquise->tailleN, jeu->banquise->tailleEau);       //Re Initialise la banquise dans le jeu
     for (i = 0; i < jeu->nombreJoueurs; i++)
     {
-        departJoueur(jeu->banquise, jeu->joueurs[i]);                    //Met le joueur a sa case depart
+        departJoueur(jeu->banquise, jeu->joueurs[i]);                                     //Met le joueur a sa case depart
     }
     jeu->glacons = initTabGlacons(jeu->banquise, jeu->nombreGlacons, jeu->rechauffement); //Re Initialise le tableau de glacons
     jeu->marteaux = initTabMarteaux(jeu->banquise, jeu->nombreMarteaux);                  //Re Initialise le tableau de marteaux
     jeu->ressorts = initTabRessorts(jeu->banquise, jeu->nombreRessorts);                  //Re Initialise le tableau de ressorts
     jeu->rochers = initTabRochers(jeu->banquise, jeu->nombreRochers);                     //Re Initialise le tableau de rochers
+}
+
+
+
+//
+T_jeu *initJeuxPersonalise()
+{
+    T_jeu *jeu;
+    int taille = 0;
+
+    while (taille < 1)
+    {
+        printf("Nombre de cases de la banquise par ligne/colonne (doit etre positif) : ");
+        scanf("%d", &taille);
+        system("cls");
+    }
+
+    int nombreCasesDispo = taille * taille,
+        tailleEauMax = (taille - 4) / 2,
+        tailleEau = -1;
+
+    while (tailleEau < 0 || tailleEau > tailleEauMax)
+    {
+        printf("Nombre de cases d'eau par ligne/colonne entourant "
+               "la banquise (ne doit pas depasser %d) : ", tailleEauMax);
+        scanf("%d", &tailleEau);
+        system("cls");
+    }
+
+    nombreCasesDispo = (taille - (tailleEau / 2)) * (taille - (tailleEau / 2));
+
+    int nombreGlacons = -1;
+
+    while (nombreGlacons < 0 || nombreGlacons > nombreCasesDispo)
+    {
+        printf("Nombre de glacons dans le jeu "
+               "(ne doit pas depasser %d) : ", nombreCasesDispo);
+        scanf("%d", &nombreGlacons);
+        system("cls");
+    }
+
+    nombreCasesDispo -= nombreGlacons;
+
+    int nombreMarteaux = -1;
+
+    while (nombreMarteaux < 0 || nombreMarteaux > nombreCasesDispo)
+    {
+        printf("Nombre de marteaux dans le jeu "
+               "(ne doit pas depasser %d) : ", nombreCasesDispo / 2);
+        scanf("%d", &nombreMarteaux);
+        system("cls");
+    }
+
+    nombreCasesDispo -= 2 * nombreMarteaux;
+
+    int nombreRessorts = -1;
+
+    while (nombreRessorts < 0 || nombreRessorts > nombreCasesDispo)
+    {
+        printf("Nombre de ressorts dans le jeu "
+               "(ne doit pas depasser %d) : ", nombreCasesDispo);
+        scanf("%d", &nombreRessorts);
+        system("cls");
+    }
+
+    nombreCasesDispo -= nombreRessorts;
+
+    int nombreRochers = -1;
+
+    while (nombreRochers < 0 || nombreRochers > nombreCasesDispo)
+    {
+        printf("Nombre de rochers dans le jeu "
+               "(ne doit pas depasser %d) : ", nombreCasesDispo);
+        scanf("%d", &nombreRochers);
+        system("cls");
+    }
+
+    nombreCasesDispo -= nombreRochers;
+
+    int chanceFonte = 0;
+
+    while (chanceFonte < 1)
+    {
+        printf("Nombres de tours ou il y a une chance de fonte (positif) : ");
+        scanf("%d", &chanceFonte);
+        system("cls");
+    }
+
+    int chancePiege = 0;
+
+    while (chancePiege < 1)
+    {
+        printf("Nombres de tours ou il y a une chance de tomber dans un piege (positif) : ");
+        scanf("%d", &chancePiege);
+        system("cls");
+    }
+
+    jeu = initJeux(4, taille, tailleEau, nombreGlacons, nombreMarteaux, nombreRessorts, nombreRochers, chanceFonte, chancePiege);
+
+    return jeu;
+}
+
+
+
+//
+T_jeu *initNiveau()
+{
+    T_jeu *jeu;
+    int niveau = 0;
+
+    while (niveau < 1 || niveau > 4)
+    {
+        printf("Choix du niveau :\n"
+               "\n"
+               "1 : Facile\n"
+               "2 : Moyen\n"
+               "3 : Difficile\n"
+               "4 : Personnalise\n");
+        scanf("%d", &niveau);
+        system("cls");
+    }
+
+    switch (niveau)
+    {
+    case 1 :
+        jeu = initJeux(1, 10, 1, 5, 1, 2, 5, 10, 20);
+        break;
+    case 2 :
+        jeu = initJeux(2, 15, 2, 20, 2, 5, 10, 5, 10);
+        break;
+    case 3 :
+        jeu = initJeux(3, 25, 3, 50, 5, 20, 50, 2, 5);
+        break;
+    default :
+        jeu = initJeuxPersonalise();
+    }
+
+    return jeu;
 }
 
 
@@ -482,6 +619,22 @@ void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu)
         case 2 :
             ajouteCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y);                                                                 //Transforme le glacon tombe dans l'eau en glace
             break;
+        case 3 :
+        {
+            T_marteau *marteau = marteauSelonPosition(jeu->marteaux, (glacon->position.x + Gdx), (glacon->position.y + Gdy), jeu->nombreMarteaux);  //Initialise un nouveau marteau qui correspond au marteau que touche le glaçon
+            T_booleen sensRotation = marteauSensRotation(marteau, glacon);
+
+            enleveCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y, GLACON);                                                         //Met le glacon a sa nouvelle position
+
+            if(sensRotation == VRAI)
+            {
+                bougeTeteMarteau(jeu, marteau, VRAI);
+            }
+            else
+            {
+                bougeTeteMarteau(jeu, marteau, FAUX);
+            }
+        }
         default :
             enleveCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y, GLACON);                                                         //Met le glacon a sa nouvelle position
             afficheJeu(jeu);                                                                                                                        //Affiche le jeu
@@ -552,11 +705,7 @@ int tourJoueur(T_jeu *jeu, int numJoueur, T_booleen bugToucheEntree)
 
     afficheJeu(jeu);                                                                         //Affiche la banquise dans le terminal
 
-    char toucheSaise = saisieTouche(joueur, bugToucheEntree);
-
-    if (joueur->etat == PIEGE
-        ||toucheSaise == 'p'
-        ||toucheSaise == 'P')
+    if (joueur->etat == PIEGE)
     {
         changeCouleurTexte(joueur->couleur);
         printf("%s ", joueur->nom);
@@ -567,8 +716,18 @@ int tourJoueur(T_jeu *jeu, int numJoueur, T_booleen bugToucheEntree)
     }
     else
     {
+        char toucheSaise = saisieTouche(joueur, bugToucheEntree);
+
         switch (toucheSaise)
         {
+        case 'p' :
+        case 'P' :
+            changeCouleurTexte(joueur->couleur);
+            printf("%s ", joueur->nom);
+            changeCouleurTexte(BLANC);
+            printf("a decide de passer son tour");
+            Sleep(2000);
+            break;
         case 'v' :
         case 'V' :
             {
@@ -739,23 +898,48 @@ int rejouer()
 {
     char c;                                                                        //Enregistre la valeur saisie par l'utilisateur
 
-    printf("\nVoulez vous rejouer ? (Tapez \"y\" pour oui ou \"n\" pour non) : "); //Demande au joueur s'il veut relancer une partie
+    printf("\nVoulez vous rejouer ? (Tapez \"o\" pour oui ou \"n\" pour non) : "); //Demande au joueur s'il veut relancer une partie
 
     c = getchar();
     c = getchar();
 
-    while (c != 'n' && c != 'y')                                                   //Boucle tant que le joueur ne saisit pas les bons caractere
+    while (c != 'n' && c != 'o')                                                   //Boucle tant que le joueur ne saisit pas les bons caractere
     {
         printf("\nChoix inconnue ! Veuillez reessayer : ");                        //Previens le joueur qu'il a saisie un mauvais caractere
         c = getchar();
     }
 
-    if (c == 'y')                                                                  //Si le caractere est y
+    if (c == 'o')                                                                  //Si le caractere est y
     {
         return 0;                                                                  //Retourne valeur de succes
     }
     else                                                                           //Si le caractere est n
     {
         return 1;                                                                  //Retourne valeur d'echec
+    }
+}
+
+
+
+//
+void joue()
+{
+    int stop;                                          //Varibale pour stoper le jeu
+
+    afficheMenu(VRAI);                                 //Affiche le menu du jeu
+
+    while(stop == 0)                                   //Boucle tant que le jeu n'est pas stope
+    {
+        stop = 0;                                      //Permet d'eviter un bug lorsqu'on relance une partie et qu'elle se finie
+
+        system("cls");                                 //Nettoie la console
+
+        T_jeu *jeu = initNiveau();
+
+        joueNiveau(jeu);                             //Joue le niveau selectionne
+
+        free(jeu);                                   //Libere l'espace prit par le niveau 1
+
+        stop = rejouer();                              //Regarde si l'on doit stoper le jeu
     }
 }

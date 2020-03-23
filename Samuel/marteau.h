@@ -52,5 +52,6 @@ T_marteau *marteauSelonPosition(T_marteau **tabMarteaux, int posX, int posY, int
 //
 void mouvementTete(T_banquise *banquise, T_marteau *marteau, T_booleen sensHorraire);
 
+
 //Fonction qui retourne un booléen par rapport au sens de rotation
 T_booleen marteauSensRotation(T_marteau *marteau, T_glacon *glacon);

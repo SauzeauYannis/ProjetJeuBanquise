@@ -8,7 +8,6 @@ T_marteau *initMarteau(T_point position)
     T_marteau *marteau = (T_marteau *)malloc(sizeof(T_marteau));
     T_point posTete;
     T_vecteur vecteur;
-    T_case sousTete;
 
     posTete.x = position.x - 1, posTete.y = position.y,
     vecteur.dx = vecteur.dy = 0;
@@ -18,7 +17,6 @@ T_marteau *initMarteau(T_point position)
     marteau->tete.position = posTete;
     marteau->tete.vecteur = vecteur;
     marteau->mouvement = FAUX;
-    marteau->tete.sousTete = GLACE;
 
     return marteau;
 }
@@ -57,15 +55,16 @@ T_marteau **initTabMarteaux(T_banquise *banquise, int nombreMarteaux)
 //
 T_marteau *marteauSelonPosition(T_marteau **tabMarteaux, int posX, int posY, int nombreMarteaux)
 {
-    T_marteau *marteau;
+    T_marteau *marteau = tabMarteaux[0];
     int i;
 
     for (i = 0; i < nombreMarteaux; i++)
     {
-        if (tabMarteaux[i]->tete.position.x == posX
-            &&tabMarteaux[i]->tete.position.y == posY)
+        marteau = tabMarteaux[i];
+
+        if (marteau->tete.position.x == posX
+            &&marteau->tete.position.y == posY)
         {
-            marteau = tabMarteaux[i];
             break;
         }
     }
@@ -85,13 +84,16 @@ void mouvementTete(T_banquise *banquise, T_marteau *marteau, T_booleen sensHorra
     if(banquise->matrice[posFutX][posFutY] == GLACON)
     {
         marteau->mouvement = FAUX;
-        return EXIT_SUCCESS;
     }
 
     if(marteau->tete.sousTete == GLACE)
+    {
         ajouteCaseGlace(banquise, marteau->tete.position.x, marteau->tete.position.y);
+    }
     else
+    {
         enleveCaseGlace(banquise, marteau->tete.position.x, marteau->tete.position.y, marteau->tete.sousTete);
+    }
 
     marteau->tete.vecteur.dx = marteau->tete.vecteur.dy = 0;
 
@@ -206,7 +208,7 @@ T_booleen marteauSensRotation(T_marteau *marteau, T_glacon *glacon)
         else
         {
             glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
-            return FAILURE;
+            return ECHEC;
         }
     case DROITE :
         if(Gdx == 1)
@@ -222,7 +224,7 @@ T_booleen marteauSensRotation(T_marteau *marteau, T_glacon *glacon)
         else
         {
             glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
-            return FAILURE;
+            return ECHEC;
         }
     case BAS :
         if(Gdy == -1)
@@ -238,7 +240,7 @@ T_booleen marteauSensRotation(T_marteau *marteau, T_glacon *glacon)
         else
         {
             glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
-            return FAILURE;
+            return ECHEC;
         }
     default :
         if(Gdx == -1)
@@ -254,7 +256,7 @@ T_booleen marteauSensRotation(T_marteau *marteau, T_glacon *glacon)
         else
         {
             glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
-            return FAILURE;
+            return ECHEC;
         }
     }
 }

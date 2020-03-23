@@ -239,7 +239,6 @@ T_booleen verifieChemin(T_jeu *jeu, T_booleen **tab, int caseX, int caseY, T_boo
 
     if ((caseValeur != GLACE
         && caseValeur != JOUEUR
-        && caseValeur != MARTEAU_TETE
         && caseValeur != GLACON)
         || !tabValeur)
     {
@@ -620,6 +619,22 @@ void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu)
         case 2 :
             ajouteCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y);                                                                 //Transforme le glacon tombe dans l'eau en glace
             break;
+        case 3 :
+        {
+            T_marteau *marteau = marteauSelonPosition(jeu->marteaux, (glacon->position.x + Gdx), (glacon->position.y + Gdy), jeu->nombreMarteaux);  //Initialise un nouveau marteau qui correspond au marteau que touche le glaçon
+            T_booleen sensRotation = marteauSensRotation(marteau, glacon);
+
+            enleveCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y, GLACON);                                                         //Met le glacon a sa nouvelle position
+
+            if(sensRotation == VRAI)
+            {
+                bougeTeteMarteau(jeu, marteau, VRAI);
+            }
+            else
+            {
+                bougeTeteMarteau(jeu, marteau, FAUX);
+            }
+        }
         default :
             enleveCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y, GLACON);                                                         //Met le glacon a sa nouvelle position
             afficheJeu(jeu);                                                                                                                        //Affiche le jeu
@@ -690,11 +705,7 @@ int tourJoueur(T_jeu *jeu, int numJoueur, T_booleen bugToucheEntree)
 
     afficheJeu(jeu);                                                                         //Affiche la banquise dans le terminal
 
-    char toucheSaise = saisieTouche(joueur, bugToucheEntree);
-
-    if (joueur->etat == PIEGE
-        ||toucheSaise == 'p'
-        ||toucheSaise == 'P')
+    if (joueur->etat == PIEGE)
     {
         changeCouleurTexte(joueur->couleur);
         printf("%s ", joueur->nom);
@@ -705,8 +716,18 @@ int tourJoueur(T_jeu *jeu, int numJoueur, T_booleen bugToucheEntree)
     }
     else
     {
+        char toucheSaise = saisieTouche(joueur, bugToucheEntree);
+
         switch (toucheSaise)
         {
+        case 'p' :
+        case 'P' :
+            changeCouleurTexte(joueur->couleur);
+            printf("%s ", joueur->nom);
+            changeCouleurTexte(BLANC);
+            printf("a decide de passer son tour");
+            Sleep(2000);
+            break;
         case 'v' :
         case 'V' :
             {

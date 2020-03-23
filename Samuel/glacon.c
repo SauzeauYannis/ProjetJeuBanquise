@@ -106,7 +106,6 @@ int verifieDeplacementGlacon(T_glacon *glacon, T_banquise *banquise, T_joueur **
         case MARTEAU_CENTRE :
             glacon->vecteur.dx = glacon->vecteur.dy = 0;               //Arrete le glacon
             return 0;
-            break;
         case JOUEUR :
             {
             T_joueur *joueur;                                          //Variable pour recuperer le joueur touche
@@ -115,23 +114,18 @@ int verifieDeplacementGlacon(T_glacon *glacon, T_banquise *banquise, T_joueur **
             joueur = joueurSelonPosition(joueurs, x, y, nbJoueurs);    //Recupere le joueur que touche le glacon
             tuerJoueur(joueur, banquise);                              //Tue le joueur touche par le glacon
             return 0;
-            break;
             }
         case GLACON :
             return 1;
-            break;
         case EAU :
             glacon->position.x = x, glacon->position.y = y;             //Fais bouger le glacon
             glacon->vecteur.dx = glacon->vecteur.dy = 0;                //Arrete le glacon
             return 2;
-            break;
         case RESSORT :
             glacon->vecteur.dx *= -1, glacon->vecteur.dy *= -1;
             return 0;
-            break;
         case MARTEAU_TETE :
             return 3;
-            break;
         default :
             glacon->position.x = x, glacon->position.y = y;             //Fais bouger le glacon
             return 0;

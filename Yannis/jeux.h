@@ -30,7 +30,8 @@ typedef enum
 typedef enum
 {
     FAUX,
-    VRAI
+    VRAI,
+    ECHEC
 } T_booleen;
 
 

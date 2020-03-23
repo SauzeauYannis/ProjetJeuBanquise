@@ -30,7 +30,8 @@ typedef enum
 typedef enum
 {
     FAUX,
-    VRAI
+    VRAI,
+    ECHEC
 } T_booleen;
 
 
@@ -131,6 +132,14 @@ T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int n
 void reInitJeux(T_jeu *jeu);
 
 
+//
+T_jeu *initJeuxPersonalise();
+
+
+//
+T_jeu *initNiveau();
+
+
 //Affiche le jeu
 void afficheJeu(T_jeu *jeu);
 
@@ -169,3 +178,7 @@ void joueNiveau(T_jeu *jeu);
 
 //Fonction qui renvoie un entier qui permet de rejouer une partie
 int rejouer();
+
+
+//
+void joue();

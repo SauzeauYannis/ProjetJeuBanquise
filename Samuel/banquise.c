@@ -101,10 +101,10 @@ void ajouteDepartArrive(T_banquise *banquise)
     int taille = banquise->tailleN,                                                          //Recupere la taille de la banquise
         tailleEau = banquise->tailleEau;                                                     //Recupere la taille de l'eau autour de la banquise
 
-    banquise->depart.x = 1 + tailleEau + (rand() % (taille - 2 - (tailleEau * tailleEau)));  //Genere aleatoirement la case de depart
+    banquise->depart.x = 1 + tailleEau + (rand() % (taille - 2 - (tailleEau + tailleEau)));  //Genere aleatoirement la case de depart
     banquise->depart.y = 1 + tailleEau;
 
-    banquise->arrive.x = tailleEau + (rand() % (taille - 1 -(tailleEau * tailleEau)));       //Genere aleatoirement la case d'arrive
+    banquise->arrive.x = tailleEau + (rand() % (taille - 1 -(tailleEau + tailleEau)));       //Genere aleatoirement la case d'arrive
     banquise->arrive.y = taille - 1 - tailleEau;
 
     enleveCaseGlace(banquise, banquise->depart.x, banquise->depart.y, DEPART);               //Modifie la case de depart
@@ -175,14 +175,20 @@ T_point caseGlaceAleatoire(T_banquise *banquise, int choix)
         {
             T_point glace = banquise->tabGlaces[i].position;              //Recupere la position de la glace parcourut par la boulce
 
-            if (banquise->tabGlaces[i].estPresent == 1
-                &&(banquise->matrice[(glace.x) + 1][glace.y] == EAU
-                || banquise->matrice[(glace.x) - 1][glace.y] == EAU
-                || banquise->matrice[glace.x][(glace.y) + 1] == EAU
-                || banquise->matrice[glace.x][(glace.y) - 1] == EAU))     //Verifie que la glace est presente sur la banquise et qu'elle est entoure d'au moins une case d'eau
+            if (((glace.x) + 1) < banquise->tailleN
+                && ((glace.x) - 1) >= 0
+                && ((glace.y) + 1) < banquise->tailleN
+                && ((glace.y) - 1) >= 0)
             {
-                tabTemp[tailleTabTemp] = glace;                           //Met dans le tableau temporaire la glace
-                tailleTabTemp++;                                          //Incremente la taille du tableau temporaire
+                if (banquise->tabGlaces[i].estPresent == 1
+                    &&(banquise->matrice[(glace.x) + 1][glace.y] == EAU
+                    || banquise->matrice[(glace.x) - 1][glace.y] == EAU
+                    || banquise->matrice[glace.x][(glace.y) + 1] == EAU
+                    || banquise->matrice[glace.x][(glace.y) - 1] == EAU))     //Verifie que la glace est presente sur la banquise et qu'elle est entoure d'au moins une case d'eau
+                {
+                    tabTemp[tailleTabTemp] = glace;                           //Met dans le tableau temporaire la glace
+                    tailleTabTemp++;                                          //Incremente la taille du tableau temporaire
+                }
             }
         }
     }

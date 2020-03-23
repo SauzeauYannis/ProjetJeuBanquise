@@ -21,6 +21,7 @@ typedef struct
     T_etatTete etat;
     T_point position;
     T_vecteur vecteur;
+    T_case sousTete;    //Case se trouvant sous le marteau
 } T_tete;
 
 
@@ -45,8 +46,12 @@ T_marteau **initTabMarteaux(T_banquise *banquise, int nombreMarteaux);
 
 
 //
-T_marteau *marteauSelonPosition(T_marteau **tabMarteaux, T_point position, int nombreMarteaux);
+T_marteau *marteauSelonPosition(T_marteau **tabMarteaux, int posX, int posY, int nombreMarteaux);
 
 
 //
 void mouvementTete(T_banquise *banquise, T_marteau *marteau, T_booleen sensHorraire);
+
+
+//Fonction qui retourne un booléen par rapport au sens de rotation
+T_booleen marteauSensRotation(T_marteau *marteau, T_glacon *glacon);

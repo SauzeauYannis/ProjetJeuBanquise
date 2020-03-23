@@ -31,7 +31,7 @@ typedef enum
 {
     FAUX,
     VRAI,
-    FAILURE
+    ECHEC
 } T_booleen;
 
 
@@ -48,7 +48,7 @@ typedef enum
     ROCHER,
     RESSORT,
     MARTEAU_CENTRE,
-    MARTEAU_TETE
+    MARTEAU_TETE,
 } T_case;
 
 
@@ -101,7 +101,7 @@ typedef struct
 /***** Fonctions *****/
 
 //Affiche le menu du jeu
-void afficheMenu();
+void afficheMenu(T_booleen debut);
 
 
 //Change la couleur de la console
@@ -112,12 +112,40 @@ void changeCouleurConsole(T_couleur couleur);
 void changeCouleurTexte(T_couleur couleur);
 
 
+//
+T_booleen **tabChemin(int taille);
+
+
+//
+T_booleen verifieChemin(T_jeu *jeu, T_booleen **tab, int caseX, int caseY, T_booleen affichage);
+
+
+//
+T_booleen verifieCheminJoueurs(T_jeu *jeu, T_booleen **tab, T_booleen affichage);
+
+
 //Initialise le jeu
 T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int nombreMarteaux, int nombreRessorts, int nombreRochers, int chanceFonte, int chancePiege);
 
 
+//
+void reInitJeux(T_jeu *jeu);
+
+
+//
+T_jeu *initJeuxPersonalise();
+
+
+//
+T_jeu *initNiveau();
+
+
 //Affiche le jeu
 void afficheJeu(T_jeu *jeu);
+
+
+//
+char saisieTouche(T_joueur *joueur, T_booleen bug);
 
 
 //S'occupe du deplacement du glacon apres que celui-ci se soit fait pousser par un joueur
@@ -133,7 +161,7 @@ void bougeTeteMarteau(T_jeu *jeu, T_marteau *marteau, T_booleen sensHorraire);
 
 
 //S'occupe d'effectuer le tour d'un joueur
-int tourJoueur(T_jeu *jeu, int numJoueur);
+int tourJoueur(T_jeu *jeu, int numJoueur, T_booleen bugToucheEntree);
 
 
 //Retourne un entier qui determine si la partie est finie ou non
@@ -150,3 +178,7 @@ void joueNiveau(T_jeu *jeu);
 
 //Fonction qui renvoie un entier qui permet de rejouer une partie
 int rejouer();
+
+
+//
+void joue();

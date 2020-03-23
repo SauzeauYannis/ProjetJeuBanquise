@@ -120,35 +120,6 @@ void departJoueur(T_banquise *banquise, T_joueur *joueur)
 
 
 
-//Retourne une lettre du clavier qui correspond a un deplacement
-char saisieDeplacement(T_joueur *joueur)
-{
-    char clavier = getchar();                                                                //Declare un caractere et l'initialise pour eviter un bug que nous comprenons pas
-
-    changeCouleurTexte(joueur->couleur);                                                     //Change la couleur selon la couleur choisi par le joueur
-    printf("%s", joueur->nom);                                                               //Affiche le nom du joueur choisi
-    changeCouleurTexte(BLANC);                                                               //Remet la couleur blanche
-    printf(" deplacez vous : ");                                                             //Demande au joueur ou il veut se deplacer
-    scanf("%c", &clavier);                                                                   //Recupere la touche qui a ete frappe
-
-    while (clavier != 'z'
-           && clavier != 'q'
-           && clavier != 's'
-           && clavier != 'd'
-           && clavier != 'Z'
-           && clavier != 'Q'
-           && clavier != 'S'
-           && clavier != 'D')                                                                //Boucle qui fini quand l'utilisateur a rentree une bonne touche
-    {
-        printf("\r\nTouche incorrect, veuillez saisir une touche entre \"z, q, s, d\" : ");  //Re-demande le deplacement en rappellant les bonnes touches
-        scanf("%c", &clavier);                                                               //Recupere la touche qui a ete frappe
-    }
-
-    return clavier;                                                                          //Retourne la bonne touche
-}
-
-
-
 //Retourne un entier en fonction du deplacement du joueur, et modifie la position de celui-ci
 int verifieDeplacement(T_banquise *banquise, T_joueur *joueur, int caseX, int caseY, int caseValeur)
 {
@@ -157,39 +128,30 @@ int verifieDeplacement(T_banquise *banquise, T_joueur *joueur, int caseX, int ca
     case ERREUR:
         printf("\nDeplacement impossible : le joueur est en dehors des limites\n");      //Previens le joueur dans ce cas la
         return -1;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
-        break;
     case JOUEUR:
         printf("\nDeplacement impossible : un autre joueur occupe deja la case\n");      //Previens le joueur dans ce cas la
         return -1;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
-        break;
     case DEPART:
         printf("\nDeplacement impossible : le joueur ne peut pas aller au depart\n");    //Previens le joueur dans ce cas la
         return -1;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
-        break;
     case ROCHER:
         printf("\nDeplacement impossible : le joueur ne peut pas aller sur un rocher\n"); //Previens le joueur dans ce cas la
         return -1;                                                                        //Retourne une valeur d'echec pour prevenir la fonction suivante
-        break;
     case RESSORT:
         printf("\nDeplacement impossible : le joueur ne peut pas interagir avec un ressort\n"); //Previens le joueur dans ce cas la
-        return -1;                                                                              //Retourne une valeur d'echec pour prevenir la fonction suivante
-        break;
+        return -1;                                                                        //Retourne une valeur d'echec pour prevenir la fonction suivante
     case MARTEAU_TETE :
         printf("\nDeplacement impossible : le joueur ne peut pas interagir avec la tete d'un marteau\n");
         return -1;
-        break;
     case MARTEAU_CENTRE :
         printf("\nDeplacement impossible : le joueur ne peut pas interagir avec un marteau\n");
         return -1;
-        break;
     case GLACON:
         printf("\nDeplacement d'un glacon\n");                                           //Previens le joueur dans ce cas la
         return -2;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
-        break;
     case EAU:
 		tuerJoueur(joueur, banquise);
         return 0;                                                                        //Retourne une valeur d'echec pour prevenir la fonction suivante
-        break;
     default :
         joueur->position.x = caseX;                                                      //Affectation de sa nouvelle position
         joueur->position.y = caseY;
@@ -249,15 +211,13 @@ int deplacementJoueur_bis(T_banquise *banquise, T_joueur *joueur, char deplaceme
 
 
 //Fonction qui permet le deplacement du personnage
-int deplacementJoueur(T_banquise *banquise, T_joueur *joueur)
+int deplacementJoueur(T_banquise *banquise, T_joueur *joueur, char clavier)
 {
-
-    char clavier = saisieDeplacement(joueur);                        //Recupere la bonne touche saisie par le joueur
     int correct = deplacementJoueur_bis(banquise, joueur, clavier);  //Stocke la valeur de la fonction precedente
 
     while (correct == -1)                                            //Tant que la valeur est mauvaise
     {
-        clavier = saisieDeplacement(joueur);                         //On re-recupere la bonne touche saisie par le joueur
+        clavier = saisieTouche(joueur, VRAI);                        //On re-recupere la bonne touche saisie par le joueur
         correct = deplacementJoueur_bis(banquise, joueur, clavier);  //On re-stocke la valeur de la fonction precedente
     }
 
@@ -278,15 +238,16 @@ int deplacementJoueur(T_banquise *banquise, T_joueur *joueur)
 //Cherche un joueur en fonction d'une position en paramettre
 T_joueur *joueurSelonPosition(T_joueur **joueurs, int posX, int posY, int nbJoueurs)
 {
-    T_joueur *joueur;                           //Variable pour retourner le joueur
+    T_joueur *joueur = joueurs[0];              //Variable pour retourner le joueur
     int i;                                      //Variable pour la boucle suivante
 
     for(i = 0; i < nbJoueurs; i++)              //Regarde chaque joueur du tableau
     {
-        if (posX == joueurs[i]->position.x
-            && posY == joueurs[i]->position.y)  //Condition qui regarde si le position en paramettre correspond à celle du joueur
+        joueur = joueurs[i];
+
+        if (posX == joueur->position.x
+            && posY == joueur->position.y)  //Condition qui regarde si le position en paramettre correspond à celle du joueur
         {
-            joueur = joueurs[i];                //Affecte le bon joueur
             break;                              //Sort de la boucle
         }
     }
