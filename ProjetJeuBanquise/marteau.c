@@ -60,8 +60,10 @@ T_marteau *marteauSelonPosition(T_marteau **tabMarteaux, T_point position, int n
 
     for (i = 0; i < nombreMarteaux; i++)
     {
-        if (tabMarteaux[i]->tete.position.x == position.x
-            &&tabMarteaux[i]->tete.position.y == position.y)
+        marteau = tabMarteaux[i];
+
+        if (marteau->tete.position.x == position.x
+            &&marteau->tete.position.y == position.y)
         {
             break;
         }

@@ -136,7 +136,7 @@ void afficheJeu(T_jeu *jeu);
 
 
 //
-char saisieTouche(T_joueur *joueur);
+char saisieTouche(T_joueur *joueur, T_booleen bug);
 
 
 //S'occupe du deplacement du glacon apres que celui-ci se soit fait pousser par un joueur
@@ -152,7 +152,7 @@ void bougeTeteMarteau(T_jeu *jeu, T_marteau *marteau, T_booleen sensHorraire);
 
 
 //S'occupe d'effectuer le tour d'un joueur
-int tourJoueur(T_jeu *jeu, int numJoueur);
+int tourJoueur(T_jeu *jeu, int numJoueur, T_booleen bugToucheEntree);
 
 
 //Retourne un entier qui determine si la partie est finie ou non

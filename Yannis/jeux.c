@@ -107,11 +107,11 @@ void afficheMenu(T_booleen debut)
 
     if (debut)
     {
-        printf("Appuyer sur entree pour commencer le jeu"); //Affiche les controles
+        printf("Appuyer sur entree pour commencer le jeu");
     }
     else
     {
-        printf("Appuyer sur entree pour continuer le jeu"); //Affiche les controles
+        printf("Appuyer sur entree pour continuer le jeu");
     }
 
     entree = getchar();                                 //Attend que la touche entree soit pressee
@@ -407,15 +407,20 @@ void afficheJeu(T_jeu *jeu)
 
 
 //Retourne une lettre du clavier qui correspond a un deplacement
-char saisieTouche(T_joueur *joueur)
+char saisieTouche(T_joueur *joueur, T_booleen bug)
 {
-    char clavier = getchar();                                                                //Declare un caractere et l'initialise pour eviter un bug que nous comprenons pas
+    char clavier;
+
+    if (bug)
+    {
+     clavier = getchar();
+    }
 
     changeCouleurTexte(joueur->couleur);                                                     //Change la couleur selon la couleur choisi par le joueur
     printf("%s", joueur->nom);                                                               //Affiche le nom du joueur choisi
     changeCouleurTexte(BLANC);                                                               //Remet la couleur blanche
     printf(" deplacez vous : ");                                                             //Demande au joueur ou il veut se deplacer
-    scanf("%c", &clavier);                                                                   //Recupere la touche qui a ete frappe
+    scanf("%c", &clavier);
 
     while (clavier != 'z'
            && clavier != 'q'
@@ -432,10 +437,10 @@ char saisieTouche(T_joueur *joueur)
            && clavier != 'V'
            && clavier != 'M')                                                               //Boucle qui fini quand l'utilisateur a rentree une bonne touche
     {
+        clavier = getchar();
         printf("\r\nTouche incorrect, veuillez saisir une touche "
                "entre \"z, q, s, d, p, v, m\" : ");                                          //Re-demande le deplacement en rappellant les bonnes touches
-        clavier = getchar();
-        scanf("%c", &clavier);                                                               //Recupere la touche qui a ete frappe
+        scanf("%c", &clavier);
     }
 
     return clavier;                                                                          //Retourne la bonne touche
@@ -537,7 +542,7 @@ void bougeTeteMarteau(T_jeu *jeu, T_marteau *marteau, T_booleen sensHorraire)
 
 
 //Fonction qui s'occupe d'effectuer le tour d'un joueur dont l'identifiant est donne en parametre
-int tourJoueur(T_jeu *jeu, int numJoueur)
+int tourJoueur(T_jeu *jeu, int numJoueur, T_booleen bugToucheEntree)
 {
     T_joueur *joueur = jeu->joueurs[numJoueur];                                              //Recupere le joueur dont l'identifiant est donne en parametre
     int **matrice = jeu->banquise->matrice;                                                  //Recupere la matrice represantant le jeu
@@ -547,7 +552,7 @@ int tourJoueur(T_jeu *jeu, int numJoueur)
 
     afficheJeu(jeu);                                                                         //Affiche la banquise dans le terminal
 
-    char toucheSaise = saisieTouche(joueur);
+    char toucheSaise = saisieTouche(joueur, bugToucheEntree);
 
     if (joueur->etat == PIEGE
         ||toucheSaise == 'p'
@@ -573,7 +578,7 @@ int tourJoueur(T_jeu *jeu, int numJoueur)
                 {
                     printf("\nIl y a un chemin possible");
                     Sleep(2000);
-                    tourJoueur(jeu, numJoueur);
+                    tourJoueur(jeu, numJoueur, VRAI);
                 }
                 else
                 {
@@ -586,7 +591,7 @@ int tourJoueur(T_jeu *jeu, int numJoueur)
         case 'm' :
         case 'M' :
             afficheMenu(FAUX);
-            tourJoueur(jeu, numJoueur);
+            tourJoueur(jeu, numJoueur, FAUX);
             break;
         default :
             ajouteCaseGlace(jeu->banquise, joueur->position.x, joueur->position.y);                  //Met une glace sur la case que le joueur va quitter
@@ -708,7 +713,7 @@ void joueNiveau(T_jeu *jeu)
     {
         for(i = 0; i < jeu->nombreJoueurs; i++)                 //Boucle for qui permet à chaque joueur de jouer pour un tour
         {
-            caseVal = tourJoueur(jeu, i);                      //Tour du joueur i
+            caseVal = tourJoueur(jeu, i, VRAI);                //Tour du joueur i
             finPartie = victoire(jeu, caseVal, i);             //Donne un entier si la partie est gagnee, ou si elle continue
 
             if (caseVal == ARRIVE)                             //Permet de reellement stopper le jeu, pour ainsi eviter les joueurs suivant de jouer

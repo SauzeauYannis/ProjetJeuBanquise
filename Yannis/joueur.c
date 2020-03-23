@@ -218,7 +218,7 @@ int deplacementJoueur(T_banquise *banquise, T_joueur *joueur, char clavier)
 
     while (correct == -1)                                            //Tant que la valeur est mauvaise
     {
-        clavier = saisieTouche(joueur);                              //On re-recupere la bonne touche saisie par le joueur
+        clavier = saisieTouche(joueur, VRAI);                        //On re-recupere la bonne touche saisie par le joueur
         correct = deplacementJoueur_bis(banquise, joueur, clavier);  //On re-stocke la valeur de la fonction precedente
     }
 
