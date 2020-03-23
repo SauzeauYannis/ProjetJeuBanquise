@@ -41,9 +41,10 @@ void afficheMenu()
            "S : bas\n"
            "D : droite\n"
            "\n"
-           "Pour passer son tour, utiliser les "
+           "Pour d'autres actions, utiliser les "
            "touches du clavier suivante :\n"
            "P : passer son tour\n"
+           "V : verifier si le joueur peut rejoindre l'arrive\n"
            "\n"
            "Appuyer sur entree pour commencer le jeu"); //Affiche les controles
 
@@ -133,6 +134,25 @@ void changeCouleurTexte(T_couleur couleur)
 
 
 //
+T_booleen **tabChemin(int taille)
+{
+    T_booleen **tab = (T_booleen **)initMatrice(taille);
+    int i, j;
+
+    for (i = 0; i < taille; i++)
+    {
+        for (j = 0; j < taille; j++)
+        {
+            tab[i][j] = VRAI;
+        }
+    }
+
+    return tab;
+}
+
+
+
+//
 T_booleen verifieChemin(T_jeu *jeu, T_booleen **tab, int caseX, int caseY, T_booleen affichage)
 {
     int taille = jeu->banquise->tailleN;
@@ -187,17 +207,12 @@ T_booleen verifieChemin(T_jeu *jeu, T_booleen **tab, int caseX, int caseY, T_boo
 T_booleen verifieCheminJoueurs(T_jeu *jeu, T_booleen **tab, T_booleen affichage)
 {
     T_booleen cheminExiste;
-    int i, j, k;
+    int i;
 
     for (i = 0; i < jeu->nombreJoueurs; i++)
     {
-        for (j = 0; j < jeu->banquise->tailleN; j++)
-        {
-            for (k = 0; k < jeu->banquise->tailleN; k++)
-            {
-                tab[j][k] = VRAI;
-            }
-        }
+        T_booleen **tab = tabChemin(jeu->banquise->tailleN);
+
         if (!verifieChemin(jeu, tab, jeu->joueurs[i]->position.x, jeu->joueurs[i]->position.y, affichage))
         {
             cheminExiste = FAUX;
@@ -205,6 +220,8 @@ T_booleen verifieCheminJoueurs(T_jeu *jeu, T_booleen **tab, T_booleen affichage)
         }
 
         cheminExiste = VRAI;
+
+        free(tab);
     }
 
     return cheminExiste;
@@ -243,6 +260,12 @@ T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int n
 //Retourne un pointeur de type jeu en fonction du niveau et de la taille de la banquise
 void reInitJeux(T_jeu *jeu)
 {
+    free(jeu->banquise);
+    free(jeu->glacons);
+    free(jeu->marteaux);
+    free(jeu->ressorts);
+    free(jeu->rochers);
+
     int i;
 
     jeu->banquise = initBanquise(jeu->banquise->tailleN, jeu->banquise->tailleEau);       //Re Initialise la banquise dans le jeu
@@ -333,14 +356,16 @@ char saisieTouche(T_joueur *joueur)
            && clavier != 's'
            && clavier != 'd'
            && clavier != 'p'
+           && clavier != 'v'
            && clavier != 'Z'
            && clavier != 'Q'
            && clavier != 'S'
            && clavier != 'D'
-           && clavier != 'P')                                                                //Boucle qui fini quand l'utilisateur a rentree une bonne touche
+           && clavier != 'P'                                                                //Boucle qui fini quand l'utilisateur a rentree une bonne touche
+           && clavier != 'V')                                                                //Boucle qui fini quand l'utilisateur a rentree une bonne touche
     {
         printf("\r\nTouche incorrect, veuillez saisir une touche"
-               "entre \"z, q, s, d, p\" : ");                                                //Re-demande le deplacement en rappellant les bonnes touches
+               "entre \"z, q, s, d, p, v\" : ");                                              //Re-demande le deplacement en rappellant les bonnes touches
         scanf("%c", &clavier);                                                               //Recupere la touche qui a ete frappe
     }
 
@@ -470,10 +495,22 @@ int tourJoueur(T_jeu *jeu, int numJoueur)
     {
         switch (toucheSaise)
         {
-        /*case 'p' :
-        case 'P' :
+        case 'v' :
+        case 'V' :
+            {
+                T_booleen **tabTemp = tabChemin(jeu->banquise->tailleN);
 
-            break;*/
+                if (verifieChemin(jeu, tabTemp, joueur->position.x, joueur->position.y, VRAI))
+                {
+                    printf("\nIl y a un chemin possible");
+                }
+                else
+                {
+                    printf("\nIl n'y a pas de chemin possible");
+                }
+                free(tabTemp);
+                break;
+            }
         default :
             {
             ajouteCaseGlace(jeu->banquise, joueur->position.x, joueur->position.y);                  //Met une glace sur la case que le joueur va quitter
@@ -574,19 +611,7 @@ void joueNiveau(T_jeu *jeu)
         i, j,                                                  //Varibales pour les boucles suivante
         taille = jeu->banquise->tailleN;
 
-    T_booleen **tabTemp = (T_booleen **)malloc(taille * sizeof(T_banquise *));
-    for (i = 0; i < taille; i++)
-    {
-        tabTemp[i] = (T_booleen *)malloc(taille * sizeof(T_banquise));
-    }
-
-    for (i = 0; i < taille; i++)
-    {
-        for (j = 0; j < taille; j++)
-        {
-            tabTemp[i][j] = VRAI;
-        }
-    }
+    T_booleen **tabTemp = tabChemin(taille);
 
     while (!verifieCheminJoueurs(jeu, tabTemp, FAUX))
     {
@@ -599,6 +624,8 @@ void joueNiveau(T_jeu *jeu)
         }
         reInitJeux(jeu);
     }
+
+    free(tabTemp);
 
     jeu->nombreTour = 1;                                       //Initialise le nombre de tour a 1
 

@@ -244,10 +244,11 @@ T_joueur *joueurSelonPosition(T_joueur **joueurs, int posX, int posY, int nbJoue
 
     for(i = 0; i < nbJoueurs; i++)              //Regarde chaque joueur du tableau
     {
-        if (posX == joueurs[i]->position.x
-            && posY == joueurs[i]->position.y)  //Condition qui regarde si le position en paramettre correspond à celle du joueur
+        joueur = joueurs[i];
+
+        if (posX == joueur->position.x
+            && posY == joueur->position.y)  //Condition qui regarde si le position en paramettre correspond à celle du joueur
         {
-            joueur = joueurs[i];                //Affecte le bon joueur
             break;                              //Sort de la boucle
         }
     }

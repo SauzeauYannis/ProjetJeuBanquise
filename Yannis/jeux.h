@@ -112,7 +112,15 @@ void changeCouleurTexte(T_couleur couleur);
 
 
 //
+T_booleen **tabChemin(int taille);
+
+
+//
 T_booleen verifieChemin(T_jeu *jeu, T_booleen **tab, int caseX, int caseY, T_booleen affichage);
+
+
+//
+T_booleen verifieCheminJoueurs(T_jeu *jeu, T_booleen **tab, T_booleen affichage);
 
 
 //Initialise le jeu
