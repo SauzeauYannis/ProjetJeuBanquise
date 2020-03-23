@@ -172,7 +172,15 @@ int verifieDeplacement(T_banquise *banquise, T_joueur *joueur, int caseX, int ca
         break;
     case RESSORT:
         printf("\nDeplacement impossible : le joueur ne peut pas interagir avec un ressort\n"); //Previens le joueur dans ce cas la
-        return -1;                                                                        //Retourne une valeur d'echec pour prevenir la fonction suivante
+        return -1;                                                                              //Retourne une valeur d'echec pour prevenir la fonction suivante
+        break;
+    case MARTEAU_TETE :
+        printf("\nDeplacement impossible : le joueur ne peut pas interagir avec la tete d'un marteau\n");
+        return -1;
+        break;
+    case MARTEAU_CENTRE :
+        printf("\nDeplacement impossible : le joueur ne peut pas interagir avec un marteau\n");
+        return -1;
         break;
     case GLACON:
         printf("\nDeplacement d'un glacon\n");                                           //Previens le joueur dans ce cas la

@@ -223,7 +223,7 @@ void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu)
 
     while(stop == 0)                                                                                                                                //Tant qu'on decide de continuer
     {
-        verifDep = verifieDeplacementGlacon(glacon, jeu->banquise, jeu->joueurs, jeu->nombreJoueurs);                                                       //Effectue le deplacement et stocke le resultat dans une variable
+        verifDep = verifieDeplacementGlacon(glacon, jeu->banquise, jeu->joueurs, jeu->nombreJoueurs);                                               //Effectue le deplacement et stocke le resultat dans une variable
         Sleep(200);                                                                                                                                 //Attend 0,2s pour que le joueur voit le glacon se deplacer
         Gdx = glacon->vecteur.dx, Gdy = glacon->vecteur.dy;                                                                                         //Recupere les nouveaux vecteurs du glacon
 
@@ -248,6 +248,17 @@ void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu)
             ajouteCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y);                                                                 //Transforme le glacon tombe dans l'eau en glace
             break;
         case 3 :
+        {
+            T_marteau *marteau = marteauSelonPosition(jeu->marteaux, (glacon->position.x + Gdx), (glacon->position.y + Gdy), jeu->nombreMarteaux);  //Initialise un nouveau marteau qui correspond au marteau que touche le glaçon
+            T_booleen sensRotation = marteauSensRotation(marteau, glacon);
+
+            enleveCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y, GLACON);                                                         //Met le glacon a sa nouvelle position
+
+            if(sensRotation == Vrai)
+                bougeTeteMarteau(jeu, marteau, VRAI);
+            else
+                bougeTeteMarteau(jeu, marteau, FAUX);
+        }
         default :
             enleveCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y, GLACON);                                                         //Met le glacon a sa nouvelle position
             afficheJeu(jeu);                                                                                                                        //Affiche le jeu
@@ -279,11 +290,8 @@ void fonteGlacon(T_jeu *jeu)
 void bougeTeteMarteau(T_jeu *jeu, T_marteau *marteau, T_booleen sensHorraire)
 {
     int nombreDeplacements = 0;
-
     marteau->mouvement = VRAI;
-
     while (marteau->mouvement == VRAI)
-    {
         if (nombreDeplacements == 8)
         {
             marteau->mouvement = FAUX;
@@ -294,10 +302,9 @@ void bougeTeteMarteau(T_jeu *jeu, T_marteau *marteau, T_booleen sensHorraire)
             Sleep(500);
             afficheJeu(jeu);
         }
-
         nombreDeplacements++;
-    }
 }
+
 
 
 

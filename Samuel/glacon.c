@@ -104,7 +104,6 @@ int verifieDeplacementGlacon(T_glacon *glacon, T_banquise *banquise, T_joueur **
         case ARRIVE :
         case ROCHER :
         case MARTEAU_CENTRE :
-        case MARTEAU_TETE :
             glacon->vecteur.dx = glacon->vecteur.dy = 0;               //Arrete le glacon
             return 0;
             break;
@@ -131,7 +130,6 @@ int verifieDeplacementGlacon(T_glacon *glacon, T_banquise *banquise, T_joueur **
             return 0;
             break;
         case MARTEAU_TETE :
-            glacon->vecteur.dx = glacon->vecteur.dy = 0;               //Arrete le glacon
             return 3;
             break;
         default :
