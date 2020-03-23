@@ -41,6 +41,10 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="marteau.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="marteau.h" />
 		<Unit filename="piege.c">
 			<Option compilerVar="CC" />
 		</Unit>
