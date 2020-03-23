@@ -3,30 +3,39 @@
 
 
 //Affiche le Menu du jeu
-void afficheMenu()
+void afficheMenu(T_booleen debut)
 {
-    printf("Jeu de la banquise\n"
-           "\n"
-           "Nombre de joueurs : 1-4 joueurs\n"
-           "\n"
-           "Creer par :\n"
-           "Samuel GOUBEAU\n"
-           "Yannis SAUZEAU\n"
-           "\n"
-           "Bonne chance !\n"
-           "\n"
-           "Appuyer sur entree pour continuer");        //Affiche le Menu
-
     char entree;                                        //Stocke un caractere
-    entree = getchar();                                 //Attend que la touche entree soit pressee
 
-    system("cls");                                      //Nettoie l'ecran
+    if (debut)
+    {
+        printf("Jeu de la banquise\n"
+               "\n"
+               "Nombre de joueurs : 1-4 joueurs\n"
+               "\n"
+               "Creer par :\n"
+               "Samuel GOUBEAU\n"
+               "Yannis SAUZEAU\n"
+               "\n"
+               "Bonne chance !\n"
+               "\n"
+               "Appuyer sur entree pour continuer");        //Affiche le Menu
 
-    printf("Regles du jeux\n"
-           "\n"
-           "A venir\n"
-           "\n"
-           "Appuyer sur entree pour continuer");        //Affiche les regles du jeu
+        entree = getchar();                                 //Attend que la touche entree soit pressee
+
+        system("cls");                                      //Nettoie l'ecran
+
+        printf("Regles du jeux\n"
+               "\n"
+               "Votre but est de rejoindre la case "
+               "d'arrive en evitant tous les obstacles\n"
+               "\n"
+               "Attention, les glacons se deplacent et "
+               "peuvent vous tuer s'ils vous touchent\n"
+               "\n"
+               "Appuyer sur entree pour continuer");        //Affiche les regles du jeu
+
+    }
 
     entree = getchar();                                 //Attend que la touche entree soit pressee
 
@@ -41,11 +50,69 @@ void afficheMenu()
            "S : bas\n"
            "D : droite\n"
            "\n"
-           "Pour passer son tour, utiliser les "
+           "Pour d'autres actions, utiliser les "
            "touches du clavier suivante :\n"
            "P : passer son tour\n"
+           "V : verifier si le joueur peut rejoindre l'arrive\n"
+           "M : afficher le menu"
            "\n"
-           "Appuyer sur entree pour commencer le jeu"); //Affiche les controles
+           "\n"
+           "Signifiaction des cases :\n"
+           "\n");
+
+    changeCouleurConsole(BLANC);
+    printf("%d ", GLACE);
+    changeCouleurConsole(DEFAULT);
+    printf(" : glace\n");
+
+    changeCouleurConsole(NOIR);
+    printf("%d ", DEPART);
+    changeCouleurConsole(DEFAULT);
+    printf(" : depart\n");
+
+    changeCouleurConsole(ROSE);
+    printf("%d ", ARRIVE);
+    changeCouleurConsole(DEFAULT);
+    printf(" : arrive\n");
+
+    changeCouleurConsole(TURQUOISE);
+    printf("%d ", GLACON);
+    changeCouleurConsole(DEFAULT);
+    printf(" : glacon\n");
+
+    changeCouleurConsole(BLEUFONCE);
+    printf("%d ", EAU);
+    changeCouleurConsole(DEFAULT);
+    printf(" : eau\n");
+
+    changeCouleurConsole(GRIS);
+    printf("%d ", ROCHER);
+    changeCouleurConsole(DEFAULT);
+    printf(" : rocher\n");
+
+    changeCouleurConsole(MARRON);
+    printf("%d ", RESSORT);
+    changeCouleurConsole(DEFAULT);
+    printf(" : ressort\n");
+
+    changeCouleurConsole(KAKI);
+    printf("%d ", MARTEAU_TETE);
+    changeCouleurConsole(DEFAULT);
+    printf(" : tete du marteau\n");
+
+    changeCouleurConsole(NOIR);
+    printf("%d ", MARTEAU_CENTRE);
+    changeCouleurConsole(DEFAULT);
+    printf(" : centre du marteau\n\n");
+
+    if (debut)
+    {
+        printf("Appuyer sur entree pour commencer le jeu");
+    }
+    else
+    {
+        printf("Appuyer sur entree pour continuer le jeu");
+    }
 
     entree = getchar();                                 //Attend que la touche entree soit pressee
 
@@ -133,6 +200,25 @@ void changeCouleurTexte(T_couleur couleur)
 
 
 //
+T_booleen **tabChemin(int taille)
+{
+    T_booleen **tab = (T_booleen **)initMatrice(taille);
+    int i, j;
+
+    for (i = 0; i < taille; i++)
+    {
+        for (j = 0; j < taille; j++)
+        {
+            tab[i][j] = VRAI;
+        }
+    }
+
+    return tab;
+}
+
+
+
+//
 T_booleen verifieChemin(T_jeu *jeu, T_booleen **tab, int caseX, int caseY, T_booleen affichage)
 {
     int taille = jeu->banquise->tailleN;
@@ -187,17 +273,12 @@ T_booleen verifieChemin(T_jeu *jeu, T_booleen **tab, int caseX, int caseY, T_boo
 T_booleen verifieCheminJoueurs(T_jeu *jeu, T_booleen **tab, T_booleen affichage)
 {
     T_booleen cheminExiste;
-    int i, j, k;
+    int i;
 
     for (i = 0; i < jeu->nombreJoueurs; i++)
     {
-        for (j = 0; j < jeu->banquise->tailleN; j++)
-        {
-            for (k = 0; k < jeu->banquise->tailleN; k++)
-            {
-                tab[j][k] = VRAI;
-            }
-        }
+        T_booleen **tab = tabChemin(jeu->banquise->tailleN);
+
         if (!verifieChemin(jeu, tab, jeu->joueurs[i]->position.x, jeu->joueurs[i]->position.y, affichage))
         {
             cheminExiste = FAUX;
@@ -205,6 +286,8 @@ T_booleen verifieCheminJoueurs(T_jeu *jeu, T_booleen **tab, T_booleen affichage)
         }
 
         cheminExiste = VRAI;
+
+        free(tab);
     }
 
     return cheminExiste;
@@ -243,6 +326,12 @@ T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int n
 //Retourne un pointeur de type jeu en fonction du niveau et de la taille de la banquise
 void reInitJeux(T_jeu *jeu)
 {
+    free(jeu->banquise);
+    free(jeu->glacons);
+    free(jeu->marteaux);
+    free(jeu->ressorts);
+    free(jeu->rochers);
+
     int i;
 
     jeu->banquise = initBanquise(jeu->banquise->tailleN, jeu->banquise->tailleEau);       //Re Initialise la banquise dans le jeu
@@ -318,30 +407,40 @@ void afficheJeu(T_jeu *jeu)
 
 
 //Retourne une lettre du clavier qui correspond a un deplacement
-char saisieTouche(T_joueur *joueur)
+char saisieTouche(T_joueur *joueur, T_booleen bug)
 {
-    char clavier = getchar();                                                                //Declare un caractere et l'initialise pour eviter un bug que nous comprenons pas
+    char clavier;
+
+    if (bug)
+    {
+     clavier = getchar();
+    }
 
     changeCouleurTexte(joueur->couleur);                                                     //Change la couleur selon la couleur choisi par le joueur
     printf("%s", joueur->nom);                                                               //Affiche le nom du joueur choisi
     changeCouleurTexte(BLANC);                                                               //Remet la couleur blanche
     printf(" deplacez vous : ");                                                             //Demande au joueur ou il veut se deplacer
-    scanf("%c", &clavier);                                                                   //Recupere la touche qui a ete frappe
+    scanf("%c", &clavier);
 
     while (clavier != 'z'
            && clavier != 'q'
            && clavier != 's'
            && clavier != 'd'
            && clavier != 'p'
+           && clavier != 'v'
+           && clavier != 'm'
            && clavier != 'Z'
            && clavier != 'Q'
            && clavier != 'S'
            && clavier != 'D'
-           && clavier != 'P')                                                                //Boucle qui fini quand l'utilisateur a rentree une bonne touche
+           && clavier != 'P'
+           && clavier != 'V'
+           && clavier != 'M')                                                               //Boucle qui fini quand l'utilisateur a rentree une bonne touche
     {
-        printf("\r\nTouche incorrect, veuillez saisir une touche"
-               "entre \"z, q, s, d, p\" : ");                                                //Re-demande le deplacement en rappellant les bonnes touches
-        scanf("%c", &clavier);                                                               //Recupere la touche qui a ete frappe
+        clavier = getchar();
+        printf("\r\nTouche incorrect, veuillez saisir une touche "
+               "entre \"z, q, s, d, p, v, m\" : ");                                          //Re-demande le deplacement en rappellant les bonnes touches
+        scanf("%c", &clavier);
     }
 
     return clavier;                                                                          //Retourne la bonne touche
@@ -443,7 +542,7 @@ void bougeTeteMarteau(T_jeu *jeu, T_marteau *marteau, T_booleen sensHorraire)
 
 
 //Fonction qui s'occupe d'effectuer le tour d'un joueur dont l'identifiant est donne en parametre
-int tourJoueur(T_jeu *jeu, int numJoueur)
+int tourJoueur(T_jeu *jeu, int numJoueur, T_booleen bugToucheEntree)
 {
     T_joueur *joueur = jeu->joueurs[numJoueur];                                              //Recupere le joueur dont l'identifiant est donne en parametre
     int **matrice = jeu->banquise->matrice;                                                  //Recupere la matrice represantant le jeu
@@ -453,7 +552,7 @@ int tourJoueur(T_jeu *jeu, int numJoueur)
 
     afficheJeu(jeu);                                                                         //Affiche la banquise dans le terminal
 
-    char toucheSaise = saisieTouche(joueur);
+    char toucheSaise = saisieTouche(joueur, bugToucheEntree);
 
     if (joueur->etat == PIEGE
         ||toucheSaise == 'p'
@@ -470,12 +569,31 @@ int tourJoueur(T_jeu *jeu, int numJoueur)
     {
         switch (toucheSaise)
         {
-        /*case 'p' :
-        case 'P' :
-
-            break;*/
-        default :
+        case 'v' :
+        case 'V' :
             {
+                T_booleen **tabTemp = tabChemin(jeu->banquise->tailleN);
+
+                if (verifieChemin(jeu, tabTemp, joueur->position.x, joueur->position.y, VRAI))
+                {
+                    printf("\nIl y a un chemin possible");
+                    Sleep(2000);
+                    tourJoueur(jeu, numJoueur, VRAI);
+                }
+                else
+                {
+                    printf("\nIl n'y a pas de chemin possible");
+                    return ARRIVE;
+                }
+                free(tabTemp);
+                break;
+            }
+        case 'm' :
+        case 'M' :
+            afficheMenu(FAUX);
+            tourJoueur(jeu, numJoueur, FAUX);
+            break;
+        default :
             ajouteCaseGlace(jeu->banquise, joueur->position.x, joueur->position.y);                  //Met une glace sur la case que le joueur va quitter
             verifDep = deplacementJoueur(jeu->banquise, joueur, toucheSaise);                        //Effectue le deplacement du joueur sur la banquise
             caseValeur = matrice[joueur->position.x][joueur->position.y];                            //Regarde la valeur de la case ou le joueur est
@@ -503,7 +621,6 @@ int tourJoueur(T_jeu *jeu, int numJoueur)
                         break;                                                                       //Sort de la boucle
                     }
                 }
-            }
             }
         }
     }
@@ -574,19 +691,7 @@ void joueNiveau(T_jeu *jeu)
         i, j,                                                  //Varibales pour les boucles suivante
         taille = jeu->banquise->tailleN;
 
-    T_booleen **tabTemp = (T_booleen **)malloc(taille * sizeof(T_banquise *));
-    for (i = 0; i < taille; i++)
-    {
-        tabTemp[i] = (T_booleen *)malloc(taille * sizeof(T_banquise));
-    }
-
-    for (i = 0; i < taille; i++)
-    {
-        for (j = 0; j < taille; j++)
-        {
-            tabTemp[i][j] = VRAI;
-        }
-    }
+    T_booleen **tabTemp = tabChemin(taille);
 
     while (!verifieCheminJoueurs(jeu, tabTemp, FAUX))
     {
@@ -600,13 +705,15 @@ void joueNiveau(T_jeu *jeu)
         reInitJeux(jeu);
     }
 
+    free(tabTemp);
+
     jeu->nombreTour = 1;                                       //Initialise le nombre de tour a 1
 
     while(finPartie == 0)                                      //Boucle tant que la partie n'est pas finie, c'est a dire tant qu'un joueur n'a pas atteint la case d'arrive
     {
         for(i = 0; i < jeu->nombreJoueurs; i++)                 //Boucle for qui permet à chaque joueur de jouer pour un tour
         {
-            caseVal = tourJoueur(jeu, i);                      //Tour du joueur i
+            caseVal = tourJoueur(jeu, i, VRAI);                //Tour du joueur i
             finPartie = victoire(jeu, caseVal, i);             //Donne un entier si la partie est gagnee, ou si elle continue
 
             if (caseVal == ARRIVE)                             //Permet de reellement stopper le jeu, pour ainsi eviter les joueurs suivant de jouer

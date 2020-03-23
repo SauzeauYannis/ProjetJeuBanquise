@@ -100,7 +100,7 @@ typedef struct
 /***** Fonctions *****/
 
 //Affiche le menu du jeu
-void afficheMenu();
+void afficheMenu(T_booleen debut);
 
 
 //Change la couleur de la console
@@ -112,7 +112,15 @@ void changeCouleurTexte(T_couleur couleur);
 
 
 //
+T_booleen **tabChemin(int taille);
+
+
+//
 T_booleen verifieChemin(T_jeu *jeu, T_booleen **tab, int caseX, int caseY, T_booleen affichage);
+
+
+//
+T_booleen verifieCheminJoueurs(T_jeu *jeu, T_booleen **tab, T_booleen affichage);
 
 
 //Initialise le jeu
@@ -128,7 +136,7 @@ void afficheJeu(T_jeu *jeu);
 
 
 //
-char saisieTouche(T_joueur *joueur);
+char saisieTouche(T_joueur *joueur, T_booleen bug);
 
 
 //S'occupe du deplacement du glacon apres que celui-ci se soit fait pousser par un joueur
@@ -144,7 +152,7 @@ void bougeTeteMarteau(T_jeu *jeu, T_marteau *marteau, T_booleen sensHorraire);
 
 
 //S'occupe d'effectuer le tour d'un joueur
-int tourJoueur(T_jeu *jeu, int numJoueur);
+int tourJoueur(T_jeu *jeu, int numJoueur, T_booleen bugToucheEntree);
 
 
 //Retourne un entier qui determine si la partie est finie ou non
