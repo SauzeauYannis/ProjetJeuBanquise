@@ -100,7 +100,7 @@ typedef struct
 /***** Fonctions *****/
 
 //Affiche le menu du jeu
-void afficheMenu();
+void afficheMenu(T_booleen debut);
 
 
 //Change la couleur de la console

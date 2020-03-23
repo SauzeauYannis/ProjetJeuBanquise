@@ -3,30 +3,39 @@
 
 
 //Affiche le Menu du jeu
-void afficheMenu()
+void afficheMenu(T_booleen debut)
 {
-    printf("Jeu de la banquise\n"
-           "\n"
-           "Nombre de joueurs : 1-4 joueurs\n"
-           "\n"
-           "Creer par :\n"
-           "Samuel GOUBEAU\n"
-           "Yannis SAUZEAU\n"
-           "\n"
-           "Bonne chance !\n"
-           "\n"
-           "Appuyer sur entree pour continuer");        //Affiche le Menu
-
     char entree;                                        //Stocke un caractere
-    entree = getchar();                                 //Attend que la touche entree soit pressee
 
-    system("cls");                                      //Nettoie l'ecran
+    if (debut)
+    {
+        printf("Jeu de la banquise\n"
+               "\n"
+               "Nombre de joueurs : 1-4 joueurs\n"
+               "\n"
+               "Creer par :\n"
+               "Samuel GOUBEAU\n"
+               "Yannis SAUZEAU\n"
+               "\n"
+               "Bonne chance !\n"
+               "\n"
+               "Appuyer sur entree pour continuer");        //Affiche le Menu
 
-    printf("Regles du jeux\n"
-           "\n"
-           "A venir\n"
-           "\n"
-           "Appuyer sur entree pour continuer");        //Affiche les regles du jeu
+        entree = getchar();                                 //Attend que la touche entree soit pressee
+
+        system("cls");                                      //Nettoie l'ecran
+
+        printf("Regles du jeux\n"
+               "\n"
+               "Votre but est de rejoindre la case "
+               "d'arrive en evitant tous les obstacles\n"
+               "\n"
+               "Attention, les glacons se deplacent et "
+               "peuvent vous tuer s'ils vous touchent\n"
+               "\n"
+               "Appuyer sur entree pour continuer");        //Affiche les regles du jeu
+
+    }
 
     entree = getchar();                                 //Attend que la touche entree soit pressee
 
@@ -45,8 +54,65 @@ void afficheMenu()
            "touches du clavier suivante :\n"
            "P : passer son tour\n"
            "V : verifier si le joueur peut rejoindre l'arrive\n"
+           "M : afficher le menu"
            "\n"
-           "Appuyer sur entree pour commencer le jeu"); //Affiche les controles
+           "\n"
+           "Signifiaction des cases :\n"
+           "\n");
+
+    changeCouleurConsole(BLANC);
+    printf("%d ", GLACE);
+    changeCouleurConsole(DEFAULT);
+    printf(" : glace\n");
+
+    changeCouleurConsole(NOIR);
+    printf("%d ", DEPART);
+    changeCouleurConsole(DEFAULT);
+    printf(" : depart\n");
+
+    changeCouleurConsole(ROSE);
+    printf("%d ", ARRIVE);
+    changeCouleurConsole(DEFAULT);
+    printf(" : arrive\n");
+
+    changeCouleurConsole(TURQUOISE);
+    printf("%d ", GLACON);
+    changeCouleurConsole(DEFAULT);
+    printf(" : glacon\n");
+
+    changeCouleurConsole(BLEUFONCE);
+    printf("%d ", EAU);
+    changeCouleurConsole(DEFAULT);
+    printf(" : eau\n");
+
+    changeCouleurConsole(GRIS);
+    printf("%d ", ROCHER);
+    changeCouleurConsole(DEFAULT);
+    printf(" : rocher\n");
+
+    changeCouleurConsole(MARRON);
+    printf("%d ", RESSORT);
+    changeCouleurConsole(DEFAULT);
+    printf(" : ressort\n");
+
+    changeCouleurConsole(KAKI);
+    printf("%d ", MARTEAU_TETE);
+    changeCouleurConsole(DEFAULT);
+    printf(" : tete du marteau\n");
+
+    changeCouleurConsole(NOIR);
+    printf("%d ", MARTEAU_CENTRE);
+    changeCouleurConsole(DEFAULT);
+    printf(" : centre du marteau\n\n");
+
+    if (debut)
+    {
+        printf("Appuyer sur entree pour commencer le jeu"); //Affiche les controles
+    }
+    else
+    {
+        printf("Appuyer sur entree pour continuer le jeu"); //Affiche les controles
+    }
 
     entree = getchar();                                 //Attend que la touche entree soit pressee
 
@@ -357,15 +423,18 @@ char saisieTouche(T_joueur *joueur)
            && clavier != 'd'
            && clavier != 'p'
            && clavier != 'v'
+           && clavier != 'm'
            && clavier != 'Z'
            && clavier != 'Q'
            && clavier != 'S'
            && clavier != 'D'
-           && clavier != 'P'                                                                //Boucle qui fini quand l'utilisateur a rentree une bonne touche
-           && clavier != 'V')                                                                //Boucle qui fini quand l'utilisateur a rentree une bonne touche
+           && clavier != 'P'
+           && clavier != 'V'
+           && clavier != 'M')                                                               //Boucle qui fini quand l'utilisateur a rentree une bonne touche
     {
-        printf("\r\nTouche incorrect, veuillez saisir une touche"
-               "entre \"z, q, s, d, p, v\" : ");                                              //Re-demande le deplacement en rappellant les bonnes touches
+        printf("\r\nTouche incorrect, veuillez saisir une touche "
+               "entre \"z, q, s, d, p, v, m\" : ");                                          //Re-demande le deplacement en rappellant les bonnes touches
+        clavier = getchar();
         scanf("%c", &clavier);                                                               //Recupere la touche qui a ete frappe
     }
 
@@ -503,16 +572,23 @@ int tourJoueur(T_jeu *jeu, int numJoueur)
                 if (verifieChemin(jeu, tabTemp, joueur->position.x, joueur->position.y, VRAI))
                 {
                     printf("\nIl y a un chemin possible");
+                    Sleep(2000);
+                    tourJoueur(jeu, numJoueur);
                 }
                 else
                 {
                     printf("\nIl n'y a pas de chemin possible");
+                    return ARRIVE;
                 }
                 free(tabTemp);
                 break;
             }
+        case 'm' :
+        case 'M' :
+            afficheMenu(FAUX);
+            tourJoueur(jeu, numJoueur);
+            break;
         default :
-            {
             ajouteCaseGlace(jeu->banquise, joueur->position.x, joueur->position.y);                  //Met une glace sur la case que le joueur va quitter
             verifDep = deplacementJoueur(jeu->banquise, joueur, toucheSaise);                        //Effectue le deplacement du joueur sur la banquise
             caseValeur = matrice[joueur->position.x][joueur->position.y];                            //Regarde la valeur de la case ou le joueur est
@@ -540,7 +616,6 @@ int tourJoueur(T_jeu *jeu, int numJoueur)
                         break;                                                                       //Sort de la boucle
                     }
                 }
-            }
             }
         }
     }

@@ -101,10 +101,10 @@ void ajouteDepartArrive(T_banquise *banquise)
     int taille = banquise->tailleN,                                                          //Recupere la taille de la banquise
         tailleEau = banquise->tailleEau;                                                     //Recupere la taille de l'eau autour de la banquise
 
-    banquise->depart.x = 1 + tailleEau + (rand() % (taille - 2 - (tailleEau * tailleEau)));  //Genere aleatoirement la case de depart
+    banquise->depart.x = 1 + tailleEau + (rand() % (taille - 2 - (tailleEau + tailleEau)));  //Genere aleatoirement la case de depart
     banquise->depart.y = 1 + tailleEau;
 
-    banquise->arrive.x = tailleEau + (rand() % (taille - 1 -(tailleEau * tailleEau)));       //Genere aleatoirement la case d'arrive
+    banquise->arrive.x = tailleEau + (rand() % (taille - 1 -(tailleEau + tailleEau)));       //Genere aleatoirement la case d'arrive
     banquise->arrive.y = taille - 1 - tailleEau;
 
     enleveCaseGlace(banquise, banquise->depart.x, banquise->depart.y, DEPART);               //Modifie la case de depart
