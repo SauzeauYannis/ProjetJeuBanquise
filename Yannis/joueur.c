@@ -128,31 +128,24 @@ int verifieDeplacement(T_banquise *banquise, T_joueur *joueur, int caseX, int ca
     case ERREUR:
         printf("\nDeplacement impossible : le joueur est en dehors des limites\n");      //Previens le joueur dans ce cas la
         return -1;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
-        break;
     case JOUEUR:
         printf("\nDeplacement impossible : un autre joueur occupe deja la case\n");      //Previens le joueur dans ce cas la
         return -1;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
-        break;
     case DEPART:
         printf("\nDeplacement impossible : le joueur ne peut pas aller au depart\n");    //Previens le joueur dans ce cas la
         return -1;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
-        break;
     case ROCHER:
         printf("\nDeplacement impossible : le joueur ne peut pas aller sur un rocher\n"); //Previens le joueur dans ce cas la
         return -1;                                                                        //Retourne une valeur d'echec pour prevenir la fonction suivante
-        break;
     case RESSORT:
         printf("\nDeplacement impossible : le joueur ne peut pas interagir avec un ressort\n"); //Previens le joueur dans ce cas la
         return -1;                                                                        //Retourne une valeur d'echec pour prevenir la fonction suivante
-        break;
     case GLACON:
         printf("\nDeplacement d'un glacon\n");                                           //Previens le joueur dans ce cas la
         return -2;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
-        break;
     case EAU:
 		tuerJoueur(joueur, banquise);
         return 0;                                                                        //Retourne une valeur d'echec pour prevenir la fonction suivante
-        break;
     default :
         joueur->position.x = caseX;                                                      //Affectation de sa nouvelle position
         joueur->position.y = caseY;
