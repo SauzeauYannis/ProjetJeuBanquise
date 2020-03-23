@@ -48,10 +48,6 @@ T_joueur **initTabJoueurs(T_banquise *banquise, int nombreJoueurs);
 void departJoueur(T_banquise *banquise, T_joueur *joueur);
 
 
-//Demande au joueur un deplacement
-char saisieDeplacement();
-
-
 //Retourne un entier en fonction du deplacement du joueur, et modifie la position de celui-ci
 int verifieDeplacement(T_banquise *banquise, T_joueur *joueur, int caseX, int caseY, int caseValeur);
 
@@ -61,7 +57,7 @@ int deplacementJoueur_bis(T_banquise *banquise, T_joueur *joueur, char deplaceme
 
 
 //Applique le deplacement du joueur
-int deplacementJoueur(T_banquise *banquise, T_joueur *joueur);
+int deplacementJoueur(T_banquise *banquise, T_joueur *joueur, char clavier);
 
 
 //Recupere le joueur selon une position

@@ -48,7 +48,6 @@ typedef enum
     RESSORT,
     MARTEAU_CENTRE,
     MARTEAU_TETE,
-    VERIF
 } T_case;
 
 
@@ -75,16 +74,6 @@ typedef struct
 #include "piege.h"
 #include "ressort.h"
 #include "rocher.h"
-
-
-//
-typedef enum
-{
-    DEP_DROITE,
-    DEP_BAS,
-    DEP_HAUT,
-    DEP_GAUCHE
-} T_deplacement;
 
 
 //Definition du type jeu
@@ -122,12 +111,24 @@ void changeCouleurConsole(T_couleur couleur);
 void changeCouleurTexte(T_couleur couleur);
 
 
+//
+T_booleen verifieChemin(T_jeu *jeu, T_booleen **tab, int caseX, int caseY, T_booleen affichage);
+
+
 //Initialise le jeu
 T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int nombreMarteaux, int nombreRessorts, int nombreRochers, int chanceFonte, int chancePiege);
 
 
+//
+void reInitJeux(T_jeu *jeu);
+
+
 //Affiche le jeu
 void afficheJeu(T_jeu *jeu);
+
+
+//
+char saisieTouche(T_joueur *joueur);
 
 
 //S'occupe du deplacement du glacon apres que celui-ci se soit fait pousser par un joueur

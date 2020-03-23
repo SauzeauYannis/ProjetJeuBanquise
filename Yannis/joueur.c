@@ -120,35 +120,6 @@ void departJoueur(T_banquise *banquise, T_joueur *joueur)
 
 
 
-//Retourne une lettre du clavier qui correspond a un deplacement
-char saisieDeplacement(T_joueur *joueur)
-{
-    char clavier = getchar();                                                                //Declare un caractere et l'initialise pour eviter un bug que nous comprenons pas
-
-    changeCouleurTexte(joueur->couleur);                                                     //Change la couleur selon la couleur choisi par le joueur
-    printf("%s", joueur->nom);                                                               //Affiche le nom du joueur choisi
-    changeCouleurTexte(BLANC);                                                               //Remet la couleur blanche
-    printf(" deplacez vous : ");                                                             //Demande au joueur ou il veut se deplacer
-    scanf("%c", &clavier);                                                                   //Recupere la touche qui a ete frappe
-
-    while (clavier != 'z'
-           && clavier != 'q'
-           && clavier != 's'
-           && clavier != 'd'
-           && clavier != 'Z'
-           && clavier != 'Q'
-           && clavier != 'S'
-           && clavier != 'D')                                                                //Boucle qui fini quand l'utilisateur a rentree une bonne touche
-    {
-        printf("\r\nTouche incorrect, veuillez saisir une touche entre \"z, q, s, d\" : ");  //Re-demande le deplacement en rappellant les bonnes touches
-        scanf("%c", &clavier);                                                               //Recupere la touche qui a ete frappe
-    }
-
-    return clavier;                                                                          //Retourne la bonne touche
-}
-
-
-
 //Retourne un entier en fonction du deplacement du joueur, et modifie la position de celui-ci
 int verifieDeplacement(T_banquise *banquise, T_joueur *joueur, int caseX, int caseY, int caseValeur)
 {
@@ -241,15 +212,13 @@ int deplacementJoueur_bis(T_banquise *banquise, T_joueur *joueur, char deplaceme
 
 
 //Fonction qui permet le deplacement du personnage
-int deplacementJoueur(T_banquise *banquise, T_joueur *joueur)
+int deplacementJoueur(T_banquise *banquise, T_joueur *joueur, char clavier)
 {
-
-    char clavier = saisieDeplacement(joueur);                        //Recupere la bonne touche saisie par le joueur
     int correct = deplacementJoueur_bis(banquise, joueur, clavier);  //Stocke la valeur de la fonction precedente
 
     while (correct == -1)                                            //Tant que la valeur est mauvaise
     {
-        clavier = saisieDeplacement(joueur);                         //On re-recupere la bonne touche saisie par le joueur
+        clavier = saisieTouche(joueur);                              //On re-recupere la bonne touche saisie par le joueur
         correct = deplacementJoueur_bis(banquise, joueur, clavier);  //On re-stocke la valeur de la fonction precedente
     }
 
@@ -270,7 +239,7 @@ int deplacementJoueur(T_banquise *banquise, T_joueur *joueur)
 //Cherche un joueur en fonction d'une position en paramettre
 T_joueur *joueurSelonPosition(T_joueur **joueurs, int posX, int posY, int nbJoueurs)
 {
-    T_joueur *joueur;                           //Variable pour retourner le joueur
+    T_joueur *joueur = joueurs[0];              //Variable pour retourner le joueur
     int i;                                      //Variable pour la boucle suivante
 
     for(i = 0; i < nbJoueurs; i++)              //Regarde chaque joueur du tableau
