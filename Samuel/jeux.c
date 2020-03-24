@@ -54,7 +54,8 @@ void afficheMenu(T_booleen debut)
            "touches du clavier suivante :\n"
            "P : passer son tour\n"
            "V : verifier si le joueur peut rejoindre l'arrive\n"
-           "M : afficher le menu"
+           "M : afficher le menu\n"
+           "F : finir la partie\n"
            "\n"
            "\n"
            "Signifiaction des cases :\n"
@@ -371,7 +372,7 @@ T_jeu *initJeuxPersonalise()
         system("cls");
     }
 
-    nombreCasesDispo = (taille - (tailleEau / 2)) * (taille - (tailleEau / 2));
+    nombreCasesDispo = (taille - (tailleEau * 2)) * (taille - (tailleEau * 2));
 
     int nombreGlacons = -1;
 
@@ -566,17 +567,19 @@ char saisieTouche(T_joueur *joueur, T_booleen bug)
            && clavier != 'p'
            && clavier != 'v'
            && clavier != 'm'
+           && clavier != 'f'
            && clavier != 'Z'
            && clavier != 'Q'
            && clavier != 'S'
            && clavier != 'D'
            && clavier != 'P'
            && clavier != 'V'
-           && clavier != 'M')                                                               //Boucle qui fini quand l'utilisateur a rentree une bonne touche
+           && clavier != 'M'
+           && clavier != 'F')                                                               //Boucle qui fini quand l'utilisateur a rentree une bonne touche
     {
         clavier = getchar();
         printf("\r\nTouche incorrect, veuillez saisir une touche "
-               "entre \"z, q, s, d, p, v, m\" : ");                                          //Re-demande le deplacement en rappellant les bonnes touches
+               "entre \"z, q, s, d, p, v, m, f\" : ");                                      //Re-demande le deplacement en rappellant les bonnes touches
         scanf("%c", &clavier);
     }
 
@@ -626,13 +629,9 @@ void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu)
 
             enleveCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y, GLACON);                                                         //Met le glacon a sa nouvelle position
 
-            if(sensRotation == VRAI)
+            if (sensRotation != ECHEC)
             {
-                bougeTeteMarteau(jeu, marteau, VRAI);
-            }
-            else
-            {
-                bougeTeteMarteau(jeu, marteau, FAUX);
+                bougeTeteMarteau(jeu, marteau, sensRotation);
             }
         }
         default :
@@ -737,14 +736,15 @@ int tourJoueur(T_jeu *jeu, int numJoueur, T_booleen bugToucheEntree)
                 {
                     printf("\nIl y a un chemin possible");
                     Sleep(2000);
+                    free(tabTemp);
                     tourJoueur(jeu, numJoueur, VRAI);
                 }
                 else
                 {
                     printf("\nIl n'y a pas de chemin possible");
+                    free(tabTemp);
                     return ARRIVE;
                 }
-                free(tabTemp);
                 break;
             }
         case 'm' :
@@ -752,6 +752,28 @@ int tourJoueur(T_jeu *jeu, int numJoueur, T_booleen bugToucheEntree)
             afficheMenu(FAUX);
             tourJoueur(jeu, numJoueur, FAUX);
             break;
+        case 'f' :
+        case 'F' :
+            {
+                char clavier;
+
+                while (clavier != 'o' && clavier != 'n')
+                {
+                    clavier = getchar();
+                    printf("\nEtes vous sur de finir la partie, "
+                           "si oui tapez 'o', sinon 'n' : ");
+                    scanf("%c", &clavier);
+                }
+
+                if (clavier == 'o')
+                {
+                    return ABANDON;
+                }
+                else
+                {
+                    tourJoueur(jeu, numJoueur, VRAI);
+                }
+            }
         default :
             ajouteCaseGlace(jeu->banquise, joueur->position.x, joueur->position.y);                  //Met une glace sur la case que le joueur va quitter
             verifDep = deplacementJoueur(jeu->banquise, joueur, toucheSaise);                        //Effectue le deplacement du joueur sur la banquise
@@ -795,7 +817,7 @@ int victoire(T_jeu *jeu, int caseVal, int i)
     if (caseVal == ARRIVE)                                                         //Verifie si la case est celle d'arrive
     {
         jeu->joueurs[i]->etat = GAGNANT;                                           //Change l'etat de ce joueur pour le designer en tant que gagnant
-        printf("La partie est finie ! ");                                          //Affiche le joueur victorieux
+        printf("\nLa partie est finie ! ");                                          //Affiche le joueur victorieux
         changeCouleurTexte(jeu->joueurs[i]->couleur);
         printf("%s", jeu->joueurs[i]->nom);
         changeCouleurTexte(BLANC);
@@ -803,6 +825,16 @@ int victoire(T_jeu *jeu, int caseVal, int i)
         jeu->joueurs[i]->score += 1000;                                            //Le gagnant recois 1000 point
         Sleep(3000);                                                               //Attend 3s avant de passer à l'instruction suivante
         return 1;                                                                  //Retourne l'entier 1 pour signaler une victoire
+    }
+    else if (caseVal == ABANDON)
+    {
+        printf("\nLa partie a ete interrompu par ");
+        changeCouleurTexte(jeu->joueurs[i]->couleur);
+        printf("%s", jeu->joueurs[i]->nom);
+        changeCouleurTexte(BLANC);
+        printf(" personne n'a gagne");
+        Sleep(3000);                                                               //Attend 3s avant de passer à l'instruction suivante
+        return 1;
     }
     else                                                                           //Si la case n'est pas celle d'arrive
     {
@@ -819,7 +851,6 @@ void afficheScore(T_jeu *jeu)
 
     for(i = 0; i < jeu->nombreJoueurs; i++)                  //Boucle qui parcourt le tableau de joueurs
     {
-        Sleep(2000);                                         //Attend 2 secondes
         system("cls");                                       //Efface le terminal
         printf("->Joueur %d\n", (i + 1));                    //Affiche infos sur le joueur quand la partie est finie
         printf("    Nom : ");
@@ -838,6 +869,7 @@ void afficheScore(T_jeu *jeu)
             printf("    Etat : PERDANT\n");
         }
         printf("\n");
+        Sleep(3000);                                         //Attend 3 secondes
     }
 }
 
@@ -875,7 +907,7 @@ void joueNiveau(T_jeu *jeu)
             caseVal = tourJoueur(jeu, i, VRAI);                //Tour du joueur i
             finPartie = victoire(jeu, caseVal, i);             //Donne un entier si la partie est gagnee, ou si elle continue
 
-            if (caseVal == ARRIVE)                             //Permet de reellement stopper le jeu, pour ainsi eviter les joueurs suivant de jouer
+            if (caseVal == ARRIVE || caseVal == ABANDON)       //Permet de reellement stopper le jeu, pour ainsi eviter les joueurs suivant de jouer
             {
                 break;                                         //Brise la boucle for
             }
@@ -886,7 +918,7 @@ void joueNiveau(T_jeu *jeu)
         jeu->nombreTour += 1;                                  //Incremente le nombre de tour
     }
     afficheScore(jeu);                                         //Affiche le score du jeu
-    Sleep(5000);                                               //Donne 5s au joueur pour lire les scores
+    //Sleep(5000);                                               //Donne 5s au joueur pour lire les scores
     system("cls");                                             //Netoie la console
     printf("Merci d'avoir joue !\n");                          //Affiche remerciement
 }
@@ -896,17 +928,17 @@ void joueNiveau(T_jeu *jeu)
 //Fonction qui renvoie un entier qui permet de rejouer une partie
 int rejouer()
 {
-    char c;                                                                        //Enregistre la valeur saisie par l'utilisateur
+    char c = getchar();                                                            //Enregistre la valeur saisie par l'utilisateur
 
     printf("\nVoulez vous rejouer ? (Tapez \"o\" pour oui ou \"n\" pour non) : "); //Demande au joueur s'il veut relancer une partie
 
     c = getchar();
-    c = getchar();
 
     while (c != 'n' && c != 'o')                                                   //Boucle tant que le joueur ne saisit pas les bons caractere
     {
-        printf("\nChoix inconnue ! Veuillez reessayer : ");                        //Previens le joueur qu'il a saisie un mauvais caractere
         c = getchar();
+        printf("\nChoix inconnue ! Veuillez reessayer : ");                        //Previens le joueur qu'il a saisie un mauvais caractere
+        scanf("%c", &c);
     }
 
     if (c == 'o')                                                                  //Si le caractere est y

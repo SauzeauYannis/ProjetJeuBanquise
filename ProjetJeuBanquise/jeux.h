@@ -49,6 +49,7 @@ typedef enum
     RESSORT,
     MARTEAU_CENTRE,
     MARTEAU_TETE,
+    ABANDON
 } T_case;
 
 

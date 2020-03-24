@@ -85,105 +85,111 @@ void mouvementTete(T_banquise *banquise, T_marteau *marteau, T_booleen sensHorra
     {
         marteau->mouvement = FAUX;
     }
-
-    if(marteau->tete.sousTete == GLACE)
-    {
-        ajouteCaseGlace(banquise, marteau->tete.position.x, marteau->tete.position.y);
-    }
     else
     {
-        enleveCaseGlace(banquise, marteau->tete.position.x, marteau->tete.position.y, marteau->tete.sousTete);
-    }
-
-    marteau->tete.vecteur.dx = marteau->tete.vecteur.dy = 0;
-
-    if (sensHorraire == VRAI)
-    {
-        switch(marteau->tete.etat)
+        if(marteau->tete.sousTete == GLACE)
         {
-        case HAUT_GAUCHE :
-            marteau->tete.position.y += 1;
-            marteau->tete.vecteur.dy = 1;
-            break;
-        case HAUT :
-            marteau->tete.position.y += 1;
-            marteau->tete.vecteur.dx = 1;
-            break;
-        case HAUT_DROITE :
-            marteau->tete.position.x += 1;
-            marteau->tete.vecteur.dx = 1;
-            break;
-        case DROITE :
-            marteau->tete.position.x += 1;
-            marteau->tete.vecteur.dy = -1;
-            break;
-        case BAS_DROITE :
-            marteau->tete.position.y -= 1;
-            marteau->tete.vecteur.dy = -1;
-            break;
-        case BAS :
-            marteau->tete.position.y -= 1;
-            marteau->tete.vecteur.dx = -1;
-            break;
-        case BAS_GAUCHE :
-            marteau->tete.position.x -= 1;
-            marteau->tete.vecteur.dx = -1;
-            break;
-        default :
-            marteau->tete.position.x -= 1;
-            marteau->tete.vecteur.dy = 1;
+            ajouteCaseGlace(banquise, marteau->tete.position.x, marteau->tete.position.y);
         }
-        marteau->tete.etat = (marteau->tete.etat + 1) % 8;
-    }
-    else
-    {
-        switch(marteau->tete.etat)
+        else
         {
-        case HAUT_DROITE :
-            marteau->tete.position.y -= 1;
-            marteau->tete.vecteur.dy = -1;
-            break;
-        case HAUT :
-            marteau->tete.position.y -= 1;
-            marteau->tete.vecteur.dx = 1;
-            break;
-        case HAUT_GAUCHE :
-            marteau->tete.position.x += 1;
-            marteau->tete.vecteur.dx = 1;
-            break;
-        case GAUCHE :
-            marteau->tete.position.x += 1;
-            marteau->tete.vecteur.dy = 1;
-            break;
-        case BAS_GAUCHE :
-            marteau->tete.position.y += 1;
-            marteau->tete.vecteur.dy = 1;
-            break;
-        case BAS :
-            marteau->tete.position.y += 1;
-            marteau->tete.vecteur.dx = -1;
-            break;
-        case BAS_DROITE :
-            marteau->tete.position.x -= 1;
-            marteau->tete.vecteur.dx = -1;
-            break;
-        default :
-            marteau->tete.position.x -= 1;
-            marteau->tete.vecteur.dy = -1;
+            enleveCaseGlace(banquise, marteau->tete.position.x, marteau->tete.position.y, marteau->tete.sousTete);
         }
-        marteau->tete.etat = (marteau->tete.etat - 1) % 8;
+
+        marteau->tete.vecteur.dx = marteau->tete.vecteur.dy = 0;
+
+        if (sensHorraire == VRAI)
+        {
+            switch(marteau->tete.etat)
+            {
+            case HAUT_GAUCHE :
+                marteau->tete.position.y += 1;
+                marteau->tete.vecteur.dy = 1;
+                break;
+            case HAUT :
+                marteau->tete.position.y += 1;
+                marteau->tete.vecteur.dx = 1;
+                break;
+            case HAUT_DROITE :
+                marteau->tete.position.x += 1;
+                marteau->tete.vecteur.dx = 1;
+                break;
+            case DROITE :
+                marteau->tete.position.x += 1;
+                marteau->tete.vecteur.dy = -1;
+                break;
+            case BAS_DROITE :
+                marteau->tete.position.y -= 1;
+                marteau->tete.vecteur.dy = -1;
+                break;
+            case BAS :
+                marteau->tete.position.y -= 1;
+                marteau->tete.vecteur.dx = -1;
+                break;
+            case BAS_GAUCHE :
+                marteau->tete.position.x -= 1;
+                marteau->tete.vecteur.dx = -1;
+                break;
+            default :
+                marteau->tete.position.x -= 1;
+                marteau->tete.vecteur.dy = 1;
+            }
+            marteau->tete.etat = (marteau->tete.etat + 1) % 8;
+        }
+        else if (sensHorraire == FAUX)
+        {
+            switch(marteau->tete.etat)
+            {
+            case HAUT_DROITE :
+                marteau->tete.position.y -= 1;
+                marteau->tete.vecteur.dy = -1;
+                break;
+            case HAUT :
+                marteau->tete.position.y -= 1;
+                marteau->tete.vecteur.dx = 1;
+                break;
+            case HAUT_GAUCHE :
+                marteau->tete.position.x += 1;
+                marteau->tete.vecteur.dx = 1;
+                break;
+            case GAUCHE :
+                marteau->tete.position.x += 1;
+                marteau->tete.vecteur.dy = 1;
+                break;
+            case BAS_GAUCHE :
+                marteau->tete.position.y += 1;
+                marteau->tete.vecteur.dy = 1;
+                break;
+            case BAS :
+                marteau->tete.position.y += 1;
+                marteau->tete.vecteur.dx = -1;
+                break;
+            case BAS_DROITE :
+                marteau->tete.position.x -= 1;
+                marteau->tete.vecteur.dx = -1;
+                break;
+            default :
+                marteau->tete.position.x -= 1;
+                marteau->tete.vecteur.dy = -1;
+            }
+            marteau->tete.etat = (marteau->tete.etat - 1) % 8;
+        }
+        else
+        {
+            marteau->mouvement = FAUX;
+        }
+
+        /*posFutX = marteau->tete.position.x + marteau->tete.vecteur.dx, posFutY = marteau->tete.vecteur.dy + marteau->tete.position.y;
+
+        if(banquise->matrice[posFutX][posFutY] == GLACON)
+        {
+            marteau->mouvement = FAUX;
+        }*/
+
+        marteau->tete.sousTete = banquise->matrice[marteau->tete.position.x][marteau->tete.position.y];
+
+        enleveCaseGlace(banquise, marteau->tete.position.x, marteau->tete.position.y, MARTEAU_TETE);
     }
-
-    posFutX = marteau->tete.position.x + marteau->tete.vecteur.dx, posFutY = marteau->tete.vecteur.dy + marteau->tete.position.y;
-
-    if(banquise->matrice[posFutX][posFutY] == GLACON)
-    {
-        marteau->mouvement = FAUX;
-    }
-
-    marteau->tete.sousTete = banquise->matrice[marteau->tete.position.x][marteau->tete.position.y];
-
-    enleveCaseGlace(banquise, marteau->tete.position.x, marteau->tete.position.y, MARTEAU_TETE);
 }
 
 
@@ -195,12 +201,12 @@ T_booleen marteauSensRotation(T_marteau *marteau, T_glacon *glacon)
     switch(marteau->tete.etat)
     {
     case HAUT :
-        if(Gdy == 1)
+        if (Gdy == 1)
         {
             glacon->vecteur.dx = -1, glacon->vecteur.dy = 0;
             return VRAI;
         }
-        else if(Gdy == -1)
+        else if (Gdy == -1)
         {
             glacon->vecteur.dx = -1, glacon->vecteur.dy = 0;
             return FAUX;
@@ -211,12 +217,12 @@ T_booleen marteauSensRotation(T_marteau *marteau, T_glacon *glacon)
             return ECHEC;
         }
     case DROITE :
-        if(Gdx == 1)
+        if (Gdx == 1)
         {
             glacon->vecteur.dx = 0, glacon->vecteur.dy = 1;
             return VRAI;
         }
-        else if(Gdx == -1)
+        else if (Gdx == -1)
         {
             glacon->vecteur.dx = 0, glacon->vecteur.dy = 1;
             return FAUX;
@@ -227,12 +233,12 @@ T_booleen marteauSensRotation(T_marteau *marteau, T_glacon *glacon)
             return ECHEC;
         }
     case BAS :
-        if(Gdy == -1)
+        if (Gdy == -1)
         {
             glacon->vecteur.dx = 1, glacon->vecteur.dy = 0;
             return VRAI;
         }
-        else if(Gdy == 1)
+        else if (Gdy == 1)
         {
             glacon->vecteur.dx = 1, glacon->vecteur.dy = 0;
             return FAUX;
@@ -241,22 +247,66 @@ T_booleen marteauSensRotation(T_marteau *marteau, T_glacon *glacon)
         {
             glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
             return ECHEC;
+        }
+    case GAUCHE :
+        if (Gdx == -1)
+        {
+            glacon->vecteur.dx = 0, glacon->vecteur.dy = -1;
+            return VRAI;
+        }
+        else if (Gdx == 1)
+        {
+            glacon->vecteur.dx = 0, glacon->vecteur.dy = -1;
+            return FAUX;
+        }
+        else
+        {
+            glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
+            return ECHEC;
+        }
+    case HAUT_GAUCHE :
+        if (Gdy == 1 || Gdx == -1)
+        {
+            glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
+            return VRAI;
+        }
+        else
+        {
+            glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
+            return FAUX;
+        }
+    case HAUT_DROITE :
+        if (Gdy == 1 || Gdx == 1)
+        {
+            glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
+            return VRAI;
+        }
+        else
+        {
+            glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
+            return FAUX;
+        }
+    case BAS_DROITE :
+        if (Gdx == 1 || Gdy == -1)
+        {
+            glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
+            return VRAI;
+        }
+        else
+        {
+            glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
+            return FAUX;
         }
     default :
-        if(Gdx == -1)
+        if (Gdx == -1 || Gdy == -1)
         {
-            glacon->vecteur.dx = 0, glacon->vecteur.dy = -1;
+            glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
             return VRAI;
-        }
-        else if(Gdx == 1)
-        {
-            glacon->vecteur.dx = 0, glacon->vecteur.dy = -1;
-            return FAUX;
         }
         else
         {
             glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
-            return ECHEC;
+            return FAUX;
         }
     }
 }
