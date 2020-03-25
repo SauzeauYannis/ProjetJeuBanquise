@@ -687,7 +687,17 @@ void bougeTeteMarteau(T_jeu *jeu, T_marteau *marteau, T_booleen sensHorraire)
         nombreDeplacements++;
     }
 
-    marteau->tete.etat = HAUT;
+    if (nombreDeplacements != 8)
+    {
+        T_joueur *joueur = jeu->joueurs[0];
+        T_glacon *glacon = glaconSelonPosition(jeu->glacons,
+                                               marteau->tete.position.x + marteau->tete.vecteur.dx,
+                                               marteau->tete.position.y + marteau->tete.vecteur.dy,
+                                               jeu->nombreGlacons);
+        joueur->vecteur = marteau->tete.vecteur;
+
+        joueurPousseGlacon(joueur, glacon, jeu);
+    }
 }
 
 

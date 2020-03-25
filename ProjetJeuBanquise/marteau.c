@@ -197,6 +197,7 @@ void mouvementTete(T_banquise *banquise, T_marteau *marteau, T_booleen sensHorra
 T_booleen marteauSensRotation(T_marteau *marteau, T_glacon *glacon)
 {
     int Gdx = glacon->vecteur.dx, Gdy = glacon->vecteur.dy;
+    marteau->tete.vecteur.dx = marteau->tete.vecteur.dy = 0;
 
     switch(marteau->tete.etat)
     {
@@ -204,11 +205,13 @@ T_booleen marteauSensRotation(T_marteau *marteau, T_glacon *glacon)
         if (Gdy == 1)
         {
             glacon->vecteur.dx = -1, glacon->vecteur.dy = 0;
+            marteau->tete.vecteur.dy = 1;
             return VRAI;
         }
         else if (Gdy == -1)
         {
             glacon->vecteur.dx = -1, glacon->vecteur.dy = 0;
+            marteau->tete.vecteur.dy = -1;
             return FAUX;
         }
         else
@@ -220,11 +223,13 @@ T_booleen marteauSensRotation(T_marteau *marteau, T_glacon *glacon)
         if (Gdx == 1)
         {
             glacon->vecteur.dx = 0, glacon->vecteur.dy = 1;
+            marteau->tete.vecteur.dx = 1;
             return VRAI;
         }
         else if (Gdx == -1)
         {
             glacon->vecteur.dx = 0, glacon->vecteur.dy = 1;
+            marteau->tete.vecteur.dx = -1;
             return FAUX;
         }
         else
@@ -236,11 +241,13 @@ T_booleen marteauSensRotation(T_marteau *marteau, T_glacon *glacon)
         if (Gdy == -1)
         {
             glacon->vecteur.dx = 1, glacon->vecteur.dy = 0;
+            marteau->tete.vecteur.dy = -1;
             return VRAI;
         }
         else if (Gdy == 1)
         {
             glacon->vecteur.dx = 1, glacon->vecteur.dy = 0;
+            marteau->tete.vecteur.dy = 1;
             return FAUX;
         }
         else
@@ -252,11 +259,13 @@ T_booleen marteauSensRotation(T_marteau *marteau, T_glacon *glacon)
         if (Gdx == -1)
         {
             glacon->vecteur.dx = 0, glacon->vecteur.dy = -1;
+            marteau->tete.vecteur.dx = -1;
             return VRAI;
         }
         else if (Gdx == 1)
         {
             glacon->vecteur.dx = 0, glacon->vecteur.dy = -1;
+            marteau->tete.vecteur.dx = 1;
             return FAUX;
         }
         else
@@ -268,44 +277,52 @@ T_booleen marteauSensRotation(T_marteau *marteau, T_glacon *glacon)
         if (Gdy == 1 || Gdx == -1)
         {
             glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
+            marteau->tete.vecteur.dy = 1;
             return VRAI;
         }
         else
         {
             glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
+            marteau->tete.vecteur.dx = 1;
             return FAUX;
         }
     case HAUT_DROITE :
         if (Gdy == 1 || Gdx == 1)
         {
             glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
+            marteau->tete.vecteur.dx = 1;
             return VRAI;
         }
         else
         {
             glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
+            marteau->tete.vecteur.dy = -1;
             return FAUX;
         }
     case BAS_DROITE :
         if (Gdx == 1 || Gdy == -1)
         {
             glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
+            marteau->tete.vecteur.dy = -1;
             return VRAI;
         }
         else
         {
             glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
+            marteau->tete.vecteur.dx = -1;
             return FAUX;
         }
     default :
         if (Gdx == -1 || Gdy == -1)
         {
             glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
+            marteau->tete.vecteur.dx = -1;
             return VRAI;
         }
         else
         {
             glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
+            marteau->tete.vecteur.dy = 1;
             return FAUX;
         }
     }
