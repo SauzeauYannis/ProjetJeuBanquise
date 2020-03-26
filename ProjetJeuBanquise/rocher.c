@@ -32,3 +32,6 @@ T_rocher *initTabRochers(T_banquise *banquise, int nombreRochers)
 
     return rochers;
 }
+
+
+void glaconToucheRessort(T_glacon *glacon);
