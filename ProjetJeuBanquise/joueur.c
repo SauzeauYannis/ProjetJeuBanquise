@@ -12,7 +12,7 @@ T_couleur choixCouleur()
            "1 : Vert\n"
            "2 : Bleu\n"
            "3 : Jaune\n");                                //Affiche le choix de couleur a l'utlisateur
-
+    fflush(stdin);
     scanf("%d", &couleur);                                //Prend l'entier saisi par l'utilisateur
 
     if (couleur < 0 || couleur > 3)                       //Verifie que l'entier est compris entre 0 et 3
@@ -20,6 +20,7 @@ T_couleur choixCouleur()
         while (couleur < 0 || couleur > 3)                //Boucle jusqu'a ce que l'entier soit compris entre 0 et 3
         {
             printf("\nValeur incorrect, reessayer : ");   //Redemande a l'utilisateur de saisir une valeur
+            fflush(stdin);
             scanf("%d", &couleur);                        //Recupere l'entier saisie
         }
     }
@@ -35,6 +36,7 @@ T_joueur *initJoueur(int numeroJoueur)
     T_joueur *joueur = (T_joueur *)malloc(sizeof(T_joueur));                         //Alloue de la memoire au type joueur
 
     printf("Veuillez choisir un nom pour le joueur numero %d : ", numeroJoueur + 1); //Demande le nom au joueur
+    fflush(stdin);
     scanf("%s", joueur->nom);                                                        //Initialise le nom du joueur
 
     joueur->couleur = choixCouleur();                                                //Initialise la couleur de joueur
@@ -58,6 +60,7 @@ int demandeNombreJoueurs()
     while (nbJoueurs < 1 || nbJoueurs > 4)               //Verifie que l'utilisateur rentre un chiffre entre 1 et 4
     {
         printf("Nombre de joueurs (entre 1 et 4) : ");   //Demande de rentrer un chiffre entre 1 et 4
+        fflush(stdin);
         scanf("%d", &nbJoueurs);                         //Recupere le chiffre rentre
         system("cls");                                   //Nettoie la console
     }
@@ -217,7 +220,7 @@ int deplacementJoueur(T_banquise *banquise, T_joueur *joueur, char clavier)
 
     while (correct == -1)                                            //Tant que la valeur est mauvaise
     {
-        clavier = saisieTouche(joueur, VRAI);                        //On re-recupere la bonne touche saisie par le joueur
+        clavier = saisieTouche(joueur);                              //On re-recupere la bonne touche saisie par le joueur
         correct = deplacementJoueur_bis(banquise, joueur, clavier);  //On re-stocke la valeur de la fonction precedente
     }
 

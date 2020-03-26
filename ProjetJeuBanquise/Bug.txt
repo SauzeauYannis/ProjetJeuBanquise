@@ -2,6 +2,9 @@
 
 Important :
 
+-Bug d'affichage des fois avec marteau
+-Bug de touches inconnues des fois 
+
 Secondaire :
 
 -Deux joueurs peuvent prendre la même couleur
