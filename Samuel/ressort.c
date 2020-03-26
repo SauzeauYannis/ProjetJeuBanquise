@@ -32,3 +32,21 @@ T_ressort *initTabRessorts(T_banquise *banquise, int nombreRessorts)
     return ressorts;
 }
 
+
+void glaconToucheRessort(T_glacon *glacon)
+{
+    int direction = rand()% 3;
+    int Gdx = glacon->vecteur.dx, Gdy = glacon->vecteur.dy;
+
+    switch(direction)
+    {
+    case 0 :
+        glacon->vecteur.dx *= -1, glacon->vecteur.dy *= -1;
+        break;
+    case 1 :
+        glacon->vecteur.dx = Gdy * -1, glacon->vecteur.dy = Gdx * -1;
+        break;
+    default :
+        glacon->vecteur.dx = Gdy, glacon->vecteur.dy = Gdx;
+    }
+}
