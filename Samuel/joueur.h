@@ -48,7 +48,7 @@ T_joueur **initTabJoueurs(T_banquise *banquise, int nombreJoueurs);
 void departJoueur(T_banquise *banquise, T_joueur *joueur);
 
 
-//Retourne un entier en fonction du deplacement du joueur, et modifie la position de celui-ci
+//Retourne un entier en fonction du déplacement du joueur, et modifie la position de celui-ci
 int verifieDeplacement(T_banquise *banquise, T_joueur *joueur, int caseX, int caseY, int caseValeur);
 
 

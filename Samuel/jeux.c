@@ -356,6 +356,7 @@ T_jeu *initJeuxPersonalise()
     while (taille < 1)
     {
         printf("Nombre de cases de la banquise par ligne/colonne (doit etre positif) : ");
+        fflush(stdin);
         scanf("%d", &taille);
         system("cls");
     }
@@ -368,6 +369,7 @@ T_jeu *initJeuxPersonalise()
     {
         printf("Nombre de cases d'eau par ligne/colonne entourant "
                "la banquise (ne doit pas depasser %d) : ", tailleEauMax);
+        fflush(stdin);
         scanf("%d", &tailleEau);
         system("cls");
     }
@@ -380,6 +382,7 @@ T_jeu *initJeuxPersonalise()
     {
         printf("Nombre de glacons dans le jeu "
                "(ne doit pas depasser %d) : ", nombreCasesDispo);
+        fflush(stdin);
         scanf("%d", &nombreGlacons);
         system("cls");
     }
@@ -392,6 +395,7 @@ T_jeu *initJeuxPersonalise()
     {
         printf("Nombre de marteaux dans le jeu "
                "(ne doit pas depasser %d) : ", nombreCasesDispo / 2);
+        fflush(stdin);
         scanf("%d", &nombreMarteaux);
         system("cls");
     }
@@ -404,6 +408,7 @@ T_jeu *initJeuxPersonalise()
     {
         printf("Nombre de ressorts dans le jeu "
                "(ne doit pas depasser %d) : ", nombreCasesDispo);
+        fflush(stdin);
         scanf("%d", &nombreRessorts);
         system("cls");
     }
@@ -416,6 +421,7 @@ T_jeu *initJeuxPersonalise()
     {
         printf("Nombre de rochers dans le jeu "
                "(ne doit pas depasser %d) : ", nombreCasesDispo);
+        fflush(stdin);
         scanf("%d", &nombreRochers);
         system("cls");
     }
@@ -427,6 +433,7 @@ T_jeu *initJeuxPersonalise()
     while (chanceFonte < 1)
     {
         printf("Nombres de tours ou il y a une chance de fonte (positif) : ");
+        fflush(stdin);
         scanf("%d", &chanceFonte);
         system("cls");
     }
@@ -436,6 +443,7 @@ T_jeu *initJeuxPersonalise()
     while (chancePiege < 1)
     {
         printf("Nombres de tours ou il y a une chance de tomber dans un piege (positif) : ");
+        fflush(stdin);
         scanf("%d", &chancePiege);
         system("cls");
     }
@@ -461,6 +469,7 @@ T_jeu *initNiveau()
                "2 : Moyen\n"
                "3 : Difficile\n"
                "4 : Personnalise\n");
+        fflush(stdin);
         scanf("%d", &niveau);
         system("cls");
     }
@@ -545,19 +554,15 @@ void afficheJeu(T_jeu *jeu)
 
 
 //Retourne une lettre du clavier qui correspond a un deplacement
-char saisieTouche(T_joueur *joueur, T_booleen bug)
+char saisieTouche(T_joueur *joueur)
 {
-    char clavier;
-
-    if (bug)
-    {
-     clavier = getchar();
-    }
+    char clavier = ' ';
 
     changeCouleurTexte(joueur->couleur);                                                     //Change la couleur selon la couleur choisi par le joueur
     printf("%s", joueur->nom);                                                               //Affiche le nom du joueur choisi
     changeCouleurTexte(BLANC);                                                               //Remet la couleur blanche
     printf(" deplacez vous : ");                                                             //Demande au joueur ou il veut se deplacer
+    fflush(stdin);
     scanf("%c", &clavier);
 
     while (clavier != 'z'
@@ -577,9 +582,9 @@ char saisieTouche(T_joueur *joueur, T_booleen bug)
            && clavier != 'M'
            && clavier != 'F')                                                               //Boucle qui fini quand l'utilisateur a rentree une bonne touche
     {
-        clavier = getchar();
-        printf("\r\nTouche incorrect, veuillez saisir une touche "
-               "entre \"z, q, s, d, p, v, m, f\" : ");                                      //Re-demande le deplacement en rappellant les bonnes touches
+        printf("\r\nTouche incorrect, veuillez saisir la touche "
+               "'m' pour afficher le menu et les touches possibles : ");                                      //Re-demande le deplacement en rappellant les bonnes touches
+        fflush(stdin);
         scanf("%c", &clavier);
     }
 
@@ -687,14 +692,24 @@ void bougeTeteMarteau(T_jeu *jeu, T_marteau *marteau, T_booleen sensHorraire)
         nombreDeplacements++;
     }
 
-    marteau->tete.etat = HAUT;
+    if (nombreDeplacements != 8)
+    {
+        T_joueur *joueur = jeu->joueurs[0];
+        T_glacon *glacon = glaconSelonPosition(jeu->glacons,
+                                               marteau->tete.position.x + marteau->tete.vecteur.dx,
+                                               marteau->tete.position.y + marteau->tete.vecteur.dy,
+                                               jeu->nombreGlacons);
+        joueur->vecteur = marteau->tete.vecteur;
+
+        joueurPousseGlacon(joueur, glacon, jeu);
+    }
 }
 
 
 
 
 //Fonction qui s'occupe d'effectuer le tour d'un joueur dont l'identifiant est donne en parametre
-int tourJoueur(T_jeu *jeu, int numJoueur, T_booleen bugToucheEntree)
+int tourJoueur(T_jeu *jeu, int numJoueur)
 {
     T_joueur *joueur = jeu->joueurs[numJoueur];                                              //Recupere le joueur dont l'identifiant est donne en parametre
     int **matrice = jeu->banquise->matrice;                                                  //Recupere la matrice represantant le jeu
@@ -715,7 +730,7 @@ int tourJoueur(T_jeu *jeu, int numJoueur, T_booleen bugToucheEntree)
     }
     else
     {
-        char toucheSaise = saisieTouche(joueur, bugToucheEntree);
+        char toucheSaise = saisieTouche(joueur);
 
         switch (toucheSaise)
         {
@@ -737,7 +752,7 @@ int tourJoueur(T_jeu *jeu, int numJoueur, T_booleen bugToucheEntree)
                     printf("\nIl y a un chemin possible");
                     Sleep(2000);
                     free(tabTemp);
-                    tourJoueur(jeu, numJoueur, VRAI);
+                    tourJoueur(jeu, numJoueur);
                 }
                 else
                 {
@@ -750,18 +765,18 @@ int tourJoueur(T_jeu *jeu, int numJoueur, T_booleen bugToucheEntree)
         case 'm' :
         case 'M' :
             afficheMenu(FAUX);
-            tourJoueur(jeu, numJoueur, FAUX);
+            tourJoueur(jeu, numJoueur);
             break;
         case 'f' :
         case 'F' :
             {
-                char clavier;
+                char clavier = ' ';
 
                 while (clavier != 'o' && clavier != 'n')
                 {
-                    clavier = getchar();
                     printf("\nEtes vous sur de finir la partie, "
                            "si oui tapez 'o', sinon 'n' : ");
+                    fflush(stdin);
                     scanf("%c", &clavier);
                 }
 
@@ -771,7 +786,7 @@ int tourJoueur(T_jeu *jeu, int numJoueur, T_booleen bugToucheEntree)
                 }
                 else
                 {
-                    tourJoueur(jeu, numJoueur, VRAI);
+                    tourJoueur(jeu, numJoueur);
                 }
             }
         default :
@@ -904,7 +919,7 @@ void joueNiveau(T_jeu *jeu)
     {
         for(i = 0; i < jeu->nombreJoueurs; i++)                 //Boucle for qui permet à chaque joueur de jouer pour un tour
         {
-            caseVal = tourJoueur(jeu, i, VRAI);                //Tour du joueur i
+            caseVal = tourJoueur(jeu, i);                //Tour du joueur i
             finPartie = victoire(jeu, caseVal, i);             //Donne un entier si la partie est gagnee, ou si elle continue
 
             if (caseVal == ARRIVE || caseVal == ABANDON)       //Permet de reellement stopper le jeu, pour ainsi eviter les joueurs suivant de jouer
@@ -918,7 +933,6 @@ void joueNiveau(T_jeu *jeu)
         jeu->nombreTour += 1;                                  //Incremente le nombre de tour
     }
     afficheScore(jeu);                                         //Affiche le score du jeu
-    //Sleep(5000);                                               //Donne 5s au joueur pour lire les scores
     system("cls");                                             //Netoie la console
     printf("Merci d'avoir joue !\n");                          //Affiche remerciement
 }
@@ -928,16 +942,16 @@ void joueNiveau(T_jeu *jeu)
 //Fonction qui renvoie un entier qui permet de rejouer une partie
 int rejouer()
 {
-    char c = getchar();                                                            //Enregistre la valeur saisie par l'utilisateur
+    char c = ' ';                                                            //Enregistre la valeur saisie par l'utilisateur
 
     printf("\nVoulez vous rejouer ? (Tapez \"o\" pour oui ou \"n\" pour non) : "); //Demande au joueur s'il veut relancer une partie
-
-    c = getchar();
+    fflush(stdin);
+    scanf("%c", &c);
 
     while (c != 'n' && c != 'o')                                                   //Boucle tant que le joueur ne saisit pas les bons caractere
     {
-        c = getchar();
         printf("\nChoix inconnue ! Veuillez reessayer : ");                        //Previens le joueur qu'il a saisie un mauvais caractere
+        fflush(stdin);
         scanf("%c", &c);
     }
 

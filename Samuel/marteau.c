@@ -179,13 +179,6 @@ void mouvementTete(T_banquise *banquise, T_marteau *marteau, T_booleen sensHorra
             marteau->mouvement = FAUX;
         }
 
-        /*posFutX = marteau->tete.position.x + marteau->tete.vecteur.dx, posFutY = marteau->tete.vecteur.dy + marteau->tete.position.y;
-
-        if(banquise->matrice[posFutX][posFutY] == GLACON)
-        {
-            marteau->mouvement = FAUX;
-        }*/
-
         marteau->tete.sousTete = banquise->matrice[marteau->tete.position.x][marteau->tete.position.y];
 
         enleveCaseGlace(banquise, marteau->tete.position.x, marteau->tete.position.y, MARTEAU_TETE);
@@ -196,35 +189,40 @@ void mouvementTete(T_banquise *banquise, T_marteau *marteau, T_booleen sensHorra
 //Fonction qui retourne un booléen par rapport au sens de rotation
 T_booleen marteauSensRotation(T_marteau *marteau, T_glacon *glacon)
 {
-    int Gdx = glacon->vecteur.dx, Gdy = glacon->vecteur.dy;
+    int Gdx = glacon->vecteur.dx, Gdy = glacon->vecteur.dy;   //Enregistre le vecteur du glaçon
+    marteau->tete.vecteur.dx = marteau->tete.vecteur.dy = 0;  //Met le vecteur du marteau à 0 et arrete le mouvement de la tête
 
-    switch(marteau->tete.etat)
+    switch(marteau->tete.etat)                                //Switch qui permet de connaitre le sens de rotation du marteau en fonction de là où se trouve la tête et de là où tappe le glaçon
     {
     case HAUT :
-        if (Gdy == 1)
+        if (Gdy == 1)                                         //Si le glaçon se déplace vers la droite
         {
-            glacon->vecteur.dx = -1, glacon->vecteur.dy = 0;
-            return VRAI;
+            glacon->vecteur.dx = -1, glacon->vecteur.dy = 0;  //Change le vecteur du glaçon pour son prochain déplacement
+            marteau->tete.vecteur.dy = 1;                     //Change le vecteur de la tête du marteau
+            return VRAI;                                      //Renvoie VRAI pour que la tête du marteau se déplace dans le sens horaire
         }
-        else if (Gdy == -1)
+        else if (Gdy == -1)                                   //Si le glaçon se déplace vers la gauche
         {
-            glacon->vecteur.dx = -1, glacon->vecteur.dy = 0;
-            return FAUX;
+            glacon->vecteur.dx = -1, glacon->vecteur.dy = 0;  //Change le vecteur du glaçon pour son prochain déplacement
+            marteau->tete.vecteur.dy = -1;                    //Change le vecteur de la tête du marteau
+            return FAUX;                                      //Renvoie FAUX pour que la tête du marteau se déplace dans le sens antihoraire
         }
-        else
+        else  //Si le glaçon se déplace sur l'axe x
         {
-            glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
-            return ECHEC;
+            glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;  //Arrête le glaçon pour son prochain déplacement
+            return ECHEC;                                    //Renvoir ECHEC pour signifier que le marteau ne fasse rien
         }
     case DROITE :
-        if (Gdx == 1)
+        if (Gdx == 1)                                        //Si le glaçon se déplace vers le bas
         {
             glacon->vecteur.dx = 0, glacon->vecteur.dy = 1;
+            marteau->tete.vecteur.dx = 1;
             return VRAI;
         }
-        else if (Gdx == -1)
+        else if (Gdx == -1)                                  //Si le glaçon se déplace vers le haut
         {
             glacon->vecteur.dx = 0, glacon->vecteur.dy = 1;
+            marteau->tete.vecteur.dx = -1;
             return FAUX;
         }
         else
@@ -233,14 +231,16 @@ T_booleen marteauSensRotation(T_marteau *marteau, T_glacon *glacon)
             return ECHEC;
         }
     case BAS :
-        if (Gdy == -1)
+        if (Gdy == -1)                                       //Si le glaçon se déplace vers la gauche
         {
             glacon->vecteur.dx = 1, glacon->vecteur.dy = 0;
+            marteau->tete.vecteur.dy = -1;
             return VRAI;
         }
-        else if (Gdy == 1)
+        else if (Gdy == 1)                                   //Si le glaço  se déplace vers la droite
         {
             glacon->vecteur.dx = 1, glacon->vecteur.dy = 0;
+            marteau->tete.vecteur.dy = 1;
             return FAUX;
         }
         else
@@ -249,64 +249,22 @@ T_booleen marteauSensRotation(T_marteau *marteau, T_glacon *glacon)
             return ECHEC;
         }
     case GAUCHE :
-        if (Gdx == -1)
+        if (Gdx == -1)                                        //Si le glaçon se déplace vers le haut
         {
             glacon->vecteur.dx = 0, glacon->vecteur.dy = -1;
+            marteau->tete.vecteur.dx = -1;
             return VRAI;
         }
-        else if (Gdx == 1)
+        else if (Gdx == 1)                                    //Si le glaçon se déplace vers le bas
         {
             glacon->vecteur.dx = 0, glacon->vecteur.dy = -1;
+            marteau->tete.vecteur.dx = 1;
             return FAUX;
         }
         else
         {
             glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
             return ECHEC;
-        }
-    case HAUT_GAUCHE :
-        if (Gdy == 1 || Gdx == -1)
-        {
-            glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
-            return VRAI;
-        }
-        else
-        {
-            glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
-            return FAUX;
-        }
-    case HAUT_DROITE :
-        if (Gdy == 1 || Gdx == 1)
-        {
-            glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
-            return VRAI;
-        }
-        else
-        {
-            glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
-            return FAUX;
-        }
-    case BAS_DROITE :
-        if (Gdx == 1 || Gdy == -1)
-        {
-            glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
-            return VRAI;
-        }
-        else
-        {
-            glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
-            return FAUX;
-        }
-    default :
-        if (Gdx == -1 || Gdy == -1)
-        {
-            glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
-            return VRAI;
-        }
-        else
-        {
-            glacon->vecteur.dx = 0, glacon->vecteur.dy = 0;
-            return FAUX;
         }
     }
 }
