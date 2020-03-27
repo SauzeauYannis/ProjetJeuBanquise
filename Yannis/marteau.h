@@ -39,27 +39,29 @@ typedef struct
 
 //Initialise le martau
 //Compléxité linéaire
-//Yannis
+///Auteur : Yannis SAUZEAU
 T_marteau *initMarteau(T_point position);
 
 
 //Initialise le tableau de marteaux
 //Compléxité linéaire
-//Yannis
+///Auteur : Yannis SAUZEAU
 T_marteau **initTabMarteaux(T_banquise *banquise, int nombreMarteaux);
 
 
 //Savoir quel marteau se trouve à tel position
 //Compléxité linéaire
-//Yannis
+///Auteur : Yannis SAUZEAU
 T_marteau *marteauSelonPosition(T_marteau **tabMarteaux, int posX, int posY, int nombreMarteaux);
 
 
 //Permet de faire bouger la tête du marteau
 //Compléxité linéaire
-//Yannis
+///Auteur : Yannis SAUZEAU
 void mouvementTete(T_banquise *banquise, T_marteau *marteau, T_booleen sensHorraire);
 
 
 //Fonction qui retourne un booléen par rapport au sens de rotation
+//Complexité : O(1)
+///Auteur : Samuel GOUBEAU
 T_booleen marteauSensRotation(T_marteau *marteau, T_glacon *glacon);

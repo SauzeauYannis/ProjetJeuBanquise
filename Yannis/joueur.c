@@ -123,56 +123,56 @@ void departJoueur(T_banquise *banquise, T_joueur *joueur)
 
 
 
-//Retourne un entier en fonction du deplacement du joueur, et modifie la position de celui-ci
+//Retourne un entier en fonction du déplacement du joueur, et modifie la position de celui-ci
 int verifieDeplacement(T_banquise *banquise, T_joueur *joueur, int caseX, int caseY, int caseValeur)
 {
     switch (caseValeur)                                                                  //Retourne un entier selon la valeur de la case
     {
     case ERREUR:
-        printf("\nDeplacement impossible : le joueur est en dehors des limites\n");      //Previens le joueur dans ce cas la
-        return -1;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
+        printf("\nDeplacement impossible : le joueur est en dehors des limites\n");                        //Préviens le joueur dans ce cas la
+        return -1;                                                                                         //Retourne une valeur d'échec pour prévenir la fonction suivante
     case JOUEUR:
-        printf("\nDeplacement impossible : un autre joueur occupe deja la case\n");      //Previens le joueur dans ce cas la
-        return -1;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
+        printf("\nDeplacement impossible : un autre joueur occupe deja la case\n");                        //Préviens le joueur dans ce cas la
+        return -1;                                                                                         //Retourne une valeur d'échec pour prévenir la fonction suivante
     case DEPART:
-        printf("\nDeplacement impossible : le joueur ne peut pas aller au depart\n");    //Previens le joueur dans ce cas la
-        return -1;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
+        printf("\nDeplacement impossible : le joueur ne peut pas aller au depart\n");                      //Préviens le joueur dans ce cas la
+        return -1;                                                                                         //Retourne une valeur d'échec pour prévenir la fonction suivante
     case ROCHER:
-        printf("\nDeplacement impossible : le joueur ne peut pas aller sur un rocher\n"); //Previens le joueur dans ce cas la
-        return -1;                                                                        //Retourne une valeur d'echec pour prevenir la fonction suivante
+        printf("\nDeplacement impossible : le joueur ne peut pas aller sur un rocher\n");                  //Préviens le joueur dans ce cas la
+        return -1;                                                                                         //Retourne une valeur d'échec pour prévenir la fonction suivante
     case RESSORT:
-        printf("\nDeplacement impossible : le joueur ne peut pas interagir avec un ressort\n"); //Previens le joueur dans ce cas la
-        return -1;                                                                        //Retourne une valeur d'echec pour prevenir la fonction suivante
+        printf("\nDeplacement impossible : le joueur ne peut pas interagir avec un ressort\n");            //Préviens le joueur dans ce cas la
+        return -1;                                                                                         //Retourne une valeur d'échec pour prévenir la fonction suivante
     case MARTEAU_TETE :
-        printf("\nDeplacement impossible : le joueur ne peut pas interagir avec la tete d'un marteau\n");
-        return -1;
+        printf("\nDeplacement impossible : le joueur ne peut pas interagir avec la tete d'un marteau\n");  //Préviens le joueur dans ce cas la
+        return -1;                                                                                         //Retourne une valeur d'échec pour prévenir la fonction suivante
     case MARTEAU_CENTRE :
-        printf("\nDeplacement impossible : le joueur ne peut pas interagir avec un marteau\n");
-        return -1;
+        printf("\nDeplacement impossible : le joueur ne peut pas interagir avec un marteau\n");            //Préviens le joueur dans ce cas la
+        return -1;                                                                                         //Retourne une valeur d'échec pour prévenir la fonction suivante
     case GLACON:
-        printf("\nDeplacement d'un glacon\n");                                           //Previens le joueur dans ce cas la
-        return -2;                                                                       //Retourne une valeur d'echec pour prevenir la fonction suivante
+        printf("\nDeplacement d'un glacon\n");                                                             //Préviens le joueur dans ce cas la
+        return -2;                                                                                         //Retourne une valeur pour prévenir la fonction suivante
     case EAU:
-		tuerJoueur(joueur, banquise);
-        return 0;                                                                        //Retourne une valeur d'echec pour prevenir la fonction suivante
+        tuerJoueur(joueur, banquise);
+        return 0;                                                                                          //Retourne une valeur pour prévenir la fonction suivante
     default :
-        joueur->position.x = caseX;                                                      //Affectation de sa nouvelle position
+        joueur->position.x = caseX;                                                                        //Affectation de sa nouvelle position
         joueur->position.y = caseY;
-        return 0;                                                                        //Retourne une valeur de succes pour la fonction suivante
+        return 0;                                                                                          //Retourne une valeur de succès pour la fonction suivante
     }
 }
 
 
-//Fonction qui s'occupe du deplacement du personnage en fonction de ses paramettres, et renvoie un entier en fonction du deplacement
+//Fonction qui s'occupe du déplacement du personnage en fonction de ses paramètres, et renvoie un entier en fonction du déplacement
 int deplacementJoueur_bis(T_banquise *banquise, T_joueur *joueur, char deplacement)
 {
-    int jx = joueur->position.x,                                     //Recupere la position du joueur
+    int jx = joueur->position.x,                                     //Récupère la position du joueur
         jy = joueur->position.y,
         x, y,                                                        //Variable pour simuler le deplacement du joueur
-        taille = banquise->tailleN,                                  //Recupere la taille de la banquise
-        caseValeur;                                                  //Variable qui recupere la valeur de la case ou le joueur va aller
+        taille = banquise->tailleN,                                  //Récupère la taille de la banquise
+        caseValeur;                                                  //Variable qui récupère la valeur de la case ou le joueur va aller
 
-    switch (deplacement)                                             //Effectue le decalage selon la touche mis en parametre et change le vecteur du joueur (utile pour la collision avec un glacon immobile)
+    switch (deplacement)                                             //Effectue le décalage selon la touche mis en paramètre et change le vecteur du joueur (utile pour la collision avec un glacon immobile)
     {
     case 'z' :
     case 'Z' :
@@ -199,7 +199,7 @@ int deplacementJoueur_bis(T_banquise *banquise, T_joueur *joueur, char deplaceme
     x = jx + joueur->vecteur.dx;                                     //Simule la nouvelle position du joueur
     y = jy + joueur->vecteur.dy;
 
-    if (x >= 0 && x < taille && y >= 0 && y < taille)                //Verifie si le joueur ne sort pas de la matrice
+    if (x >= 0 && x < taille && y >= 0 && y < taille)                //Vérifie si le joueur ne sort pas de la matrice
     {
         caseValeur = banquise->matrice[x][y];                        //Affecte la valeur de la case ou le joueur va
     }
@@ -213,32 +213,32 @@ int deplacementJoueur_bis(T_banquise *banquise, T_joueur *joueur, char deplaceme
 
 
 
-//Fonction qui permet le deplacement du personnage
+//Fonction qui permet le déplacement du personnage
 int deplacementJoueur(T_banquise *banquise, T_joueur *joueur, char clavier)
 {
-    int correct = deplacementJoueur_bis(banquise, joueur, clavier);  //Stocke la valeur de la fonction precedente
+    int correct = deplacementJoueur_bis(banquise, joueur, clavier);  //Stocke la valeur de la fonction précédente
 
     while (correct == -1)                                            //Tant que la valeur est mauvaise
     {
-        clavier = saisieTouche(joueur);                              //On re-recupere la bonne touche saisie par le joueur
-        correct = deplacementJoueur_bis(banquise, joueur, clavier);  //On re-stocke la valeur de la fonction precedente
+        clavier = saisieTouche(joueur);                              //On re-récupère la bonne touche saisie par le joueur
+        correct = deplacementJoueur_bis(banquise, joueur, clavier);  //On re-stocke la valeur de la fonction précédente
     }
 
     if (correct == -2)                                               //Verifie si le joueur pousse un glacon
     {
-        joueur->score += 100;                                        //Incremente le score du joueur
+        joueur->score += 100;                                        //Incrémente le score du joueur
         return GLACON;                                               //Retourne la valeur qui correspond au glacon
     }
     else                                                             //Si le joueur va vers une case de glace
     {
-        joueur->score -= 10;                                         //Decremente le score du joueur
-        return GLACE;                                                //Retourne la valeur qui correspond a la glace
+        joueur->score -= 10;                                         //Décrémente le score du joueur
+        return GLACE;                                                //Retourne la valeur qui correspond à la glace
     }
 }
 
 
 
-//Cherche un joueur en fonction d'une position en paramettre
+//Cherche un joueur en fonction d'une position en paramètre
 T_joueur *joueurSelonPosition(T_joueur **joueurs, int posX, int posY, int nbJoueurs)
 {
     T_joueur *joueur = joueurs[0];              //Variable pour retourner le joueur
@@ -249,7 +249,7 @@ T_joueur *joueurSelonPosition(T_joueur **joueurs, int posX, int posY, int nbJoue
         joueur = joueurs[i];
 
         if (posX == joueur->position.x
-            && posY == joueur->position.y)  //Condition qui regarde si le position en paramettre correspond à celle du joueur
+            && posY == joueur->position.y)      //Condition qui regarde si le position en paramètre correspond à celle du joueur
         {
             break;                              //Sort de la boucle
         }
@@ -272,9 +272,9 @@ void tuerJoueur(T_joueur *joueur, T_banquise *banquise)
     printf("est mort !\n");
     Sleep(2000);                                               //Attend 2 secondes pour laisser le temps au joueur de lire le message
 
-    joueur->score -= 150;                                      //Enleve des points au joueur qui meurt
+    joueur->score -= 150;                                      //Enlève des points au joueur qui meurt
     joueur->nbMort += 1;                                       //Ajoute 1 au nombre de mort du joueur
 
     ajouteCaseGlace(banquise, posx, posy);                     //Ajoute une case GLACE sur la position où le joueur est mort
-    departJoueur(banquise, joueur);                            //Fait reapparaitre le joueur sur sa case de depart
+    departJoueur(banquise, joueur);                            //Fait reapparaitre le joueur sur sa case de départ
 }

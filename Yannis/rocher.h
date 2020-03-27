@@ -13,11 +13,11 @@ typedef struct
 
 //Initialise un rocher
 //Compléxité linéaire
-//Yannis
+///Auteur : Yannis SAUZEAU
 T_rocher initRocher(T_point position);
 
 
 //Initialise un tableau de rocher
 //Compléxité linaire
-//Yannis
+///Auteur : Yannis SAUZEAU
 T_rocher *initTabRochers(T_banquise *banquise, int nombreRochers);

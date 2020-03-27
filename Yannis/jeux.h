@@ -104,126 +104,125 @@ typedef struct
 
 //Affiche le menu du jeu
 //Compléxité linéaire
-//Yannis
+///Auteur : Yannis SAUZEAU
 void afficheMenu(T_booleen debut);
 
 
-//Change la couleur de la console
-
-
+//Change la couleur de la console selon le type couleur mis en paramètre
+//Complexité : O(1)
+///Auteur : Samuel GOUBEAU
 void changeCouleurConsole(T_couleur couleur);
 
 
-//Change la couleur du texte
-
-
+//Fonction qui change la couleur du texte affiché sur le terminal
+//Complexité : O(1)
+///Auteur : Samuel GOUBEAU
 void changeCouleurTexte(T_couleur couleur);
 
 
 //Crée une matrice boolléenne
 //Compléxité n*n avec n le paramètre
-//Yannis
+///Auteur : Yannis SAUZEAU
 T_booleen **tabChemin(int taille);
 
 
 //Vérifie s'il y a un chemin menant à l'arrivé
 //Compléxité au pire n*n*n avec n la taille de la matrice représentant la banquise
-//Yannis
+///Auteur : Yannis SAUZEAU
 T_booleen verifieChemin(T_jeu *jeu, T_booleen **tab, int caseX, int caseY, T_booleen affichage);
 
 
 //Vérifie si chaque joueurs peut atteindre l'arrivé
 //Compléxité au pire 4*n*n*n avec n la taille de la matric représentant la banquise
-//Yannis
+///Auteur : Yannis SAUZEAU
 T_booleen verifieCheminJoueurs(T_jeu *jeu, T_booleen affichage);
 
 
 //Initialise le jeu
 //Compléxité au pire n*n*n avec n la taille de la matrice représentant la banquise
-//Yannis
+///Auteur : Yannis SAUZEAU
 T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int nombreMarteaux, int nombreRessorts, int nombreRochers, int chanceFonte, int chancePiege);
 
 
 //Re-initialise le jeu
 //Compléxité au pire n*n*n-1 avec n la taille de la matrice représentant la banquise
-//Yannis
+///Auteur : Yannis SAUZEAU
 void reInitJeux(T_jeu *jeu);
 
 
 //Initialise le jeu selon les désirs de l'utilisateur
 //Compléxité linéaire
-//Yannis
+///Auteur : Yannis SAUZEAU
 T_jeu *initJeuxPersonalise();
 
 
 //Initialise le niveau choisi par le joueur
 //Compléxité égal à initJeux()
-//Yannis
+///Auteur : Yannis SAUZEAU
 T_jeu *initNiveau();
 
 
 //Affiche le jeu
 //Compléxité constante
-//Yannis
+///Auteur : Yannis SAUZEAU
 void afficheJeu(T_jeu *jeu);
 
 
 //Demande au joueur de saisir une touche
 //Compléxité constante
-//Yannis
+///Auteur : Yannis SAUZEAU
 char saisieTouche(T_joueur *joueur);
 
 
 //S'occupe du deplacement du glacon apres que celui-ci se soit fait pousser par un joueur
-
-
+//Complexité : O(infini)
+///Auteur : Samuel GOUBEAU
 void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu);
 
 
 //S'occupe de la fonte d'un glacon
 //Compléxité linéaire
-//Yannis
+///Auteur : Yannis SAUZEAU
 void fonteGlacon(T_jeu *jeu);
 
 
 //Fait bouger la tête du marteau
 //Compléxité au pire infinie
-//Yannis
+///Auteur : Yannis SAUZEAU
 void bougeTeteMarteau(T_jeu *jeu, T_marteau *marteau, T_booleen sensHorraire);
 
 
 //S'occupe d'effectuer le tour d'un joueur
-
-
+//Complexité : O(infini)
+///Auteur : Samuel GOUBEAU
 int tourJoueur(T_jeu *jeu, int numJoueur);
 
 
 //Retourne un entier qui determine si la partie est finie ou non
-
-
-
+//Complexité : O(1)
+///Auteur : Samuel GOUBEAU
 int victoire(T_jeu *jeu, int caseVal, int i);
 
 
 //Affiche le scrore à la fin de la partie
-
-
+//Complexité : O(n)
+///Auteur : Samuel GOUBEAU
 void afficheScore(T_jeu *jeu);
 
 
 //Fonction qui joue un niveau selectionne jusqu'à la victoire d'un joueur
-
-
+//Complexité : O(infini)
+///Auteur : Samuel GOUBEAU
 void joueNiveau(T_jeu *jeu);
 
 
 //Fonction qui renvoie un entier qui permet de rejouer une partie
-
-
+//Complexité : O(n)
+///Auteur : Samuel GOUBEAU
 int rejouer();
 
 
-//
-
-
+//Fonction qui est le corps du jeu, car elle lance le jeu
+//Complexité : O(infini)
+///Auteur : Samuel GOUBEAU
 void joue();

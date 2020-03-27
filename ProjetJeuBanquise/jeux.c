@@ -2,26 +2,26 @@
 
 
 
-//Affiche le Menu du jeu
+//Affiche le Menu du jeu en debut de partie ou en cours de partie en fonction du paramètre
 void afficheMenu(T_booleen debut)
 {
-    char entree;                                        //Stocke un caractere
+    char entree;                                           //Stocke un caractere
 
-    if (debut)
+    if (debut)                                             //Si le paramètre est égal à VRAI
     {
         printf("Jeu de la banquise\n"
                "\n"
                "Nombre de joueurs : 1-4 joueurs\n"
                "\n"
-               "Creer par :\n"
+               "Cree par :\n"
                "Samuel GOUBEAU\n"
                "Yannis SAUZEAU\n"
                "\n"
                "Bonne chance !\n"
                "\n"
-               "Appuyer sur entree pour continuer");        //Affiche le Menu
+               "Appuyer sur entree pour continuer");        //Affiche l'écran d'acceuil du jeu
 
-        entree = getchar();                                 //Attend que la touche entree soit pressee
+        entree = getchar();                                 //Attend que la touche entrée soit pressée
 
         system("cls");                                      //Nettoie l'ecran
 
@@ -37,9 +37,9 @@ void afficheMenu(T_booleen debut)
 
     }
 
-    entree = getchar();                                 //Attend que la touche entree soit pressee
+    entree = getchar();                                     //Attend que la touche entrée soit pressée
 
-    system("cls");                                      //Nettoie l'ecran
+    system("cls");                                          //Nettoie l'ecran
 
     printf("Touches a utiliser :\n"
            "\n"
@@ -58,8 +58,7 @@ void afficheMenu(T_booleen debut)
            "F : finir la partie\n"
            "\n"
            "\n"
-           "Signifiaction des cases :\n"
-           "\n");
+           "Signification des cases :\n\n");                 //Affiche les touches qu'on peut utiliser
 
     changeCouleurConsole(BLANC);
     printf("%d ", GLACE);
@@ -104,32 +103,32 @@ void afficheMenu(T_booleen debut)
     changeCouleurConsole(NOIR);
     printf("%d ", MARTEAU_CENTRE);
     changeCouleurConsole(DEFAULT);
-    printf(" : centre du marteau\n\n");
+    printf(" : centre du marteau\n\n");                      //Affiche pour chaque objet sa couleur de case lui correspondante
 
-    if (debut)
+    if (debut)                                               //Si le paramètre est égal à VRAI
     {
         printf("Appuyer sur entree pour commencer le jeu");
     }
-    else
+    else                                                     //Si le paramètre est différent de VRAI
     {
         printf("Appuyer sur entree pour continuer le jeu");
     }
 
-    entree = getchar();                                 //Attend que la touche entree soit pressee
+    entree = getchar();                                      //Attend que la touche entrée soit pressée
 
-    (void)entree;
+    (void)entree;                                            //Passe la variable en void pour éviter un warning
 
-    system("cls");                                      //Nettoie l'ecran
+    system("cls");                                           //Nettoie l'ecran
 }
 
 
 
-//Change la couleur du texte selon la type couleur mis en parametre
+//Change la couleur de la console selon le type couleur mis en paramètre
 void changeCouleurConsole(T_couleur couleur)
 {
-    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE); //Declare la console windows du jeu
+    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE); //Déclare la console window du jeu
 
-    switch (couleur)                                  //Change la couleur du texte de la console selon le type couleur mis en parametre
+    switch (couleur)                                  //Change la couleur du texte de la console selon le type couleur mis en paramètre
     {
     case ROUGE:
         SetConsoleTextAttribute(console, 12*16+12);
@@ -174,12 +173,12 @@ void changeCouleurConsole(T_couleur couleur)
 
 
 
-//Fonction qui retourne un entier en fonction de la couleur du joueur
+//Fonction qui change la couleur du texte affiché sur le terminal
 void changeCouleurTexte(T_couleur couleur)
 {
-    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE); //Declare la console windows du jeu
+    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);  //Declare la console windows du jeu
 
-    switch (couleur)
+    switch (couleur)                                   //Change la couleur selon la couleur en paramètre
     {
     case ROUGE :
         SetConsoleTextAttribute(console, 12);
@@ -200,97 +199,100 @@ void changeCouleurTexte(T_couleur couleur)
 
 
 
-//
+//Retourne une matrice carrée de taille donnée en paramaètre avec des valeurs booléennes initialisées à VRAI
 T_booleen **tabChemin(int taille)
 {
-    T_booleen **tab = (T_booleen **)initMatrice(taille);
-    int i, j;
+    T_booleen **tab = (T_booleen **)initMatrice(taille);   //Alloue de la mémoire à la matrice
+    int i, j;                                              //Variables pour les boucles suivantes
 
-    for (i = 0; i < taille; i++)
+    for (i = 0; i < taille; i++)                           //Parcourt les lignes de la matrice
     {
-        for (j = 0; j < taille; j++)
+        for (j = 0; j < taille; j++)                       //Parcourt les colonnes de la matrice
         {
-            tab[i][j] = VRAI;
+            tab[i][j] = VRAI;                              //Met la valeur à VRAI
         }
     }
 
-    return tab;
+    return tab;                                            //Retourne la matrice
 }
 
 
 
-//
+//Fonction récursive qui retourne un boolléen selon l'existence d'un chemin entre la position passé en paramètre et la case d'arrivée
 T_booleen verifieChemin(T_jeu *jeu, T_booleen **tab, int caseX, int caseY, T_booleen affichage)
 {
-    int taille = jeu->banquise->tailleN;
+    int taille = jeu->banquise->tailleN;                       //Récupère la taille de la banquise
 
-    if (caseX < 0 || caseX >= taille
-        || caseY < 0 || caseY >= taille)
+    if (caseX < 0 || caseX >= taille ||
+        caseY < 0 || caseY >= taille)                          //Vérifie qu'on ne sorte pas de la matrice
     {
-        return FAUX;
+        return FAUX;                                           //Retourne FAUX
     }
 
-    T_case caseValeur = jeu->banquise->matrice[caseX][caseY];
-    T_booleen tabValeur = tab[caseX][caseY];
+    T_case caseValeur = jeu->banquise->matrice[caseX][caseY];  //Stocke la valeur de la case
+    T_booleen tabValeur = tab[caseX][caseY];                   //Stocke la valeur du tableau boolléen
 
-    if (caseValeur == ARRIVE)
+    if (caseValeur == ARRIVE)                                  //Vérifie si la case est celle d'arrivé
     {
-        return VRAI;
+        return VRAI;                                           //Retourne VRAI
     }
 
-    if ((caseValeur != GLACE
-        && caseValeur != JOUEUR
-        && caseValeur != GLACON)
-        || !tabValeur)
+    if ((caseValeur != GLACE &&
+        caseValeur != JOUEUR &&
+        caseValeur != GLACON) ||
+        !tabValeur)                                            //Vérifie si le joueur ne peut pas aller sur la case et si la fonction n'a pas déjà pris ce chemin
     {
-        return FAUX;
+        return FAUX;                                           //Retourne FAUX
     }
 
-    tab[caseX][caseY] = FAUX;
+    tab[caseX][caseY] = FAUX;                                  //Met à FAUX la case pour pas que la fonction ne repasse au même endroit
 
-    if (affichage)
+    if (affichage)                                             //Si le paramètre affichage est égal à VRAI
     {
-        jeu->banquise->matrice[caseX][caseY] = DEPART;
-        afficheJeu(jeu);
-        Sleep(20);
-        jeu->banquise->matrice[caseX][caseY] = caseValeur;
+        jeu->banquise->matrice[caseX][caseY] = DEPART;         //Met la case sur DEPART pour quelle soit affiché en noir
+        afficheJeu(jeu);                                       //Affiche le jeu avec la case noire
+        Sleep(20);                                             //Attend 20ms
+        jeu->banquise->matrice[caseX][caseY] = caseValeur;     //Remet la bonne valeur de la case
     }
 
-    if (verifieChemin(jeu, tab, caseX, caseY + 1, affichage)
-        ||verifieChemin(jeu, tab, caseX - 1, caseY, affichage)
-        || verifieChemin(jeu, tab, caseX + 1, caseY, affichage)
-        || verifieChemin(jeu, tab, caseX, caseY - 1, affichage))
+    if (verifieChemin(jeu, tab, caseX, caseY + 1, affichage) ||
+        verifieChemin(jeu, tab, caseX - 1, caseY, affichage) ||
+        verifieChemin(jeu, tab, caseX + 1, caseY, affichage) ||
+        verifieChemin(jeu, tab, caseX, caseY - 1, affichage))  //Vérifie s'il y a un chemin possible autour de la position mise en paramètre
     {
-        return VRAI;
+        return VRAI;                                           //Retourne VRAI
     }
 
-    return FAUX;
+    return FAUX;                                               //Retourne FAUX car il n'y a pas de chemin possible
 }
 
 
 
-//
-T_booleen verifieCheminJoueurs(T_jeu *jeu, T_booleen **tab, T_booleen affichage)
+//Fonction qui vérifie si chaque joueurs a un chemin pour aller jusqu'à l'arrivé et retourne un boolléen
+T_booleen verifieCheminJoueurs(T_jeu *jeu, T_booleen affichage)
 {
-    T_booleen cheminExiste;
-    int i;
+    T_booleen cheminExiste;                                                               //Variable pour retourner le resultat
+    T_booleen **tab;                                                                      //Variable pour stocker un tableau boolléen
+    T_joueur *joueur;                                                                     //Variable pour stocker un joueur
+    int i;                                                                                //Variable pour la boucle
 
-    for (i = 0; i < jeu->nombreJoueurs; i++)
+    for (i = 0; i < jeu->nombreJoueurs; i++)                                              //Boucle qui parcourt chaque joueur dans le jeu
     {
-        T_booleen **tab = tabChemin(jeu->banquise->tailleN);
+        joueur = jeu->joueurs[i];                                                         //Stocke le joueur i
+        tab = tabChemin(jeu->banquise->tailleN);                                          //Initialise le tableau boolléen à VRAI
 
-        if (!verifieChemin(jeu, tab, jeu->joueurs[i]->position.x, jeu->joueurs[i]->position.y, affichage))
+        if (!verifieChemin(jeu, tab, joueur->position.x, joueur->position.y, affichage))  //Vérifie s'il n'existe pas de chemin reliant l'arrivé pour le joueur i
         {
-            cheminExiste = FAUX;
-            break;
+            cheminExiste = FAUX;                                                          //Il n'y a pas de chemin
+            break;                                                                        //Sort de la boucle
         }
 
-        cheminExiste = VRAI;
+        cheminExiste = VRAI;                                                              //Il y a un chemin
 
-        free(tab);
+        free(tab);                                                                        //Libère l'espace mémoire occupé par le tableau boolléen
     }
 
-    return cheminExiste;
+    return cheminExiste;                                                                  //Retourne VRAI si un chemin existe, FAUX sinon
 }
 
 
@@ -298,9 +300,9 @@ T_booleen verifieCheminJoueurs(T_jeu *jeu, T_booleen **tab, T_booleen affichage)
 //Retourne un pointeur de type jeu en fonction du niveau et de la taille de la banquise
 T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int nombreMarteaux, int nombreRessorts, int nombreRochers, int chanceFonte, int chancePiege)
 {
-    T_jeu *jeu = (T_jeu *)malloc(sizeof(T_jeu));                               //Aloue de l'espace memoire a un pointeur de type jeu
+    T_jeu *jeu = (T_jeu *)malloc(sizeof(T_jeu));                               //Aloue de l'espace memoire à un pointeur de type jeu
 
-    int nombreJoueurs = demandeNombreJoueurs();                                //Recupere le nombre de joueurs saisi par l'utilisateur
+    int nombreJoueurs = demandeNombreJoueurs();                                //Récupère le nombre de joueurs saisi par l'utilisateur
 
     jeu->banquise = initBanquise(tailleN, tailleEau);                          //Initialise la banquise dans le jeu
     jeu->joueurs = initTabJoueurs(jeu->banquise, nombreJoueurs);               //Initialise le tableau de joueurs
@@ -313,9 +315,9 @@ T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int n
     jeu->nombreMarteaux = nombreMarteaux;                                      //Initialise le nombre de marteaux
     jeu->nombreRessorts = nombreRessorts;                                      //Initialise le nombre de ressorts
     jeu->nombreRochers = nombreRochers;                                        //Initialise le nombre de rochers
-    jeu->nombreTour = 0;                                                       //Initialise le nombre de tour
-    jeu->rechauffement = chanceFonte;                                          //Initialise la probabilite de chance de fonte
-    jeu->probPiege = chancePiege;                                              //Initialise la probabilite de chance d'etre piege
+    jeu->nombreTour = 0;                                                       //Initialise le nombre de tours
+    jeu->rechauffement = chanceFonte;                                          //Initialise la probabilité de chance de fonte
+    jeu->probPiege = chancePiege;                                              //Initialise la probabilité de chance d'être piégé
     jeu->IdJeu = niveau;                                                       //Initialise le niveau
 
     return jeu;                                                                //Retourne le pointeur de type jeu
@@ -326,170 +328,172 @@ T_jeu *initJeux(int niveau, int tailleN, int tailleEau, int nombreGlacons, int n
 //Retourne un pointeur de type jeu en fonction du niveau et de la taille de la banquise
 void reInitJeux(T_jeu *jeu)
 {
+    T_banquise *banquise = jeu->banquise;                                             //Récupère la banquise
+
     free(jeu->banquise);
     free(jeu->glacons);
     free(jeu->marteaux);
     free(jeu->ressorts);
-    free(jeu->rochers);
+    free(jeu->rochers);                                                               //Libère chaque tableau du jeu à part le tableau de joueurs
 
-    int i;
+    int i;                                                                            //Variable pour la boucle for
 
-    jeu->banquise = initBanquise(jeu->banquise->tailleN, jeu->banquise->tailleEau);       //Re Initialise la banquise dans le jeu
-    for (i = 0; i < jeu->nombreJoueurs; i++)
+    jeu->banquise = initBanquise(banquise->tailleN, banquise->tailleEau);             //Re-initialise la banquise dans le jeu
+    for (i = 0; i < jeu->nombreJoueurs; i++)                                          //Parcourt chaque joueur du jeu
     {
-        departJoueur(jeu->banquise, jeu->joueurs[i]);                                     //Met le joueur a sa case depart
+        departJoueur(banquise, jeu->joueurs[i]);                                      //Met le joueur a sa case depart
     }
-    jeu->glacons = initTabGlacons(jeu->banquise, jeu->nombreGlacons, jeu->rechauffement); //Re Initialise le tableau de glacons
-    jeu->marteaux = initTabMarteaux(jeu->banquise, jeu->nombreMarteaux);                  //Re Initialise le tableau de marteaux
-    jeu->ressorts = initTabRessorts(jeu->banquise, jeu->nombreRessorts);                  //Re Initialise le tableau de ressorts
-    jeu->rochers = initTabRochers(jeu->banquise, jeu->nombreRochers);                     //Re Initialise le tableau de rochers
+    jeu->glacons = initTabGlacons(banquise, jeu->nombreGlacons, jeu->rechauffement);  //Re-initialise le tableau de glacons
+    jeu->marteaux = initTabMarteaux(banquise, jeu->nombreMarteaux);                   //Re-initialise le tableau de marteaux
+    jeu->ressorts = initTabRessorts(banquise, jeu->nombreRessorts);                   //Re-initialise le tableau de ressorts
+    jeu->rochers = initTabRochers(banquise, jeu->nombreRochers);                      //Re-initialise le tableau de rochers
 }
 
 
 
-//
+//Initialise le jeu selon des valeurs donné par l'utilisateur
 T_jeu *initJeuxPersonalise()
 {
-    T_jeu *jeu;
-    int taille = 0;
+    T_jeu *jeu;                                                                                                                    //Variable qui stocke le jeu
+    int taille = 0;                                                                                                                //Variable pour la taille de la matrice
 
-    while (taille < 1)
+    while (taille < 1)                                                                                                             //Tant que le joueur rentre une valeur incorrect
     {
-        printf("Nombre de cases de la banquise par ligne/colonne (doit etre positif) : ");
-        fflush(stdin);
-        scanf("%d", &taille);
-        system("cls");
+        printf("Nombre de cases de la banquise par ligne/colonne (doit etre positif) : ");                                         //Demande au joueur de saisir un valeur
+        fflush(stdin);                                                                                                             //Vide le buffer
+        scanf("%d", &taille);                                                                                                      //Rentre la valeur dans la variable
+        system("cls");                                                                                                             //Nettoie la console
     }
 
-    int nombreCasesDispo = taille * taille,
-        tailleEauMax = (taille - 4) / 2,
-        tailleEau = -1;
+    int nombreCasesDispo = taille * taille,                                                                                        //Variable pour stcoker le nombre de case disponible
+        tailleEauMax = (taille - 4) / 2,                                                                                           //Variable pour la taille de l'eau à ne pas dépasser
+        tailleEau = -1;                                                                                                            //Variable pour la taille de l'eau
 
-    while (tailleEau < 0 || tailleEau > tailleEauMax)
+    while (tailleEau < 0 || tailleEau > tailleEauMax)                                                                              //Tant que le joueur rentre une valeur incorrect
     {
         printf("Nombre de cases d'eau par ligne/colonne entourant "
-               "la banquise (ne doit pas depasser %d) : ", tailleEauMax);
-        fflush(stdin);
-        scanf("%d", &tailleEau);
-        system("cls");
+               "la banquise (ne doit pas depasser %d) : ", tailleEauMax);                                                          //Demande au joueur de saisir un valeur
+        fflush(stdin);                                                                                                             //Vide le buffer
+        scanf("%d", &tailleEau);                                                                                                   //Rentre la valeur dans la variable
+        system("cls");                                                                                                             //Nettoie la console
     }
 
-    nombreCasesDispo = (taille - (tailleEau * 2)) * (taille - (tailleEau * 2));
+    nombreCasesDispo = ((taille - (tailleEau * 2)) * (taille - (tailleEau * 2))) - 6;                                              //Décrémente le nombre de cases disponibles
 
-    int nombreGlacons = -1;
+    int nombreGlacons = -1;                                                                                                        //Variable pour le nombre de glacons
 
-    while (nombreGlacons < 0 || nombreGlacons > nombreCasesDispo)
+    while (nombreGlacons < 0 || nombreGlacons > nombreCasesDispo)                                                                  //Tant que le joueur rentre une valeur incorrect
     {
         printf("Nombre de glacons dans le jeu "
-               "(ne doit pas depasser %d) : ", nombreCasesDispo);
-        fflush(stdin);
-        scanf("%d", &nombreGlacons);
-        system("cls");
+               "(ne doit pas depasser %d) : ", nombreCasesDispo);                                                                  //Demande au joueur de saisir un valeur
+        fflush(stdin);                                                                                                             //Vide le buffer
+        scanf("%d", &nombreGlacons);                                                                                               //Rentre la valeur dans la variable
+        system("cls");                                                                                                             //Nettoie la console
     }
 
-    nombreCasesDispo -= nombreGlacons;
+    nombreCasesDispo -= nombreGlacons;                                                                                             //Décrémente le nombre de cases disponibles
 
-    int nombreMarteaux = -1;
+    int nombreMarteaux = -1;                                                                                                       //Variable pour le nombres de marteaux
 
-    while (nombreMarteaux < 0 || nombreMarteaux > nombreCasesDispo)
+    while (nombreMarteaux < 0 || nombreMarteaux > nombreCasesDispo)                                                                //Tant que le joueur rentre une valeur incorrect
     {
         printf("Nombre de marteaux dans le jeu "
-               "(ne doit pas depasser %d) : ", nombreCasesDispo / 2);
-        fflush(stdin);
-        scanf("%d", &nombreMarteaux);
-        system("cls");
+               "(ne doit pas depasser %d) : ", nombreCasesDispo / 2);                                                              //Demande au joueur de saisir un valeur
+        fflush(stdin);                                                                                                             //Vide le buffer
+        scanf("%d", &nombreMarteaux);                                                                                              //Rentre la valeur dans la variable
+        system("cls");                                                                                                             //Nettoie la console
     }
 
-    nombreCasesDispo -= 2 * nombreMarteaux;
+    nombreCasesDispo -= (2 * nombreMarteaux);                                                                                      //Décrémente le nombre de cases disponibles
 
-    int nombreRessorts = -1;
+    int nombreRessorts = -1;                                                                                                       //Variable pour le nombre de ressorts
 
-    while (nombreRessorts < 0 || nombreRessorts > nombreCasesDispo)
+    while (nombreRessorts < 0 || nombreRessorts > nombreCasesDispo)                                                                //Tant que le joueur rentre une valeur incorrect
     {
         printf("Nombre de ressorts dans le jeu "
-               "(ne doit pas depasser %d) : ", nombreCasesDispo);
-        fflush(stdin);
-        scanf("%d", &nombreRessorts);
-        system("cls");
+               "(ne doit pas depasser %d) : ", nombreCasesDispo);                                                                  //Demande au joueur de saisir un valeur
+        fflush(stdin);                                                                                                             //Vide le buffer
+        scanf("%d", &nombreRessorts);                                                                                              //Rentre la valeur dans la variable
+        system("cls");                                                                                                             //Nettoie la console
     }
 
-    nombreCasesDispo -= nombreRessorts;
+    nombreCasesDispo -= nombreRessorts;                                                                                            //Décrémente le nombre de cases disponibles
 
-    int nombreRochers = -1;
+    int nombreRochers = -1;                                                                                                        //Variable pour le nombre de rochers
 
-    while (nombreRochers < 0 || nombreRochers > nombreCasesDispo)
+    while (nombreRochers < 0 || nombreRochers > nombreCasesDispo)                                                                  //Tant que le joueur rentre une valeur incorrect
     {
         printf("Nombre de rochers dans le jeu "
-               "(ne doit pas depasser %d) : ", nombreCasesDispo);
-        fflush(stdin);
-        scanf("%d", &nombreRochers);
-        system("cls");
+               "(ne doit pas depasser %d) : ", nombreCasesDispo);                                                                  //Demande au joueur de saisir un valeur
+        fflush(stdin);                                                                                                             //Vide le buffer
+        scanf("%d", &nombreRochers);                                                                                               //Rentre la valeur dans la variable
+        system("cls");                                                                                                             //Nettoie la console
     }
 
-    nombreCasesDispo -= nombreRochers;
+    nombreCasesDispo -= nombreRochers;                                                                                             //Décrémente le nombre de cases disponibles
 
-    int chanceFonte = 0;
+    int chanceFonte = 0;                                                                                                           //Variable pour la probabilité de chance de fonte pour la banquise et pour le glacon
 
-    while (chanceFonte < 1)
+    while (chanceFonte < 1)                                                                                                        //Tant que le joueur rentre une valeur incorrect
     {
-        printf("Nombres de tours ou il y a une chance de fonte (positif) : ");
-        fflush(stdin);
-        scanf("%d", &chanceFonte);
-        system("cls");
+        printf("Nombres de tours ou il y a une chance de fonte (positif) : ");                                                     //Demande au joueur de saisir un valeur
+        fflush(stdin);                                                                                                             //Vide le buffer
+        scanf("%d", &chanceFonte);                                                                                                 //Rentre la valeur dans la variable
+        system("cls");                                                                                                             //Nettoie la console
     }
 
-    int chancePiege = 0;
+    int chancePiege = 0;                                                                                                           //Variable pour la probabilité de chance de tomber dans un piège
 
-    while (chancePiege < 1)
+    while (chancePiege < 1)                                                                                                        //Tant que le joueur rentre une valeur incorrect
     {
-        printf("Nombres de tours ou il y a une chance de tomber dans un piege (positif) : ");
-        fflush(stdin);
-        scanf("%d", &chancePiege);
-        system("cls");
+        printf("Nombres de tours ou il y a une chance de tomber dans un piege (positif) : ");                                      //Demande au joueur de saisir un valeur
+        fflush(stdin);                                                                                                             //Vide le buffer
+        scanf("%d", &chancePiege);                                                                                                 //Rentre la valeur dans la variable
+        system("cls");                                                                                                             //Nettoie la console
     }
 
-    jeu = initJeux(4, taille, tailleEau, nombreGlacons, nombreMarteaux, nombreRessorts, nombreRochers, chanceFonte, chancePiege);
+    jeu = initJeux(4, taille, tailleEau, nombreGlacons, nombreMarteaux, nombreRessorts, nombreRochers, chanceFonte, chancePiege);  //Initialise le jeu avec les paramètres choisis par l'utilisateur
 
-    return jeu;
+    return jeu;                                                                                                                    //Retourne le pointeur de type jeu initialisé avec les paramètres choisis par le joueurs
 }
 
 
 
-//
+//Initialise le niveau choisi par le joueur
 T_jeu *initNiveau()
 {
-    T_jeu *jeu;
-    int niveau = 0;
+    T_jeu *jeu;                                         //Variable qui stocke un pointeur de type jeu
+    int niveau = 0;                                     //Initialise le niveau à 0
 
-    while (niveau < 1 || niveau > 4)
+    while (niveau < 1 || niveau > 4)                    //Tant que le niveau n'existe pas
     {
         printf("Choix du niveau :\n"
                "\n"
                "1 : Facile\n"
                "2 : Moyen\n"
                "3 : Difficile\n"
-               "4 : Personnalise\n");
-        fflush(stdin);
-        scanf("%d", &niveau);
-        system("cls");
+               "4 : Personnalise\n");                   //Demande à l'utilisateur de choisir le niveau auquel il veut jouer
+        fflush(stdin);                                  //Vide le buffer
+        scanf("%d", &niveau);                           //Change le niveau selon le choix de l'utilisateur
+        system("cls");                                  //Nettoie la console
     }
 
-    switch (niveau)
+    switch (niveau)                                     //Selon la valeur du niveau
     {
-    case 1 :
+    case 1 :                                            //Initialise le niveau 1
         jeu = initJeux(1, 10, 1, 5, 1, 2, 5, 10, 20);
         break;
-    case 2 :
+    case 2 :                                            //Initialise le niveau 2
         jeu = initJeux(2, 15, 2, 20, 2, 5, 10, 5, 10);
         break;
-    case 3 :
+    case 3 :                                            //Initialise le niveau 3
         jeu = initJeux(3, 25, 3, 50, 5, 20, 50, 2, 5);
         break;
     default :
-        jeu = initJeuxPersonalise();
+        jeu = initJeuxPersonalise();                    //Initialise le niveau 4
     }
 
-    return jeu;
+    return jeu;                                         //Retourne le jeu initialisé selon le choix de l'utilisateur
 }
 
 
@@ -497,23 +501,23 @@ T_jeu *initNiveau()
 //Affiche le jeu
 void afficheJeu(T_jeu *jeu)
 {
-    int taille = jeu->banquise->tailleN;                                                         //Recupere la taille de la banquise
-    int i, j;                                                                                    //Declare deux entiers pour les boucles for
+    int taille = jeu->banquise->tailleN;                                                           //Recupere la taille de la banquise
+    int i, j;                                                                                      //Declare deux entiers pour les boucles for
 
-    system("cls");                                                                               //Efface le terminal
-    printf("Tour %d\n", jeu->nombreTour);                                                        //Affiche le nombre de tour
+    system("cls");                                                                                 //Efface le terminal
+    printf("Tour %d\n", jeu->nombreTour);                                                          //Affiche le nombre de tour
 
-    for (i = 0; i < taille; i++)                                                                 //Boucle qui parcourt les lignes de la matrice
+    for (i = 0; i < taille; i++)                                                                   //Boucle qui parcourt les lignes de la matrice
     {
-        for (j = 0; j < taille; j++)                                                             //Boucle qui parcourt les collones de la matrice
+        for (j = 0; j < taille; j++)                                                               //Boucle qui parcourt les collones de la matrice
         {
-            int pos = jeu->banquise->matrice[i][j];                                              //Declare la position parcouru
+            int pos = jeu->banquise->matrice[i][j];                                                //Declare la position parcouru
 
-            switch (pos)                                                                         //Affiche la case en couleur selon le type de la case
+            switch (pos)                                                                           //Affiche la case en couleur selon le type de la case
             {
             case JOUEUR :
                 {
-                T_joueur *joueur = joueurSelonPosition(jeu->joueurs, i, j, jeu->nombreJoueurs);   //Recupere le joueur a la position parcouru par la boucle
+                T_joueur *joueur = joueurSelonPosition(jeu->joueurs, i, j, jeu->nombreJoueurs);    //Recupere le joueur a la position parcouru par la boucle
 
                 changeCouleurConsole(joueur->couleur);                                             //Change la couleur selon celle du joueur
                 break;
@@ -528,10 +532,10 @@ void afficheJeu(T_jeu *jeu)
                 changeCouleurConsole(TURQUOISE);                                                   //Change la couleur en bleu-gris pour le glacon
                 break;
             case GLACE :
-                changeCouleurConsole(BLANC);                                                       //Change la couleur en blanc sinon
+                changeCouleurConsole(BLANC);                                                       //Change la couleur en blanc pour la glace
                 break;
             case MARTEAU_TETE :
-                changeCouleurConsole(KAKI);
+                changeCouleurConsole(KAKI);                                                        //Change la couleur en kaki pour la tête du marteau
                 break;
             case RESSORT :
                 changeCouleurConsole(MARRON);                                                      //Change la couleur en marron pour le ressort
@@ -540,7 +544,7 @@ void afficheJeu(T_jeu *jeu)
                 changeCouleurConsole(GRIS);                                                        //Change la couleur en gris pout le rocher
                 break;
             default :
-                changeCouleurConsole(NOIR);                                                        //Change la couleur en noir pour le depart
+                changeCouleurConsole(NOIR);                                                        //Change la couleur en noir par default
             }
 
             printf("%d ", pos);                                                                    //Affiche la case
@@ -553,95 +557,95 @@ void afficheJeu(T_jeu *jeu)
 
 
 
-//Retourne une lettre du clavier qui correspond a un deplacement
+//Retourne une lettre du clavier qui sert dans le jeu
 char saisieTouche(T_joueur *joueur)
 {
-    char clavier = ' ';
+    char clavier;                                                         //Variable pour stcoker un caractère saisi au clavier
 
-    changeCouleurTexte(joueur->couleur);                                                     //Change la couleur selon la couleur choisi par le joueur
-    printf("%s", joueur->nom);                                                               //Affiche le nom du joueur choisi
-    changeCouleurTexte(BLANC);                                                               //Remet la couleur blanche
-    printf(" deplacez vous : ");                                                             //Demande au joueur ou il veut se deplacer
-    fflush(stdin);
-    scanf("%c", &clavier);
+    changeCouleurTexte(joueur->couleur);                                  //Change la couleur selon la couleur choisie par le joueur
+    printf("%s", joueur->nom);                                            //Affiche le nom du joueur choisi
+    changeCouleurTexte(BLANC);                                            //Remet la couleur blanche
+    printf(" deplacez vous : ");                                          //Demande au joueur où il veut se deplacer
+    fflush(stdin);                                                        //Vide le buffer
+    scanf("%c", &clavier);                                                //Prend la touche saisie par le joueur
 
-    while (clavier != 'z'
-           && clavier != 'q'
-           && clavier != 's'
-           && clavier != 'd'
-           && clavier != 'p'
-           && clavier != 'v'
-           && clavier != 'm'
-           && clavier != 'f'
-           && clavier != 'Z'
-           && clavier != 'Q'
-           && clavier != 'S'
-           && clavier != 'D'
-           && clavier != 'P'
-           && clavier != 'V'
-           && clavier != 'M'
-           && clavier != 'F')                                                               //Boucle qui fini quand l'utilisateur a rentree une bonne touche
+    while (clavier != 'z' &&
+           clavier != 'q' &&
+           clavier != 's' &&
+           clavier != 'd' &&
+           clavier != 'p' &&
+           clavier != 'v' &&
+           clavier != 'm' &&
+           clavier != 'f' &&
+           clavier != 'Z' &&
+           clavier != 'Q' &&
+           clavier != 'S' &&
+           clavier != 'D' &&
+           clavier != 'P' &&
+           clavier != 'V' &&
+           clavier != 'M' &&
+           clavier != 'F')                                                //Boucle qui finit quand l'utilisateur a rentré une bonne touche
     {
         printf("\r\nTouche incorrect, veuillez saisir la touche "
-               "'m' pour afficher le menu et les touches possibles : ");                                      //Re-demande le deplacement en rappellant les bonnes touches
-        fflush(stdin);
-        scanf("%c", &clavier);
+               "'m' pour afficher le menu et les touches possibles : ");  //Re-demande le deplacement en rappellant les bonnes touches
+        fflush(stdin);                                                    //Vide le buffer
+        scanf("%c", &clavier);                                            //Prend la touche saisie par le joueur
     }
 
-    return clavier;                                                                          //Retourne la bonne touche
+    return clavier;                                                       //Retourne la bonne touche
 }
 
 
 
-//S'occupe du deplacement du glacon apres que celui-ci se soit fait pousser par un joueur
+//S'occupe du déplacement du glacon après que celui-ci se soit fait pousser par un joueur
 void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu)
 {
     int Jdx = joueur->vecteur.dx, Jdy = joueur->vecteur.dy,                                                                                         //Enregistre le vecteur du joueur                                                                                            //Transfert le vecteur du joueur au glacon
-        Gdx = glacon->vecteur.dx = Jdx, Gdy = glacon->vecteur.dy = Jdy,                                                                             //Initialise le vecteur du glacon selon celui du joueur
-        verifDep,                                                                                                                                   //Variable pour verifier le deplacement
+        Gdx = glacon->vecteur.dx = Jdx, Gdy = glacon->vecteur.dy = Jdy,                                                                             //Initialise le vecteur du glaçon selon celui du joueur
+        verifDep,                                                                                                                                   //Variable pour verifier le déplacement
         stop = 0;                                                                                                                                   //Variable d'arret pour la boucle while
 
-    while(stop == 0)                                                                                                                                //Tant qu'on decide de continuer
+    while(stop == 0)                                                                                                                                //Tant qu'on décide de continuer
     {
-        verifDep = verifieDeplacementGlacon(glacon, jeu->banquise, jeu->joueurs, jeu->nombreJoueurs);                                                       //Effectue le deplacement et stocke le resultat dans une variable
-        Sleep(200);                                                                                                                                 //Attend 0,2s pour que le joueur voit le glacon se deplacer
-        Gdx = glacon->vecteur.dx, Gdy = glacon->vecteur.dy;                                                                                         //Recupere les nouveaux vecteurs du glacon
+        verifDep = verifieDeplacementGlacon(glacon, jeu->banquise, jeu->joueurs, jeu->nombreJoueurs);                                               //Effectue le déplacement et stocke le resultat dans une variable
+        Sleep(200);                                                                                                                                 //Attend 0,2s pour que le joueur voit le glaçon se déplacer
+        Gdx = glacon->vecteur.dx, Gdy = glacon->vecteur.dy;                                                                                         //Récupère les nouveaux vecteurs du glacon
 
         if(Gdx == 0 && Gdy == 0)                                                                                                                    //Verifie si le glacon bouge encore
         {
-            stop = 1;                                                                                                                               //Arrete la boucle
+            stop = 1;                                                                                                                               //Arrête la boucle
         }
 
-        switch(verifDep)                                                                                                                            //Regarde la valeur de retour apres le deplacement
+        switch(verifDep)                                                                                                                            //Regarde la valeur de retour apres le déplacement
         {
         case 1 :
         {
-            T_glacon *nouveauGlacon = glaconSelonPosition(jeu->glacons, (glacon->position.x + Gdx), (glacon->position.y + Gdy), jeu->nombreGlacons); //Initialise un nouveau glacon qui correspond au glacon touche par le glacon en mouvement
+            T_glacon *nouveauGlacon = glaconSelonPosition(jeu->glacons, (glacon->position.x + Gdx), (glacon->position.y + Gdy), jeu->nombreGlacons); //Initialise un nouveau glaçon qui correspond au glaçon touché par le glaçon en mouvement
 
-            joueur->vecteur.dx = glacon->vecteur.dx, joueur->vecteur.dy = glacon->vecteur.dy;
-            glacon->vecteur.dx = glacon->vecteur.dy = 0;                                                                                            //Arrete le glacon qui a touche le nouveau gl
-            enleveCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y, GLACON);                                                         //Met le glacon a sa nouvelle position
-            joueurPousseGlacon(joueur, nouveauGlacon, jeu);                                                                                         //Rappelle la fonction pour faire deplacer le nouveau glacon
+            joueur->vecteur.dx = glacon->vecteur.dx, joueur->vecteur.dy = glacon->vecteur.dy;                                                        //On change le vecteur du joeur pour pouvoir le réutiliser plus bas, et ainsi faire croire au code que le nouveau glaçon se fait pousser par le joueur, et non par le 1er glaçon
+            glacon->vecteur.dx = glacon->vecteur.dy = 0;                                                                                             //Arrête le glaçon qui a touche le nouveau glaçon
+            enleveCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y, GLACON);                                                          //Met le glacon à sa nouvelle position sur la banquise
+            joueurPousseGlacon(joueur, nouveauGlacon, jeu);                                                                                          //Rappelle la fonction pour faire déplacer le nouveau glacon
             break;
         }
         case 2 :
-            ajouteCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y);                                                                 //Transforme le glacon tombe dans l'eau en glace
+            ajouteCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y);                                                                  //Transforme le glacon tombé dans l'eau en glace
             break;
         case 3 :
         {
-            T_marteau *marteau = marteauSelonPosition(jeu->marteaux, (glacon->position.x + Gdx), (glacon->position.y + Gdy), jeu->nombreMarteaux);  //Initialise un nouveau marteau qui correspond au marteau que touche le glaçon
-            T_booleen sensRotation = marteauSensRotation(marteau, glacon);
+            T_marteau *marteau = marteauSelonPosition(jeu->marteaux, (glacon->position.x + Gdx), (glacon->position.y + Gdy), jeu->nombreMarteaux);   //Initialise un nouveau marteau qui correspond au marteau que touché le glaçon
+            T_booleen sensRotation = marteauSensRotation(marteau, glacon);                                                                           //Ressort un booléen qui déterminera le sens de rotation de la tête du marteau
 
-            enleveCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y, GLACON);                                                         //Met le glacon a sa nouvelle position
+            enleveCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y, GLACON);                                                          //Met le glacon a sa nouvelle position
 
-            if (sensRotation != ECHEC)
+            if (sensRotation != ECHEC)                                                                                                               //Ici si le booléen est égale à ECHEC, cela veut dire que le glaçon vient de taper sur le haut de la tête du marteau
             {
                 bougeTeteMarteau(jeu, marteau, sensRotation);
             }
         }
         default :
-            enleveCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y, GLACON);                                                         //Met le glacon a sa nouvelle position
-            afficheJeu(jeu);                                                                                                                        //Affiche le jeu
+            enleveCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y, GLACON);                                                          //Met le glaçon à sa nouvelle position
+            afficheJeu(jeu);                                                                                                                         //Affiche le jeu
         }
     }
 }
@@ -651,177 +655,180 @@ void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu)
 //Fonction qui fait fondre ou non un glaçon à chaque tour
 void fonteGlacon(T_jeu *jeu)
 {
-    if (jeu->nombreGlacons != 0)
+    if (jeu->nombreGlacons != 0)                                  //Vérifie qu'il y a bien au moins un glacon sur le jeu
     {
-        T_glacon *glacon = jeu->glacons[jeu->nombreGlacons - 1];
+        T_glacon *glacon = jeu->glacons[jeu->nombreGlacons - 1];  //Récupère le dernier glacon du tableau de glacons du jeu
+        int gX = glacon->position.x, gY = glacon->position.y;     //Récupère les positions du glacon
 
-        if(verifFonteGlacon(glacon) == 1)
+        if(verifFonteGlacon(glacon) == VRAI)                      //Vérifie si le glacon doit fondre
         {
-            if (jeu->banquise->matrice[glacon->position.x][glacon->position.y] != GLACE)
+            if (jeu->banquise->matrice[gX][gY] == GLACON)         //Vérifie que le glacon est bien présent dans le jeu
             {
-                ajouteCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y);
+                ajouteCaseGlace(jeu->banquise, gX, gY);           //Ajoute une de la glace à la place du glacon
             }
-            jeu->nombreGlacons -= 1;
-            free(glacon);
+            jeu->nombreGlacons--;                                 //Décrémente le nombre de glacons
+            free(glacon);                                         //Libère l'espace mémoire prise par le glacon
         }
     }
 }
 
 
 
-//
+//Bouge tête du marteau dans le sens horraire ou non selon le paramètre sensHorraire
 void bougeTeteMarteau(T_jeu *jeu, T_marteau *marteau, T_booleen sensHorraire)
 {
-    int nombreDeplacements = 0;
+    int nombreDeplacements = 0;                                                            //Initialise le nombre de déplacement
 
-    marteau->mouvement = VRAI;
+    marteau->mouvement = VRAI;                                                             //Déclare le mouvement du marteau
 
-    while (marteau->mouvement == VRAI)
+    while (marteau->mouvement == VRAI)                                                     //Tant que le marteau peut bouger
     {
-        if (nombreDeplacements == 8)
+        if (nombreDeplacements == 8)                                                       //Vérifie que le marteau a fait un tour complet sur lui même
         {
-            marteau->mouvement = FAUX;
+            marteau->mouvement = FAUX;                                                     //Arrête le mouvement du marteau
         }
-        else
+        else                                                                               //Vérifie que le marteau n'a pas fait encore un tour
         {
-            mouvementTete(jeu->banquise, marteau, sensHorraire);
-            Sleep(500);
-            afficheJeu(jeu);
+            mouvementTete(jeu->banquise, marteau, sensHorraire);                           //S'occupe de bouger la tête d'une case
+            Sleep(500);                                                                    //Attend 500ms
+            afficheJeu(jeu);                                                               //Affiche le jeu
         }
 
-        nombreDeplacements++;
+        nombreDeplacements++;                                                              //Incrémente le nombre de déplacement du marteaux
     }
 
-    if (nombreDeplacements != 8)
+    if (nombreDeplacements != 8)                                                           //Vérifie que le marteau n'a pas fait un tour complet
     {
-        T_joueur *joueur = jeu->joueurs[0];
-        T_glacon *glacon = glaconSelonPosition(jeu->glacons,
-                                               marteau->tete.position.x + marteau->tete.vecteur.dx,
-                                               marteau->tete.position.y + marteau->tete.vecteur.dy,
-                                               jeu->nombreGlacons);
-        joueur->vecteur = marteau->tete.vecteur;
+        T_joueur *joueur = jeu->joueurs[0];                                                //Prend le premier joueur
 
-        joueurPousseGlacon(joueur, glacon, jeu);
+        int gX = marteau->tete.position.x + marteau->tete.vecteur.dx,
+            gY = marteau->tete.position.y + marteau->tete.vecteur.dy;                      //Récupère la position du glacon sur la trajectoire de la tête du marteau
+
+        T_glacon *glacon = glaconSelonPosition(jeu->glacons, gX, gY, jeu->nombreGlacons);  //Récupère le glacon à la future positon de la tête du marteau
+
+        joueur->vecteur = marteau->tete.vecteur;                                           //Affecte le nouveau vecteur au marteau
+
+        joueurPousseGlacon(joueur, glacon, jeu);                                           //Fais bouger le glacon que le marteau tape
     }
 }
 
 
 
-
-//Fonction qui s'occupe d'effectuer le tour d'un joueur dont l'identifiant est donne en parametre
+//Fonction qui s'occupe d'effectuer le tour d'un joueur dont l'identifiant est donné en paramètre
 int tourJoueur(T_jeu *jeu, int numJoueur)
 {
-    T_joueur *joueur = jeu->joueurs[numJoueur];                                              //Recupere le joueur dont l'identifiant est donne en parametre
-    int **matrice = jeu->banquise->matrice;                                                  //Recupere la matrice represantant le jeu
-    int caseValeur = ERREUR,                                                                 //Variable pour la valeur de la case ou le joueur est allee
-        verifDep,                                                                            //Variable pour verifier le deplacement du joueur
-        i;                                                                                   //Varibales pour la boucle suivante
+    T_joueur *joueur = jeu->joueurs[numJoueur];                                                      //Récupère le joueur dont l'identifiant est donné en parametre
+    int **matrice = jeu->banquise->matrice;                                                          //Récupère la matrice représantant le jeu
+    int caseValeur = ERREUR,                                                                         //Variable pour la valeur de la case ou le joueur est allé
+        verifDep,                                                                                    //Variable pour verifier le déplacement du joueur
+        i;                                                                                           //Varibale pour la boucle suivante
 
-    afficheJeu(jeu);                                                                         //Affiche la banquise dans le terminal
+    afficheJeu(jeu);                                                                                 //Affiche la banquise dans le terminal
 
-    if (joueur->etat == PIEGE)
+    if (joueur->etat == PIEGE)                                                                       //If qui gère le cas où la case est un piège
     {
-        changeCouleurTexte(joueur->couleur);
+        changeCouleurTexte(joueur->couleur);                                                         //Informe le joueur qu'il est tombé dans un piège
         printf("%s ", joueur->nom);
         changeCouleurTexte(BLANC);
         printf("vous passez votre tour");
-        Sleep(2000);
-        joueur->etat = ENCOURS;
+        Sleep(2000);                                                                                 //Donne 2s au joueur pour lire le message
+        joueur->etat = ENCOURS;                                                                      //Permet au joueur de sortir du piège au tour suivant
     }
-    else
+    else                                                                                             //Si le joueur n'est pas tombé dans un piège
     {
-        char toucheSaise = saisieTouche(joueur);
+        char toucheSaise = saisieTouche(joueur);                                                     //Récupère la touche que le joueur a sélectionnée
 
-        switch (toucheSaise)
+        switch (toucheSaise)                                                                         //Switch qui choisi le bon cas en focntion de la touche saisie
         {
-        case 'p' :
-        case 'P' :
-            changeCouleurTexte(joueur->couleur);
+        case 'p' :                                                                                   //Le joueur passe son tour
+        case 'P' :                                                                                   //
+            changeCouleurTexte(joueur->couleur);                                                     //Informe le/les joueur(s) qu'il passe sont tour (le joueur actuel)
             printf("%s ", joueur->nom);
             changeCouleurTexte(BLANC);
             printf("a decide de passer son tour");
-            Sleep(2000);
+            Sleep(2000);                                                                             //Donne 2s au joueur pour lire le message
             break;
-        case 'v' :
-        case 'V' :
+        case 'v' :                                                                                   //Le joueur veut connaître si il existe un chemin de disponible pour atteindre l'arrivée
+        case 'V' :                                                                                   //
             {
-                T_booleen **tabTemp = tabChemin(jeu->banquise->tailleN);
+                T_booleen **tabTemp = tabChemin(jeu->banquise->tailleN);                             //Créé un tableau de booléen temporaire
 
-                if (verifieChemin(jeu, tabTemp, joueur->position.x, joueur->position.y, VRAI))
+                if (verifieChemin(jeu, tabTemp, joueur->position.x, joueur->position.y, VRAI))       //If qui gère le cas où il y a un chemin encore possible
                 {
-                    printf("\nIl y a un chemin possible");
-                    Sleep(2000);
-                    free(tabTemp);
-                    tourJoueur(jeu, numJoueur);
+                    printf("\nIl y a un chemin possible");                                           //Prévient le joueur dans ce cas là
+                    Sleep(2000);                                                                     //Donne 2s au joueur pour lire le message
+                    free(tabTemp);                                                                   //Libère l'espace alloué par le tableau de booléen
+                    tourJoueur(jeu, numJoueur);                                                      //Le joueur continue son tour
                 }
-                else
+                else                                                                                 //Else qui gère le cas où il n'y a plus de chemin possible
                 {
-                    printf("\nIl n'y a pas de chemin possible");
-                    free(tabTemp);
-                    return ARRIVE;
+                    printf("\nIl n'y a pas de chemin possible");                                     //Prévient le joueur dans ce cas là
+                    Sleep(2000);                                                                     //Donne 2s au joueur pour lire le message
+                    free(tabTemp);                                                                   //Libère l'espace alloué par le tableau de booléen
+                    return ARRIVE;                                                                   //Met fin à la partie en cours
                 }
                 break;
             }
-        case 'm' :
-        case 'M' :
-            afficheMenu(FAUX);
-            tourJoueur(jeu, numJoueur);
+        case 'm' :                                                                                    //Le joueur revoir le menu
+        case 'M' :                                                                                    //
+            afficheMenu(FAUX);                                                                        //Permet d'afficher le menu du jeu sans les crédits de départ (seulement l'explication des touche
+            tourJoueur(jeu, numJoueur);                                                               //Le joueur continu son tour
             break;
-        case 'f' :
-        case 'F' :
+        case 'f' :                                                                                    //Le joueur souhaite de d'arrêter la partie en cours subitement
+        case 'F' :                                                                                    //
             {
-                char clavier = ' ';
+                char clavier = ' ';                                                                   //Initialise la variable de validation d'arrêt
 
-                while (clavier != 'o' && clavier != 'n')
+                while (clavier != 'o' && clavier != 'n')                                              //Boucle qui gère la validation d'arrêt
                 {
-                    printf("\nEtes vous sur de finir la partie, "
+                    printf("\nEtes vous sur de finir la partie, "                                     //Affiche un message de demande d'arrêt
                            "si oui tapez 'o', sinon 'n' : ");
-                    fflush(stdin);
+                    fflush(stdin);                                                                    //Vide le buffer
                     scanf("%c", &clavier);
                 }
 
-                if (clavier == 'o')
+                if (clavier == 'o')                                                                   //Le joueur valide le fait d'arrêter la partie
                 {
-                    return ABANDON;
+                    return ABANDON;                                                                   //Permet d'arrêter le jeu
                 }
-                else
+                else                                                                                  //Le joueur ne veut pas arrêter la partie
                 {
-                    tourJoueur(jeu, numJoueur);
+                    tourJoueur(jeu, numJoueur);                                                       //Il reprend alors son tour
                 }
             }
-        default :
-            ajouteCaseGlace(jeu->banquise, joueur->position.x, joueur->position.y);                  //Met une glace sur la case que le joueur va quitter
-            verifDep = deplacementJoueur(jeu->banquise, joueur, toucheSaise);                        //Effectue le deplacement du joueur sur la banquise
-            caseValeur = matrice[joueur->position.x][joueur->position.y];                            //Regarde la valeur de la case ou le joueur est
-            enleveCaseGlace(jeu->banquise, joueur->position.x, joueur->position.y, JOUEUR);          //Remplace la case glace ou le joueur est alle
+        default :                                                                                     //Le joueur effectue un dplacement
+            ajouteCaseGlace(jeu->banquise, joueur->position.x, joueur->position.y);                   //Met une glace sur la case que le joueur va quitter
+            verifDep = deplacementJoueur(jeu->banquise, joueur, toucheSaise);                         //Effectue le deplacement du joueur sur la banquise
+            caseValeur = matrice[joueur->position.x][joueur->position.y];                             //Regarde la valeur de la case ou le joueur est
+            enleveCaseGlace(jeu->banquise, joueur->position.x, joueur->position.y, JOUEUR);           //Remplace la case glace où le joueur est allé
 
-            if (joueurEstPiege(joueur, jeu->probPiege) == PIEGE)
+            if (joueurEstPiege(joueur, jeu->probPiege) == PIEGE)                                      //If qui regarde si la case où le joueur vient de se déplacer est un piège
             {
-                system("cls");
-                afficheJeu(jeu);
-                changeCouleurTexte(joueur->couleur);
+                system("cls");                                                                        //Efface le contenue du terminal
+                afficheJeu(jeu);                                                                      //Réaffiche le jeu
+                changeCouleurTexte(joueur->couleur);                                                  //Prévient le joueur qu'il ne pourra pas jouer au prochain tour
                 printf("%s ", joueur->nom);
                 changeCouleurTexte(BLANC);
                 printf("est tombe dans un piege, il ne jouera pas a son prochain tour");
-                Sleep(2000);
+                Sleep(2000);                                                                          //Donne 2s au joueur pour lire le message
             }
 
-            if(verifDep == GLACON)                                                                   //Verifie si le joueur touche un glacon
+            if(verifDep == GLACON)                                                                    //Vérifie si le joueur touche un glaçon
             {
-                for(i = 0; i < jeu->nombreGlacons; i++)                                               //Parcourt le tableaux de glacons
+                for(i = 0; i < jeu->nombreGlacons; i++)                                               //Parcourt le tableaux de glaçons
                 {
                     if((joueur->position.x + joueur->vecteur.dx) == jeu->glacons[i]->position.x
-                        && (joueur->position.y + joueur->vecteur.dy) == jeu->glacons[i]->position.y)  //Condition qui regarde quel glacon a touche le joueur en parametre
+                        && (joueur->position.y + joueur->vecteur.dy) == jeu->glacons[i]->position.y)  //Condition qui regarde quel glaçon a touché le joueur en paramètre
                     {
-                        joueurPousseGlacon(jeu->joueurs[numJoueur], jeu->glacons[i], jeu);           //Effectue le deplacement du glacon
-                        break;                                                                       //Sort de la boucle
+                        joueurPousseGlacon(jeu->joueurs[numJoueur], jeu->glacons[i], jeu);            //Effectue le déplacement du glaçon
+                        break;                                                                        //Sort de la boucle
                     }
                 }
             }
         }
     }
 
-    return caseValeur;                                                                       //Retourne la valeur de la case
+    return caseValeur;                                                                                //Retourne la valeur de la case
 }
 
 
@@ -832,7 +839,7 @@ int victoire(T_jeu *jeu, int caseVal, int i)
     if (caseVal == ARRIVE)                                                         //Verifie si la case est celle d'arrive
     {
         jeu->joueurs[i]->etat = GAGNANT;                                           //Change l'etat de ce joueur pour le designer en tant que gagnant
-        printf("\nLa partie est finie ! ");                                          //Affiche le joueur victorieux
+        printf("\nLa partie est finie ! ");                                        //Affiche le joueur victorieux
         changeCouleurTexte(jeu->joueurs[i]->couleur);
         printf("%s", jeu->joueurs[i]->nom);
         changeCouleurTexte(BLANC);
@@ -841,9 +848,9 @@ int victoire(T_jeu *jeu, int caseVal, int i)
         Sleep(3000);                                                               //Attend 3s avant de passer à l'instruction suivante
         return 1;                                                                  //Retourne l'entier 1 pour signaler une victoire
     }
-    else if (caseVal == ABANDON)
+    else if (caseVal == ABANDON)                                                   //Si la valeur est ABANDON, cela veut dire qu'un joueur a arrêté la partie
     {
-        printf("\nLa partie a ete interrompu par ");
+        printf("\nLa partie a ete interrompu par ");                               //Prévient les utilisateurs que le jeu a été interrompi, et par quel joueur
         changeCouleurTexte(jeu->joueurs[i]->couleur);
         printf("%s", jeu->joueurs[i]->nom);
         changeCouleurTexte(BLANC);
@@ -867,13 +874,13 @@ void afficheScore(T_jeu *jeu)
     for(i = 0; i < jeu->nombreJoueurs; i++)                  //Boucle qui parcourt le tableau de joueurs
     {
         system("cls");                                       //Efface le terminal
-        printf("->Joueur %d\n", (i + 1));                    //Affiche infos sur le joueur quand la partie est finie
+        printf("->Joueur %d\n", (i + 1));                    //Affiche les différentes informations sur le joueur quand la partie est finie
         printf("    Nom : ");
         changeCouleurTexte(jeu->joueurs[i]->couleur);
         printf("%s\n", jeu->joueurs[i]->nom);
         changeCouleurTexte(BLANC);
-        printf("    Mort : %d\n", jeu->joueurs[i]->nbMort);
-        printf("    Score : %d\n", jeu->joueurs[i]->score);
+        printf("    Mort : %d\n", jeu->joueurs[i]->nbMort);  //Correspond aux nombres de fois où le joueur est mort
+        printf("    Score : %d\n", jeu->joueurs[i]->score);  //Correspond au score total du joueur
 
         if (jeu->joueurs[i]->etat == GAGNANT)                //Permet de savoir si le joueur est gagnant ou perdant
         {
@@ -894,47 +901,35 @@ void afficheScore(T_jeu *jeu)
 void joueNiveau(T_jeu *jeu)
 {
     int caseVal, finPartie = 0,                                //caseVal sert à connaitre la valeur de la case, et finPartie sert à mettre fin à la partie en cours
-        i, j,                                                  //Varibales pour les boucles suivante
-        taille = jeu->banquise->tailleN;
+        i;                                                     //Variable pour les boucles suivante
 
-    T_booleen **tabTemp = tabChemin(taille);
-
-    while (!verifieCheminJoueurs(jeu, tabTemp, FAUX))
+    while (!verifieCheminJoueurs(jeu, FAUX))                   //Boucle qui reagrde si le jeu généré peut être finissable
     {
-        for (i = 0; i < taille; i++)
-        {
-            for (j = 0; j < taille; j++)
-            {
-                tabTemp[i][j] = VRAI;
-            }
-        }
-        reInitJeux(jeu);
+        reInitJeux(jeu);                                       //Regénére un nouveau jeu si le jeu n'est pas finissable
     }
-
-    free(tabTemp);
 
     jeu->nombreTour = 1;                                       //Initialise le nombre de tour a 1
 
-    while(finPartie == 0)                                      //Boucle tant que la partie n'est pas finie, c'est a dire tant qu'un joueur n'a pas atteint la case d'arrive
+    while(finPartie == 0)                                      //Boucle tant que la partie n'est pas finie, c'est à dire tant qu'un joueur n'a pas atteint la case d'arrive
     {
-        for(i = 0; i < jeu->nombreJoueurs; i++)                 //Boucle for qui permet à chaque joueur de jouer pour un tour
+        for(i = 0; i < jeu->nombreJoueurs; i++)                //Boucle for qui permet à chaque joueur de jouer pour un tour
         {
-            caseVal = tourJoueur(jeu, i);                //Tour du joueur i
-            finPartie = victoire(jeu, caseVal, i);             //Donne un entier si la partie est gagnee, ou si elle continue
+            caseVal = tourJoueur(jeu, i);                      //Tour du joueur i
+            finPartie = victoire(jeu, caseVal, i);             //Donne un entier si la partie est gagnée, ou si elle continue
 
-            if (caseVal == ARRIVE || caseVal == ABANDON)       //Permet de reellement stopper le jeu, pour ainsi eviter les joueurs suivant de jouer
+            if (caseVal == ARRIVE || caseVal == ABANDON)       //Permet de réellement arrêter le jeu, pour ainsi éviter aux joueurs suivant de jouer
             {
                 break;                                         //Brise la boucle for
             }
 
-            fonteBanquise(jeu->banquise, jeu->rechauffement);  //Applique le rechauffement climatique sur la banquise
+            fonteBanquise(jeu->banquise, jeu->rechauffement);  //Applique le réchauffement climatique sur la banquise
             fonteGlacon(jeu);                                  //
         }
-        jeu->nombreTour += 1;                                  //Incremente le nombre de tour
+        jeu->nombreTour += 1;                                  //Incrémente le nombre de tour
     }
     afficheScore(jeu);                                         //Affiche le score du jeu
-    system("cls");                                             //Netoie la console
-    printf("Merci d'avoir joue !\n");                          //Affiche remerciement
+    system("cls");                                             //Nettoie la console
+    printf("Merci d'avoir joue !\n");                          //Affiche un remerciement
 }
 
 
@@ -942,50 +937,50 @@ void joueNiveau(T_jeu *jeu)
 //Fonction qui renvoie un entier qui permet de rejouer une partie
 int rejouer()
 {
-    char c = ' ';                                                            //Enregistre la valeur saisie par l'utilisateur
+    char c = ' ';                                                                   //Enregistre la valeur saisie par l'utilisateur
 
-    printf("\nVoulez vous rejouer ? (Tapez \"o\" pour oui ou \"n\" pour non) : "); //Demande au joueur s'il veut relancer une partie
+    printf("\nVoulez vous rejouer ? (Tapez \"o\" pour oui ou \"n\" pour non) : ");  //Demande au joueur s'il veut relancer une partie
     fflush(stdin);
     scanf("%c", &c);
 
-    while (c != 'n' && c != 'o')                                                   //Boucle tant que le joueur ne saisit pas les bons caractere
+    while (c != 'n' && c != 'o')                                                    //Boucle tant que le joueur ne saisit pas les bons caractères
     {
-        printf("\nChoix inconnue ! Veuillez reessayer : ");                        //Previens le joueur qu'il a saisie un mauvais caractere
-        fflush(stdin);
+        printf("\nChoix inconnue ! Veuillez reessayer : ");                         //Previent le joueur qu'il a saisi un mauvais caractère
+        fflush(stdin);                                                              //Vide le buffer pour éviter la répétition du message d'erreur si le joueur appui 2 fois sur entrée(exemple)
         scanf("%c", &c);
     }
 
-    if (c == 'o')                                                                  //Si le caractere est y
+    if (c == 'o')                                                                   //Si le caractère est o
     {
-        return 0;                                                                  //Retourne valeur de succes
+        return 0;                                                                   //Retourne valeur de succès
     }
-    else                                                                           //Si le caractere est n
+    else                                                                            //Si le caractère est n
     {
-        return 1;                                                                  //Retourne valeur d'echec
+        return 1;                                                                   //Retourne valeur d'échec
     }
 }
 
 
 
-//
+//Fonction qui est le corps du jeu, car elle lance le jeu
 void joue()
 {
-    int stop;                                          //Varibale pour stoper le jeu
+    int stop;                                          //Varibale pour arrêter le jeu
 
-    afficheMenu(VRAI);                                 //Affiche le menu du jeu
+    afficheMenu(VRAI);                                 //Affiche le menu du jeu, avec les crédits
 
-    while(stop == 0)                                   //Boucle tant que le jeu n'est pas stope
+    while(stop == 0)                                   //Boucle tant que le jeu n'est pas arrêté
     {
-        stop = 0;                                      //Permet d'eviter un bug lorsqu'on relance une partie et qu'elle se finie
+        stop = 0;                                      //Permet d'éviter un bug lorsqu'on relance une partie et qu'elle se finie (répétition infinie au niveau de la fonction "rejouer")
 
         system("cls");                                 //Nettoie la console
 
-        T_jeu *jeu = initNiveau();
+        T_jeu *jeu = initNiveau();                     //Initialisation du niveau
 
-        joueNiveau(jeu);                             //Joue le niveau selectionne
+        joueNiveau(jeu);                               //Joue le niveau selectionné
 
-        free(jeu);                                   //Libere l'espace prit par le niveau 1
+        free(jeu);                                     //Libère l'espace alloué par le niveau
 
-        stop = rejouer();                              //Regarde si l'on doit stoper le jeu
+        stop = rejouer();                              //Regarde si l'on doit arrêter le jeu
     }
 }

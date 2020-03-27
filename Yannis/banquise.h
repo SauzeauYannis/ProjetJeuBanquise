@@ -27,59 +27,59 @@ typedef struct
 
 //Créér une matrice carrée
 //Compléxité n*n avec n le paramètre
-//Yannis
+///Auteur : Yannis SAUZEAU
 int **initMatrice(int tailleMatrice);
 
 
 //Initialise un tableau de glaces
 //Compléxité n avec n le paramètre
-//Yannis
+///Auteur : Yannis SAUZEAU
 T_glace *initTabGlaces(int taille);
 
 
 //Modifie une case de la banquise
 //Compléxité constante
-//Yannis
+///Auteur : Yannis SAUZEAU
 void modifieCaseBanquise(T_banquise *banquise, int caseX, int caseY, T_case valeur);
 
 
 //Ajoute une position de glace dans le tableau de glaces de la banquise
 //Compléxité au pire n*n avec n la taille de la matrice qui représente la banquise
-//Yannis
+///Auteur : Yannis SAUZEAU
 void ajouteCaseGlace(T_banquise *banquise, int caseX, int caseY);
 
 
 //Enlève une position de glace dans le tableau de glaces de la banquise
 //Compléxité au pire n*n avec n la taille de la matrice qui représente la banquise
-//Yannis
+///Auteur : Yannis SAUZEAU
 void enleveCaseGlace(T_banquise *banquise, int caseX, int caseY, T_case valeur);
 
 
 //Ajoute la case de départ et d'arrivée
 //Compléxité constante
-//Yannis
+///Auteur : Yannis SAUZEAU
 void ajouteDepartArrive(T_banquise *banquise);
 
 
 //Remplit la banquise d'eau, de glaces et de la case d'arrivée et de départ
 //Compléxité n*n + m*m avec n la taille de la matrice et m le nombre de glace par ligne/colonnes
-//Yannis
+///Auteur : Yannis SAUZEAU
 void remplitBanquise(T_banquise *banquise);
 
 
 //Initialise le pointeur de type banquise
 //Compléxité constante
-//Yannis
+///Auteur : Yannis SAUZEAU
 T_banquise *initBanquise(int tailleMatrice, int tailleEau);
 
 
 //Retourne une case de glace aleatoire
 //Compléxité au pire n*n avec n la taille de la matrice qui représente la banquise
-//Yannis
+///Auteur : Yannis SAUZEAU
 T_point caseGlaceAleatoire(T_banquise *banquise, T_booleen partout);
 
 
 //Applique la fonte de la banquise
 //Compléxité linéaire
-//Yannis
+///Auteur : Yannis SAUZEAU
 void fonteBanquise(T_banquise *banquise, int chanceFonte);

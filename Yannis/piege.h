@@ -14,11 +14,11 @@ typedef enum
 
 //Dis si une case est un piège
 //Compléxité linéaire
-//Yannis
+///Auteur : Yannis SAUZEAU
 T_piege caseEstPiege(T_joueur *joueur, int chancePiege);
 
 
 //Change l'etat du joueur si il est piégé
 //Compléxité linéaire
-//Yannis
+///Auteur : Yannis SAUZEAU
 T_etat joueurEstPiege(T_joueur *joueur, int chancePiege);
