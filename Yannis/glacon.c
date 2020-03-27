@@ -122,7 +122,7 @@ int verifieDeplacementGlacon(T_glacon *glacon, T_banquise *banquise, T_joueur **
             glacon->vecteur.dx = glacon->vecteur.dy = 0;                //Arrete le glacon
             return 2;
         case RESSORT :
-            glacon->vecteur.dx *= -1, glacon->vecteur.dy *= -1;
+            glaconToucheRessort(glacon);
             return 0;
         case MARTEAU_TETE :
             return 3;

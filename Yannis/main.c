@@ -4,9 +4,9 @@
 
 int main()
 {
-    srand(time(NULL));                                 //Pour faire de l'aleatoire
+    srand(time(NULL));   //Pour faire de l'aléatoire
 
-    joue();
+    joue();              //Fonction principal
 
     return 0;
 }

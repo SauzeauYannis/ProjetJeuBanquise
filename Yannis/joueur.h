@@ -1,7 +1,7 @@
 /***** Structures *****/
 
 
-//Enumeration des etat d'un joueur
+//Enumération des états d'un joueur
 typedef enum
 {
     ENCOURS,
@@ -11,14 +11,14 @@ typedef enum
 } T_etat;
 
 
-//Definition du type joueur
+//Définition du type joueur
 typedef struct
 {
-    char nom[20];       //Nom du joueur limite a 20 caractere
+    char nom[20];       //Nom du joueur limité à 20 caractères
     T_couleur couleur;  //Couleur du joueur
     int identifiant;    //Entier qui identifie le joueur
     T_point position;   //Position du joueur dans la banquise
-    T_vecteur vecteur;  //Deplacement du joueur sur la banquise
+    T_vecteur vecteur;  //Déplacement du joueur sur la banquise
     int score;          //Score du joueur
     T_etat etat;        //Etat du joueur : Gagnant - Perdant
     int nbMort;         //Nombre de mort du joueur
@@ -29,22 +29,32 @@ typedef struct
 
 
 //Fait choisir une couleur a l'utilisateur
+//Compléxité linéaire
+//Yannis
 T_couleur choixCouleur();
 
 
 //Initialise un joueur
+//Compléxité constante
+//Yannis
 T_joueur *initJoueur(int numeroJoueur);
 
 
 //Demande a l'utilisateur le nombre de joueurs
+//Compléxité constante
+//Yannis
 int demandeNombreJoueurs();
 
 
 //Initialise un tableau de joueurs
+//Compléxité constante
+//Yannis
 T_joueur **initTabJoueurs(T_banquise *banquise, int nombreJoueurs);
 
 
 //Fait apparaitre le joueur a sa case de depart
+//Compléxité constante
+//Yannis
 void departJoueur(T_banquise *banquise, T_joueur *joueur);
 
 
