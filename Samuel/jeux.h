@@ -105,11 +105,15 @@ typedef struct
 void afficheMenu(T_booleen debut);
 
 
-//Change la couleur de la console
+//Change la couleur de la console selon le type couleur mis en paramètre
+//Complexité : O(1)
+///Auteur : Samuel GOUBEAU
 void changeCouleurConsole(T_couleur couleur);
 
 
-//Change la couleur du texte
+//Fonction qui change la couleur du texte affiché sur le terminal
+//Complexité : O(1)
+///Auteur : Samuel GOUBEAU
 void changeCouleurTexte(T_couleur couleur);
 
 
@@ -150,6 +154,8 @@ char saisieTouche(T_joueur *joueur);
 
 
 //S'occupe du deplacement du glacon apres que celui-ci se soit fait pousser par un joueur
+//Complexité : O(infini)
+///Auteur : Samuel GOUBEAU
 void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu);
 
 
@@ -162,24 +168,36 @@ void bougeTeteMarteau(T_jeu *jeu, T_marteau *marteau, T_booleen sensHorraire);
 
 
 //S'occupe d'effectuer le tour d'un joueur
+//Complexité : O(infini)
+///Auteur : Samuel GOUBEAU
 int tourJoueur(T_jeu *jeu, int numJoueur);
 
 
 //Retourne un entier qui determine si la partie est finie ou non
+//Complexité : O(1)
+///Auteur : Samuel GOUBEAU
 int victoire(T_jeu *jeu, int caseVal, int i);
 
 
 //Affiche le scrore à la fin de la partie
+//Complexité : O(n)
+///Auteur : Samuel GOUBEAU
 void afficheScore(T_jeu *jeu);
 
 
 //Fonction qui joue un niveau selectionne jusqu'à la victoire d'un joueur
+//Complexité : O(infini)
+///Auteur : Samuel GOUBEAU
 void joueNiveau(T_jeu *jeu);
 
 
 //Fonction qui renvoie un entier qui permet de rejouer une partie
+//Complexité : O(n)
+///Auteur : Samuel GOUBEAU
 int rejouer();
 
 
-//
+//Fonction qui est le corps du jeu, car elle lance le jeu
+//Complexité : O(infini)
+///Auteur : Samuel GOUBEAU
 void joue();

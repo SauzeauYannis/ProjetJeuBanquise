@@ -2,7 +2,7 @@
 
 
 
-//Fonction qui initialise un glacon
+//Fonction qui initialise un glaçon
 T_glacon *initGlacon(T_point position, int chanceFonte)
 {
     T_vecteur vect;                                           //Créé le vecteur du glacon

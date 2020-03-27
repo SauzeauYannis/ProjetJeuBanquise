@@ -49,20 +49,30 @@ void departJoueur(T_banquise *banquise, T_joueur *joueur);
 
 
 //Retourne un entier en fonction du déplacement du joueur, et modifie la position de celui-ci
+//Complexité : O(n)
+///Auteur : Samuel GOUBEAU
 int verifieDeplacement(T_banquise *banquise, T_joueur *joueur, int caseX, int caseY, int caseValeur);
 
 
-//Applique le deplacement si possible ou retourne une erreur
+//Applique le déplacement si possible ou retourne une erreur
+//Complexité : O(n)
+///Auteur : Samuel GOUBEAU
 int deplacementJoueur_bis(T_banquise *banquise, T_joueur *joueur, char deplacement);
 
 
-//Applique le deplacement du joueur
+//Applique le déplacement du joueur
+//Complexité : O(n*n)
+///Auteur : Samuel GOUBEAU
 int deplacementJoueur(T_banquise *banquise, T_joueur *joueur, char clavier);
 
 
-//Recupere le joueur selon une position
+//Récupère le joueur selon une position
+//Complexité : O(n)
+///Auteur : Samuel GOUBEAU
 T_joueur *joueurSelonPosition(T_joueur **joueurs, int posX, int posY, int nbJoueurs);
 
 
-//Fonction qui s'occupe de tuer le joueur et de le ramener au point de depart
+//Fonction qui s'occupe de tuer le joueur et de le ramener au point de départ
+//Complexité : O(n)
+///Auteur : Samuel GOUBEAU
 void tuerJoueur(T_joueur *joueur, T_banquise *banquise);

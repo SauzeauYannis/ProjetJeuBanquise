@@ -54,4 +54,6 @@ void mouvementTete(T_banquise *banquise, T_marteau *marteau, T_booleen sensHorra
 
 
 //Fonction qui retourne un booléen par rapport au sens de rotation
+//Complexité : O(1)
+///Auteur : Samuel GOUBEAU
 T_booleen marteauSensRotation(T_marteau *marteau, T_glacon *glacon);
