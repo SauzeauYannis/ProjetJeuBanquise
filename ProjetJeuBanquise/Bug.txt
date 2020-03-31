@@ -6,5 +6,5 @@ Aucun
 
 Secondaire :
 
--Deux joueurs peuvent prendre la même couleur
--Verifier que le joueur saisie bien un nombre et pas une lettre quand on lui demande (exemple : demande nombre de joueur)
+-Deux joueurs peuvent prendre la même couleur (Ce n'est pas totalement un bug, mais on le compte comme)
+
