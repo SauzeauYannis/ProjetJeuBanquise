@@ -28,7 +28,7 @@ T_glacon **initTabGlacons(T_banquise *banquise, int nombreGlacons, int rechauffe
 //Fonction qui vérifie que le vecteur du glacon est valide : HAUT BAS GAUCHE DROITE
 //Complexité : O(1)
 ///Auteur : Samuel GOUBEAU
-int verifieVecteurGlacon(T_glacon *glacon);
+T_booleen verifieVecteurGlacon(T_glacon *glacon);
 
 
 //Fonction qui retourne le glacon a la position donnée
@@ -46,4 +46,4 @@ int verifieDeplacementGlacon(T_glacon *glacon, T_banquise *banquise, T_joueur **
 //Fonction qui regarde si le glaçon va fondre
 //Complexité : O(1)
 ///Auteur : Samuel GOUBEAU
-int verifFonteGlacon(T_glacon *glacon);
+T_booleen verifFonteGlacon(T_glacon *glacon);

@@ -1,6 +1,0 @@
-Subtilités de notre jeu BANQUISE :
-
-	- Le déplacement d'un glaçon se fait directement dès qu'un joueur le touche (pousse). Pendant ce lapse de temps, le jeu est en pose (jusqu'à l'arrêt du glaçon)
-	- Le marteau, qui dépend du glaçon pour se mouvoir, est  aussi dans ce cas là. Quand un glaçon touche sa tête, il fait son tour et va frapper le glaçon.
-	- Le ressort, qui dépend du glaçon pour effectuer son action, est aussi dans ce cas là. Quand un glaçon rentre en contacte avec un glaçon, il pourra être renvoyé dans le sens inverse, mais aussi vers la gauche et la droite.
-	- Si un joueur meurt, il retourne à son point de départ et perd des points.

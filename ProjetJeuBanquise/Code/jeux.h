@@ -177,7 +177,7 @@ char saisieTouche(T_joueur *joueur);
 //S'occupe du deplacement du glacon apres que celui-ci se soit fait pousser par un joueur
 //Complexité : O(infini)
 ///Auteur : Samuel GOUBEAU
-void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu);
+void deplacementGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu);
 
 
 //S'occupe de la fonte d'un glacon
@@ -201,7 +201,7 @@ int tourJoueur(T_jeu *jeu, int numJoueur);
 //Retourne un entier qui determine si la partie est finie ou non
 //Complexité : O(1)
 ///Auteur : Samuel GOUBEAU
-int victoire(T_jeu *jeu, int caseVal, int i);
+T_booleen victoire(T_jeu *jeu, int caseVal, int i);
 
 
 //Affiche le scrore à la fin de la partie

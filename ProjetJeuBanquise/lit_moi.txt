@@ -1,0 +1,25 @@
+					Jeu banquise de GOUBEAU Samuel et SAUZEAU Yannis
+
+Bonjour,
+
+Voici le jeu de la banquise que nous avons réalisé pendant plusieurs mois avec plaisir.
+Chacune des fonctions du jeu a été réfléchie pour pouvoir être lisible et comprise facilement.
+Par conséquent, certaines fonctions ont une grande complexité qui aurait pu être optimisée rendant 
+le code moins lisible.
+Malgré cela, nous avons fait les fonctions avec la complexité la plus petite possible.
+
+Le jeu que nous vous proposons est très près du sujet, néanmoins, il existe une subtilité.
+Le glaçon que vous aviez suggéré de faire tour par tour, nous avons décidé de le faire bouger en une 
+seule fois jusqu'à ce qu'il s'arrête ou se transforme en une case d'eau.
+
+Nous avons bien fait attention qu'il n'y ait aucun bug, malheureusement nous en avons repéré deux :
+- Un glaçon peut bouger à l'infini s'il est pris entre 4 marteaux qui se renvoie le glaçon. Nous avons 
+laissé ce bug, car c'est presque impossible que les 4 marteaux apparaissent sur la banquise de sorte 
+que ce bug se réalise.
+- Les couleurs choisies par les joueurs ne sont pas uniques, ainsi plusieurs joueurs peuvent avoir la 
+même couleur.
+
+En espérant que vous preniez autant de plaisir à lire notre code/joueur à notre jeu que nous avons pris 
+à le coder.
+
+Bon jeu, GOUBEAU Samuel & SAUZEAU Yannis.

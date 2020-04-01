@@ -40,7 +40,7 @@ T_glacon **initTabGlacons(T_banquise *banquise, int nombreGlacons, int rechauffe
 
 
 //Fonction qui vérifie que le vecteur du glacon est valide : HAUT BAS GAUCHE DROITE
-int verifieVecteurGlacon(T_glacon *glacon)
+T_booleen verifieVecteurGlacon(T_glacon *glacon)
 {
     int dx = glacon->vecteur.dx, dy = glacon->vecteur.dy;                              //Récupère les vecteurs du glacon en paramètre
 
@@ -49,11 +49,11 @@ int verifieVecteurGlacon(T_glacon *glacon)
         printf("Le vecteur du glacon à la position x = %d y = %d est incorrecte !",
                glacon->position.x, glacon->position.y);                                //Affiche un message d'erreur
 
-        return -1;                                                                     //Retourne une valeur d'echec
+        return FAUX;                                                                     //Retourne une valeur d'echec
     }
     else                                                                               //Si les vecteurs sont bons
     {
-        return 0;                                                                      //Retourne une valeur de succes
+        return VRAI;                                                                      //Retourne une valeur de succes
     }
 }
 
@@ -135,14 +135,14 @@ int verifieDeplacementGlacon(T_glacon *glacon, T_banquise *banquise, T_joueur **
 
 
 //Fonction qui regarde si le glaçon va fondre
-int verifFonteGlacon(T_glacon *glacon)
+T_booleen verifFonteGlacon(T_glacon *glacon)
 {
     if ((rand() % glacon->pourcentage_fondre) == 0)  //Condition qui verifie si le glaçon va fondre ou non
     {
-        return 1;                                    //Retourne un entier qui valide la fonte du glaçon
+        return VRAI;                                 //Retourne un entier qui valide la fonte du glaçon
     }
     else
     {
-        return 0;                                    //Retourne un entier qui interdit la fonte du glaçon
+        return FAUX;                                 //Retourne un entier qui interdit la fonte du glaçon
     }
 }

@@ -598,7 +598,7 @@ char saisieTouche(T_joueur *joueur)
 
 
 //S'occupe du déplacement du glacon après que celui-ci se soit fait pousser par un joueur
-void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu)
+void deplacementGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu)
 {
     int Jdx = joueur->vecteur.dx, Jdy = joueur->vecteur.dy,                                                                                         //Enregistre le vecteur du joueur                                                                                            //Transfert le vecteur du joueur au glacon
         Gdx = glacon->vecteur.dx = Jdx, Gdy = glacon->vecteur.dy = Jdy,                                                                             //Initialise le vecteur du glaçon selon celui du joueur
@@ -625,7 +625,7 @@ void joueurPousseGlacon(T_joueur *joueur, T_glacon *glacon, T_jeu *jeu)
             joueur->vecteur.dx = glacon->vecteur.dx, joueur->vecteur.dy = glacon->vecteur.dy;                                                        //On change le vecteur du joeur pour pouvoir le réutiliser plus bas, et ainsi faire croire au code que le nouveau glaçon se fait pousser par le joueur, et non par le 1er glaçon
             glacon->vecteur.dx = glacon->vecteur.dy = 0;                                                                                             //Arrête le glaçon qui a touche le nouveau glaçon
             enleveCaseGlace(jeu->banquise, glacon->position.x, glacon->position.y, GLACON);                                                          //Met le glacon à sa nouvelle position sur la banquise
-            joueurPousseGlacon(joueur, nouveauGlacon, jeu);                                                                                          //Rappelle la fonction pour faire déplacer le nouveau glacon
+            deplacementGlacon(joueur, nouveauGlacon, jeu);                                                                                          //Rappelle la fonction pour faire déplacer le nouveau glacon
             break;
         }
         case 2 :
@@ -708,7 +708,7 @@ void bougeTeteMarteau(T_jeu *jeu, T_marteau *marteau, T_booleen sensHorraire)
 
         joueur->vecteur = marteau->tete.vecteur;                                           //Affecte le nouveau vecteur au marteau
 
-        joueurPousseGlacon(joueur, glacon, jeu);                                           //Fais bouger le glacon que le marteau tape
+        deplacementGlacon(joueur, glacon, jeu);                                           //Fais bouger le glacon que le marteau tape
     }
 }
 
@@ -820,7 +820,7 @@ int tourJoueur(T_jeu *jeu, int numJoueur)
                     if((joueur->position.x + joueur->vecteur.dx) == jeu->glacons[i]->position.x
                         && (joueur->position.y + joueur->vecteur.dy) == jeu->glacons[i]->position.y)  //Condition qui regarde quel glaçon a touché le joueur en paramètre
                     {
-                        joueurPousseGlacon(jeu->joueurs[numJoueur], jeu->glacons[i], jeu);            //Effectue le déplacement du glaçon
+                        deplacementGlacon(jeu->joueurs[numJoueur], jeu->glacons[i], jeu);            //Effectue le déplacement du glaçon
                         break;                                                                        //Sort de la boucle
                     }
                 }
@@ -834,7 +834,7 @@ int tourJoueur(T_jeu *jeu, int numJoueur)
 
 
 //Ressort un entier qui determine si la partie est finie ou non
-int victoire(T_jeu *jeu, int caseVal, int i)
+T_booleen victoire(T_jeu *jeu, int caseVal, int i)
 {
     if (caseVal == ARRIVE)                                                         //Verifie si la case est celle d'arrive
     {
@@ -846,7 +846,7 @@ int victoire(T_jeu *jeu, int caseVal, int i)
         printf(" est victorieux !");
         jeu->joueurs[i]->score += 1000;                                            //Le gagnant recois 1000 point
         Sleep(3000);                                                               //Attend 3s avant de passer à l'instruction suivante
-        return 1;                                                                  //Retourne l'entier 1 pour signaler une victoire
+        return VRAI;                                                               //Retourne l'entier 1 pour signaler une victoire
     }
     else if (caseVal == ABANDON)                                                   //Si la valeur est ABANDON, cela veut dire qu'un joueur a arrêté la partie
     {
@@ -856,11 +856,11 @@ int victoire(T_jeu *jeu, int caseVal, int i)
         changeCouleurTexte(BLANC);
         printf(" personne n'a gagne");
         Sleep(3000);                                                               //Attend 3s avant de passer à l'instruction suivante
-        return 1;
+        return VRAI;
     }
     else                                                                           //Si la case n'est pas celle d'arrive
     {
-        return 0;                                                                  //Retourne l'entier 0 pour signaler que la partie continue
+        return FAUX;                                                               //Retourne l'entier 0 pour signaler que la partie continue
     }
 }
 
@@ -910,7 +910,7 @@ void joueNiveau(T_jeu *jeu)
 
     jeu->nombreTour = 1;                                       //Initialise le nombre de tour a 1
 
-    while(finPartie == 0)                                      //Boucle tant que la partie n'est pas finie, c'est à dire tant qu'un joueur n'a pas atteint la case d'arrive
+    while(finPartie == FAUX)                                   //Boucle tant que la partie n'est pas finie, c'est à dire tant qu'un joueur n'a pas atteint la case d'arrive
     {
         for(i = 0; i < jeu->nombreJoueurs; i++)                //Boucle for qui permet à chaque joueur de jouer pour un tour
         {
