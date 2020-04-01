@@ -39,25 +39,6 @@ T_glacon **initTabGlacons(T_banquise *banquise, int nombreGlacons, int rechauffe
 }
 
 
-//Fonction qui vérifie que le vecteur du glacon est valide : HAUT BAS GAUCHE DROITE
-T_booleen verifieVecteurGlacon(T_glacon *glacon)
-{
-    int dx = glacon->vecteur.dx, dy = glacon->vecteur.dy;                              //Récupère les vecteurs du glacon en paramètre
-
-    if(dx != 0 && dy != 0)                                                             //Vérifie si il n'y a aucun des deux vecteurs à 0
-    {
-        printf("Le vecteur du glacon à la position x = %d y = %d est incorrecte !",
-               glacon->position.x, glacon->position.y);                                //Affiche un message d'erreur
-
-        return FAUX;                                                                     //Retourne une valeur d'echec
-    }
-    else                                                                               //Si les vecteurs sont bons
-    {
-        return VRAI;                                                                      //Retourne une valeur de succes
-    }
-}
-
-
 
 //Fonction qui retourne le glacon à la position donnée si il existe
 T_glacon *glaconSelonPosition(T_glacon **glacons, int posX, int posY, int nbGlacons)
