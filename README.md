@@ -1,5 +1,5 @@
 # ProjetJeuBanquise
-A school project (in french)
+A school project (in french).
 
 Welcome to a C project created by CS students in seconde Year in France.
 
@@ -9,6 +9,6 @@ The goal of the game is to be the first player to reach the finish point in a ic
 
 I hope you enjoy this little game, remember that the code is made by students, so be indulgent.
 
-If you have any advice, it'll a pleasure to listen you!
+If you have any advice, it'll be a pleasure to listen you!
 
 Created by Samuel Goubeau and Yannis Sauzeau.
