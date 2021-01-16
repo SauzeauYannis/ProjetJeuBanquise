@@ -82,13 +82,13 @@ The aim of the game is to get to the finish square first by using ice cubes that
 
 * C language syntax
 * Data structures
- * Chained structures
- * Complex structures
+  * Chained structures
+  * Complex structures
 * Algorithms
 * Memory management
- * Use of pointers
- * Dynamic allocation
- * Memory free
+  * Use of pointers
+  * Dynamic allocation
+  * Memory free
   
 <a name="en_rs"/>
 
