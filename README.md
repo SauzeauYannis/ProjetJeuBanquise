@@ -20,7 +20,7 @@
 
 ### Présentation
 
-Ce projet a été effectué en première année du [CMI Informatique](http://formations.univ-poitiers.fr/fr/index/autre-diplome-niveau-master-AM/autre-diplome-niveau-master-AM/cmi-informatique-JD2XQGVY.html) à l'[UFR SFA Université de Poitiers](https://sfa.univ-poitiers.fr/) dans le cadre de l'enseignement [Programmation en C](http://formations.univ-poitiers.fr/fr/index/autre-diplome-niveau-master-AM/autre-diplome-niveau-master-AM/cmi-informatique-JD2XQGVY/specialite-s4-K5C6VUYT/programmation-en-c-JB1YENP1.html).
+Ce projet a été effectué en seconde année du [CMI Informatique](http://formations.univ-poitiers.fr/fr/index/autre-diplome-niveau-master-AM/autre-diplome-niveau-master-AM/cmi-informatique-JD2XQGVY.html) à l'[UFR SFA Université de Poitiers](https://sfa.univ-poitiers.fr/) dans le cadre de l'enseignement [Programmation en C](http://formations.univ-poitiers.fr/fr/index/autre-diplome-niveau-master-AM/autre-diplome-niveau-master-AM/cmi-informatique-JD2XQGVY/specialite-s4-K5C6VUYT/programmation-en-c-JB1YENP1.html).
 
 Ce projet a été développé en binôme et avec l'EDI [Code::Blocks](http://www.codeblocks.org/).
 
@@ -62,7 +62,7 @@ Nous avons obtenu la note de 17/20.
 
 ### Presentation
 
-This project was carried out in the first year of the [CMI Informatique](http://formations.univ-poitiers.fr/fr/index/autre-diplome-niveau-master-AM/autre-diplome-niveau-master-AM/cmi-informatique-JD2XQGVY.html) at the [University of Poitiers](https://www.univ-poitiers.fr/en/) as part of the [C Programming](http://formations.univ-poitiers.fr/fr/index/autre-diplome-niveau-master-AM/autre-diplome-niveau-master-AM/cmi-informatique-JD2XQGVY/specialite-s4-K5C6VUYT/programmation-en-c-JB1YENP1.html) teaching programme.
+This project was carried out in the second year of the [CMI Informatique](http://formations.univ-poitiers.fr/fr/index/autre-diplome-niveau-master-AM/autre-diplome-niveau-master-AM/cmi-informatique-JD2XQGVY.html) at the [University of Poitiers](https://www.univ-poitiers.fr/en/) as part of the [C Programming](http://formations.univ-poitiers.fr/fr/index/autre-diplome-niveau-master-AM/autre-diplome-niveau-master-AM/cmi-informatique-JD2XQGVY/specialite-s4-K5C6VUYT/programmation-en-c-JB1YENP1.html) teaching programme.
 
 This project was developed in pairs and with [Code::Blocks](http://www.codeblocks.org/) IDE.
 
