@@ -28,7 +28,7 @@ Ce projet a été développé en binôme et avec l'EDI [Code::Blocks](http://www
 
 ### Utilisation
 
-Pour lancer le jeu il faut lancer sur Windows le fichier Code/bin/Release/ProjetJeuBanquise.exe.
+Pour lancer le jeu il faut lancer sur Windows le fichier [Code/bin/Release/ProjetJeuBanquise.exe](https://github.com/SauzeauYannis/ProjetJeuBanquise/blob/master/Code/bin/Release/ProjetJeuBanquise.exe).
 
 Vous pouvez jouer entre 1 et 4 joueurs en choisissant 3 niveaux prédéfinis ou bien customiser votre propre niveau.
 
@@ -70,7 +70,7 @@ This project was developed in pairs and with [Code::Blocks](http://www.codeblock
 
 ### Use
 
-To launch the game you have to run on Windows the Code/bin/Release/ProjectPlayBank.exe file.
+To launch the game you have to run on Windows the [Code/bin/Release/ProjectPlayBank.exe](https://github.com/SauzeauYannis/ProjetJeuBanquise/blob/master/Code/bin/Release/ProjetJeuBanquise.exe) file.
 
 You can play between 1 and 4 players by choosing 3 predefined levels or customize your own level.
 
